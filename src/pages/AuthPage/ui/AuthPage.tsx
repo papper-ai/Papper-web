@@ -1,15 +1,12 @@
-import { Button, ThemeButton } from 'shared/ui/Button/Button';
-import { Input } from 'shared/ui/Input/Input';
+import { AuthForm } from 'features/AuthForm';
+import { FormType } from 'features/AuthForm/ui/AuthForm';
 
-
-export const AuthPage = () => {
+const AuthPage = () => {
     return (
         <div>
-            AuthPage
-            <Button theme={ThemeButton.PRIMARY}>Регистрация</Button>
-            <Button theme={ThemeButton.SECONDARY}>Вход</Button>
-            <Input placeholder='Логин' />
+            <AuthForm formType={FormType.REGISTER} />
         </div>
     );
 }
 
+export default AuthPage;
