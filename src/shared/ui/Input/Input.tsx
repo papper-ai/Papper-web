@@ -13,7 +13,7 @@ export const Input: FC<InputProps> = (props) => {
         ...otherProps } = props;     
     
     return (
-        <input {...otherProps} className={classNames(cls.Input, className)} />
+        <input  {...otherProps} className={classNames(cls.Input, className)} />
     )
 }
 

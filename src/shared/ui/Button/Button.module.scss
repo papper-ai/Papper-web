@@ -1,12 +1,12 @@
 .Button {
-    width: 350px;
-    height: 117px;
+    width: 200px;
+    height: 67px;
     border: none;
     outline: none;
-    border-radius: 50px;
+    border-radius: var(--border-radius);
     color: white;
     cursor: pointer;
-    font-size: 32px;
+    font-size: 24px;
     text-align: center;
 }
 

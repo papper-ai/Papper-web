@@ -3,9 +3,9 @@ import { FormType } from 'features/AuthForm/ui/AuthForm';
 
 const AuthPage = () => {
     return (
-        <div>
-            <AuthForm formType={FormType.REGISTER} />
-        </div>
+
+        <AuthForm formType={FormType.REGISTER} />
+
     );
 }
 
