@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import './FormContainer.scss';
 import { Input } from 'shared/ui/Input/Input';
 import { Button } from 'shared/ui/Button/Button';
+import { useNavigate } from 'react-router-dom';
 
 export type FormType = 'sign-up' | 'sign-in';
 
@@ -15,6 +16,9 @@ interface FormContainerProps {
 }
 
 export const FormContainer = (props: FormContainerProps) => {
+    
+    const navigate = useNavigate();
+    
     const {
         className,
         title,
@@ -22,7 +26,10 @@ export const FormContainer = (props: FormContainerProps) => {
         buttonName,
         formType
     } = props
-
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        navigate('/main');
+    }
     const isSignUp = formType === 'sign-up';
 
     return (
@@ -39,7 +46,7 @@ export const FormContainer = (props: FormContainerProps) => {
                 )}
                 <Input type="text" placeholder="Логин" />
                 <Input type="password" placeholder="Пароль" />
-                <Button>{buttonName}</Button>
+                <Button onClick={handleClick}>{buttonName}</Button>
             </form>
         </div>
     );
