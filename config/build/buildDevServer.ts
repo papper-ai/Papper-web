@@ -10,6 +10,9 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
         hot: true,
         client: {
             overlay: false
-        }
+        },
+        watchFiles: [
+            'src/**/*.scss',
+        ]
     }
 }

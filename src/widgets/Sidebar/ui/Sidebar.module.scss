@@ -1,10 +1,8 @@
-.Sidebar{
-    display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        width: 250px;
-        height: 100vh;
-        background: var(--sidebar-color);
+.Sidebar {
+    position: relative;
+    width: 300px;
+    height: 100vh;
+    background: var(--sidebar-color);
+    padding: 20px;
 }
+
