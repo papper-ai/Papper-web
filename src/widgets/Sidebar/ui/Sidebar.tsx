@@ -16,7 +16,6 @@ export const Sidebar = ({ className }: SidebarProps) => {
   const handleNewChat = () => {
     setNewChatModal(true)
   }
-  const i = 0
 
   return (
         <div className={classNames(cls.Sidebar, {}, [className])}>

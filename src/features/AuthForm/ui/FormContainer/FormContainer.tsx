@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import './FormContainer.scss'
 import { Input } from 'shared/ui/Input/Input'
 import { Button } from 'shared/ui/Button/Button'
@@ -18,7 +17,6 @@ export const FormContainer = (props: FormContainerProps) => {
   const navigate = useNavigate()
 
   const {
-    className,
     title,
     description,
     buttonName,

@@ -4,11 +4,7 @@ import { useState } from 'react'
 import { TogglePanel } from '../TogglePanel/TogglePanel'
 import { FormContainer } from '../FormContainer/FormContainer'
 
-interface AuthFormProps {
-    className?: string
-}
-
-export const AuthForm = (props: AuthFormProps) => {
+export const AuthForm = () => {
   const [toggle, setToggle] = useState(false)
 
   const handleToggle = () => {
