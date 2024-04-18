@@ -1,11 +1,11 @@
-import { AuthForm } from 'features/AuthForm';
+import { AuthForm } from 'features/AuthForm'
 
 const AuthPage = () => {
-    return (
+  return (
 
         <AuthForm />
 
-    );
+  )
 }
 
-export default AuthPage;
+export default AuthPage

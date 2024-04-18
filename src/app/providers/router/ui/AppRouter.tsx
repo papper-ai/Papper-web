@@ -1,11 +1,10 @@
-import { AuthPage } from "pages/AuthPage";
-import { FC, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-import { routeConfig } from "shared/config/routeConfig/routeCofig";
+import { AuthPage } from 'pages/AuthPage'
+import { FC, Suspense } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { routeConfig } from 'shared/config/routeConfig/routeCofig'
 
 export const AppRouter: FC = () => {
-
-    return (
+  return (
         <Suspense fallback={<div>Loading...</div>}>
             <Routes>
                 {
@@ -16,5 +15,5 @@ export const AppRouter: FC = () => {
             </Routes>
 
         </Suspense>
-    );
+  )
 }

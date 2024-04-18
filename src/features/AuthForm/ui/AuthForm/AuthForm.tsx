@@ -1,27 +1,24 @@
-import classNames from 'classnames';
-import './AuthForm.scss';
-import { useState } from 'react';
-import { TogglePanel } from '../TogglePanel/TogglePanel';
-import { FormContainer } from '../FormContainer/FormContainer';
-
+import classNames from 'classnames'
+import './AuthForm.scss'
+import { useState } from 'react'
+import { TogglePanel } from '../TogglePanel/TogglePanel'
+import { FormContainer } from '../FormContainer/FormContainer'
 
 interface AuthFormProps {
     className?: string
 }
 
 export const AuthForm = (props: AuthFormProps) => {
+  const [toggle, setToggle] = useState(false)
 
-    const [toggle, setToggle] = useState(false);
+  const handleToggle = () => {
+    setToggle(!toggle)
+  }
 
-    const handleToggle = () => {
-        setToggle(!toggle);
-    }
-
-
-    return (
-        <div className={classNames('container', { "active": toggle })}>
-            <FormContainer title='Регистрация' formType={"sign-up"} buttonName='Создать аккаунт'/>
-            <FormContainer title='Вход' formType={"sign-in"} buttonName='Войти'/>
+  return (
+        <div className={classNames('container', { active: toggle })}>
+            <FormContainer title='Регистрация' formType={'sign-up'} buttonName='Создать аккаунт'/>
+            <FormContainer title='Вход' formType={'sign-in'} buttonName='Войти'/>
             <div className="toggle-container">
                 <div className="toggle">
                     <TogglePanel
@@ -40,6 +37,5 @@ export const AuthForm = (props: AuthFormProps) => {
             </div>
         </div>
 
-    );
+  )
 }
-
