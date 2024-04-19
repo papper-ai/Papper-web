@@ -32,7 +32,7 @@ export const Modal = (props: ModalProps) => {
         clearTimeout(timerRef.current)
       }
     }
-  })
+  }, [])
   const mods = {
     [cls.open]: isOpen,
     [cls.closing]: closing
