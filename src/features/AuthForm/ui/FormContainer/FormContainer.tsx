@@ -1,9 +1,9 @@
-import './FormContainer.scss'
-import { Input } from 'shared/ui/Input/Input'
-import { Button } from 'shared/ui/Button/Button'
-import { useNavigate } from 'react-router-dom'
+import "./FormContainer.scss"
+import { Input } from "shared/ui/Input/Input"
+import { Button } from "shared/ui/Button/Button"
+import { useNavigate } from "react-router-dom"
 
-export type FormType = 'sign-up' | 'sign-in';
+export type FormType = "sign-up" | "sign-in";
 
 interface FormContainerProps {
     className?: string,
@@ -14,22 +14,22 @@ interface FormContainerProps {
 }
 
 export const FormContainer = (props: FormContainerProps) => {
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
-  const {
-    title,
-    description,
-    buttonName,
-    formType
-  } = props
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    navigate('/main')
-  }
-  const isSignUp = formType === 'sign-up'
+    const {
+        title,
+        description,
+        buttonName,
+        formType
+    } = props
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        navigate("/main")
+    }
+    const isSignUp = formType === "sign-up"
 
-  return (
-        <div className={'form-container ' + formType}>
+    return (
+        <div className={"form-container " + formType}>
             <form>
                 <h1>{title}</h1>
                 <span>{description}</span>
@@ -45,5 +45,5 @@ export const FormContainer = (props: FormContainerProps) => {
                 <Button onClick={handleClick}>{buttonName}</Button>
             </form>
         </div>
-  )
+    )
 }

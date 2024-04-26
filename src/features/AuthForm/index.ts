@@ -1,5 +1,5 @@
-import { AuthForm } from './ui/AuthForm/AuthForm'
+import { AuthForm } from "./ui/AuthForm/AuthForm"
 
 export {
-  AuthForm
+    AuthForm
 }
