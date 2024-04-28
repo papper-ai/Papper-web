@@ -2,6 +2,14 @@ import "./FormContainer.scss"
 import { Input } from "shared/ui/Input/Input"
 import { Button } from "shared/ui/Button/Button"
 import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { loginActions } from "features/AuthForm/model/slice/loginSlice"
+import { useCallback } from "react"
+import { getLoginLogin } from "features/AuthForm/model/selectors/getLoginLogin"
+import { getLoginPassword } from "features/AuthForm/model/selectors/getLoginPassword"
+import { authByLogin } from "features/AuthForm/model/login/authByLogin"
+import { TokenSchema } from "entities/Token"
+import { useAppDispatch } from "shared/hooks/useAppDispatch"
 
 export type FormType = "sign-up" | "sign-in";
 
@@ -15,7 +23,9 @@ interface FormContainerProps {
 
 export const FormContainer = (props: FormContainerProps) => {
     const navigate = useNavigate()
-
+    const dispatch = useAppDispatch()
+    const login = useSelector(getLoginLogin)
+    const password = useSelector(getLoginPassword)
     const {
         title,
         description,
@@ -27,7 +37,17 @@ export const FormContainer = (props: FormContainerProps) => {
         navigate("/main")
     }
     const isSignUp = formType === "sign-up"
-
+    const onChangeLogin = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(loginActions.setLogin(e.target.value))
+    }, [dispatch])
+    const onChangePassword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(loginActions.setPassword(e.target.value))
+    }, [dispatch])
+    const onLoginClick = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        const result = await dispatch(authByLogin({ login, password }))
+        console.log(result)
+    }, [dispatch, login, password])
     return (
         <div className={"form-container " + formType}>
             <form>
@@ -40,9 +60,9 @@ export const FormContainer = (props: FormContainerProps) => {
                         <Input type="text" placeholder="Фамилия" />
                     </>
                 )}
-                <Input type="text" placeholder="Логин" />
-                <Input type="password" placeholder="Пароль" />
-                <Button onClick={handleClick}>{buttonName}</Button>
+                <Input value={login} onChange={onChangeLogin} type="text" placeholder="Логин" />
+                <Input value={password} onChange={onChangePassword} type="password" placeholder="Пароль" />
+                <Button onClick={onLoginClick}>{buttonName}</Button>
             </form>
         </div>
     )
