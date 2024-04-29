@@ -3,8 +3,6 @@ import { ThunkConfig } from "app/providers/StoreProvider"
 
 interface RegisterBySecretProps {
     secret: string;
-    name: string;
-    surname: string;
     login: string;
     password: string;
 }

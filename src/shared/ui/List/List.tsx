@@ -10,16 +10,16 @@ export const List = ({ className }: ListProps) => {
     return (
         <ul className={cls.List}>
             <li className={cls.listItem}>
-                <Button theme={ThemeButton.SECONDARY} className={"newChatBtn"}>Чат</Button>
+                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
             </li>
             <li className={cls.listItem}>
-                <Button theme={ThemeButton.SECONDARY} className={"newChatBtn"}>Чат</Button>
+                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
             </li>
             <li className={cls.listItem}>
-                <Button theme={ThemeButton.SECONDARY} className={"newChatBtn"}>Чат</Button>
+                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
             </li>
             <li className={cls.listItem}>
-                <Button theme={ThemeButton.SECONDARY} className={"newChatBtn"}>Чат</Button>
+                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
             </li>
         </ul>
     )

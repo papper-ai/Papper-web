@@ -17,12 +17,6 @@ const registerSlice = createSlice({
         setSecret (state, action: PayloadAction<string>) {
             state.secret = action.payload
         },
-        setName (state, action: PayloadAction<string>) {
-            state.name = action.payload
-        },
-        setSurname (state, action: PayloadAction<string>) {
-            state.surname = action.payload
-        },
         setLogin (state, action: PayloadAction<string>) {
             state.login = action.payload
         },

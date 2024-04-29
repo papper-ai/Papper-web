@@ -1,6 +1,4 @@
 .Button {
-    width: 200px;
-    height: 67px;
     border: none;
     outline: none;
     border-radius: var(--border-radius);
@@ -27,7 +25,9 @@
     color: var(--primary-light-color);
 }
 
-.newChatBtn{
+.list{
+    background: var(--secondary-color);
+    border: 2px solid var(--secondary-shade-color);
     font-size: var(--font-size-l);
     margin-top: 10px;
     text-align: left;
@@ -35,3 +35,7 @@
     height: 50px;
     padding: 10px;
 }
+.list:hover{
+    background: var(--primary-shade-color);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-light-color);}

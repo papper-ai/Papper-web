@@ -33,8 +33,6 @@ export const FormContainer = memo((props: FormContainerProps) => {
     const login = useSelector(getLoginLogin)
     const password = useSelector(getLoginPassword)
     const secret = useSelector(getRegisterSecret)
-    const name = useSelector(getRegisterName)
-    const surname = useSelector(getRegisterSurname)
     const registerLogin = useSelector(getRegisterLogin)
     const registerPassword = useSelector(getRegisterPassword)
     const {
@@ -47,36 +45,36 @@ export const FormContainer = memo((props: FormContainerProps) => {
     const isSignUp = formType === "sign-up"
 
     const onChangeLogin = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+
         if (formType === "sign-up") {
-            dispatch(registerActions.setLogin(e.target.value))
-        } else dispatch(loginActions.setLogin(e.target.value))
-    }, [dispatch])
+            dispatch(registerActions.setLogin(value))
+        } else {
+            dispatch(loginActions.setLogin(value))
+        }
+    }, [dispatch, formType])
 
     const onChangePassword = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
         if (formType === "sign-up") {
-            dispatch(registerActions.setPassword(e.target.value))
-        } else dispatch(loginActions.setPassword(e.target.value))
-    }, [dispatch])
+            dispatch(registerActions.setPassword(value))
+        } else {
+            dispatch(loginActions.setPassword(value))
+        }
+    }, [dispatch, formType])
 
     const onChangeSecret = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(registerActions.setSecret(e.target.value))
     }, [dispatch])
 
-    const onChangeName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(registerActions.setName(e.target.value))
-    }, [dispatch])
-
-    const onChangeSurname = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(registerActions.setSurname(e.target.value))
-    }, [dispatch])
     const onLoginClick = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         let result
         if (formType === "sign-up") {
-            result = await dispatch(registerBySecret({ secret, name, surname, login: registerLogin, password: registerPassword }))
+            result = await dispatch(registerBySecret({ secret, login: registerLogin, password: registerPassword }))
         } else result = await dispatch(authByLogin({ login, password }))
         console.log(result)
-    }, [dispatch, login, password, secret, name, surname, registerLogin, registerPassword, formType])
+    }, [dispatch, login, password, secret, registerLogin, registerPassword, formType])
     return (
         <div className={"form-container " + formType}>
             <form>
@@ -85,8 +83,6 @@ export const FormContainer = memo((props: FormContainerProps) => {
                 {isSignUp && (
                     <>
                         <Input value={secret} onChange={onChangeSecret} type="text" placeholder="Секретный ключ" />
-                        <Input value={name} onChange={onChangeName} type="text" placeholder="Имя" />
-                        <Input value={surname} onChange={onChangeSurname} type="text" placeholder="Фамилия" />
                     </>
                 )}
                 <Input value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />

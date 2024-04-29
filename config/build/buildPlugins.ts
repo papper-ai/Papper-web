@@ -15,11 +15,12 @@ export function buildPlugins ({ paths, isDev }: BuildOptions): webpack.WebpackPl
             __IS_DEV__: JSON.stringify(isDev)
         })
     ]
+
     if (isDev) {
-        plugins.push(new HotModuleReplacementPlugin())
         plugins.push(new BundleAnalyzerPlugin({
             openAnalyzer: false
         }))
+        plugins.push(new HotModuleReplacementPlugin())
     }
 
     return plugins

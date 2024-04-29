@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ThunkConfig } from "app/providers/StoreProvider/config/StateSchema"
 import { tokenActions, TokenSchema } from "entities/Token"
+import { userActions } from "entities/User"
 import { REFRESH_TOKEN_KEY } from "shared/const/localStorage"
 interface LoginByUsernameProps {
     login: string;
@@ -21,6 +22,7 @@ export const authByLogin = createAsyncThunk<TokenSchema, LoginByUsernameProps, T
 
             localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken.token)
             dispatch(tokenActions.setToken(accessToken.token))
+            dispatch(userActions.setUser(login))
             extra.navigate("/main")
             return response.data
         } catch (e) {

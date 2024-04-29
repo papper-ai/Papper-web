@@ -5,6 +5,7 @@ import { FC } from "react"
 export enum ThemeButton {
     PRIMARY = "primary",
     SECONDARY = "secondary",
+    LIST = "list"
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
