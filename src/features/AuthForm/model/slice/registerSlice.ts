@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RegisterSchema } from "../types/AuthSchema"
+import { registerBySecret } from "../services/register/registerBySecret"
 
 const initialState: RegisterSchema = {
     secret: "",
@@ -28,6 +29,21 @@ const registerSlice = createSlice({
         setPassword (state, action: PayloadAction<string>) {
             state.password = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(registerBySecret.pending, (state) => {
+                state.error = undefined
+                state.isLoading = true
+            })
+            .addCase(registerBySecret.fulfilled, (state) => {
+                state.isLoading = false
+                state.error = undefined
+            })
+            .addCase(registerBySecret.rejected, (state, action) => {
+                state.isLoading = false
+                state.error = action.payload
+            })
     }
 })
 

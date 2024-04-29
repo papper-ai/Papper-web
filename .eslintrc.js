@@ -27,6 +27,7 @@ module.exports = {
         "indent": ["error", 4],
         "quotes": ["error", "double"],
         "no-tabs": ["error", { allowIndentationTabs: true }],
-        "quote-props": ["error", "consistent-as-needed", { keywords: true, unnecessary: false }]
+        "quote-props": ["error", "consistent-as-needed", { keywords: true, unnecessary: false }],
+        "react/display-name": "off"
     }
 }

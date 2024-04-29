@@ -1,12 +1,13 @@
 import { AxiosInstance } from "axios"
 import { IToken } from "entities/Token"
-import { LoginSchema } from "features/AuthForm"
+import { LoginSchema, RegisterSchema } from "features/AuthForm"
 import { NavigateOptions, To } from "react-router-dom"
 
 export interface StateSchema {
     counter?: number;
     token: IToken;
-    login: LoginSchema
+    login: LoginSchema;
+    register: RegisterSchema
 }
 export interface ThunkExtraArg {
     api: AxiosInstance;

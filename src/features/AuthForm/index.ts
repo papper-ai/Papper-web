@@ -1,9 +1,12 @@
 import { loginReducer } from "./model/slice/loginSlice"
 import { AuthForm } from "./ui/AuthForm/AuthForm"
-import { LoginSchema } from "./model/types/AuthSchema"
+import { LoginSchema, RegisterSchema } from "./model/types/AuthSchema"
+import { registerReducer } from "./model/slice/registerSlice"
 
 export {
     AuthForm,
     loginReducer,
-    LoginSchema
+    LoginSchema,
+    registerReducer,
+    RegisterSchema
 }
