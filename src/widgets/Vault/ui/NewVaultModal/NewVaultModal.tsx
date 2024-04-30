@@ -26,8 +26,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     } = props
     const [newVaultName, setNewVaultName] = useState("")
     const [newVaultType, setNewVaultType] = useState("graph")
-    const filesRef = useRef<HTMLInputElement>(null)
-
+    const [files, setFiles] = useState([])
     const handleChangeNewVaultName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewVaultName(e.target.value)
     }
@@ -41,7 +40,6 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                 vault_name: newVaultName,
                 vault_type: newVaultType
             }
-            const files = filesRef.current?.files
             const formData = new FormData()
             formData.append("create_vault_credentials", JSON.stringify(vaultConfig))
             for (let i = 0; i < files?.length; i++) {
@@ -55,10 +53,10 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         }
     }
     const handleChangeUploader: UploadFunction = (options) => {
-        const formData = new FormData()
-        formData.append("file", options.file as File)
-        options.onSuccess("ok")
-        console.log(formData)
+        const file = options.file
+        console.log(file)
+        setFiles([...files, file])
+        options.onSuccess("file uploaded")
     }
     return (
         <Modal isOpen={isOpen} onClose={onClose}>

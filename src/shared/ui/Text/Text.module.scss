@@ -13,3 +13,10 @@
     color: var(--font-color);
     font-size: var(--font-size-m);
 }
+.inline{
+    display: flex;
+    align-items: center;
+    .text{
+        margin-left: 10px;
+    }
+}

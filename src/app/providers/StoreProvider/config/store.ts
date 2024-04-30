@@ -1,6 +1,7 @@
 import { configureStore, ReducersMapObject } from "@reduxjs/toolkit"
 import { NavigateFunction } from "react-router-dom"
 import { loginReducer, registerReducer } from "features/AuthForm"
+import { chatsReducer } from "entities/Chat"
 import { tokenReducer } from "entities/Token"
 import { userReducer } from "entities/User"
 import { vaultsReducer } from "entities/Vault"
@@ -13,7 +14,8 @@ export const createReduxStore = (navigate: NavigateFunction, initialState?: Stat
         login: loginReducer,
         register: registerReducer,
         user: userReducer,
-        vaults: vaultsReducer
+        vaults: vaultsReducer,
+        chats: chatsReducer
     }
 
     return configureStore<StateSchema>({

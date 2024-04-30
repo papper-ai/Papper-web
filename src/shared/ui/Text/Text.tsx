@@ -4,7 +4,8 @@ import * as cls from "./Text.module.scss"
 
 export enum TextTheme {
     VAULT = "vault",
-    ERROR = "error"
+    ERROR = "error",
+    INLINE = "inline"
 }
 
 interface TextProps {

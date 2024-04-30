@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getVaultsPreview } from "../services/getVaultsPreview/getVaultsPreview"
-import { VaultsSchema } from "../types/VaultSchema"
+import { IDocument, VaultSchema, VaultsSchema } from "../types/VaultSchema"
 
 const initialState: VaultsSchema = {
     isLoading: false,
@@ -17,6 +17,13 @@ const vaultsSlice = createSlice({
         },
         pushVaults: (state, action) => {
             state.vaults.push(action.payload)
+        },
+        addVaultDocument: (state, action) => {
+            for (let i = 0; i < state.vaults.length; i++) {
+                if (state.vaults[i].id === action.payload[0].vault_id) {
+                    state.vaults[i].documents = action.payload
+                }
+            }
         }
     },
     extraReducers: (builder) => {
