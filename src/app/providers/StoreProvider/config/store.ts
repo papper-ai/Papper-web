@@ -1,17 +1,19 @@
 import { configureStore, ReducersMapObject } from "@reduxjs/toolkit"
-import { StateSchema } from "./StateSchema"
-import { tokenReducer } from "entities/Token"
-import { loginReducer, registerReducer } from "features/AuthForm"
-import { $api } from "shared/api/api"
 import { NavigateFunction } from "react-router-dom"
+import { loginReducer, registerReducer } from "features/AuthForm"
+import { tokenReducer } from "entities/Token"
 import { userReducer } from "entities/User"
+import { vaultsReducer } from "entities/Vault"
+import { $api } from "shared/api/api"
+import { StateSchema } from "./StateSchema"
 
 export const createReduxStore = (navigate: NavigateFunction, initialState?: StateSchema) => {
     const rootReducer: ReducersMapObject<StateSchema> = {
         token: tokenReducer,
         login: loginReducer,
         register: registerReducer,
-        user: userReducer
+        user: userReducer,
+        vaults: vaultsReducer
     }
 
     return configureStore<StateSchema>({

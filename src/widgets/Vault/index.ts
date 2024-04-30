@@ -1,3 +1,3 @@
-import { Vault } from "./ui/Vault"
+import { Vault } from "./ui/Vault/Vault"
 
 export { Vault }

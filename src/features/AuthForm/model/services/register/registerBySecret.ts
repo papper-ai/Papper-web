@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ThunkConfig } from "app/providers/StoreProvider"
+import type { ThunkConfig } from "app/providers/StoreProvider"
 
 interface RegisterBySecretProps {
     secret: string;
@@ -9,7 +9,7 @@ interface RegisterBySecretProps {
 
 export const registerBySecret = createAsyncThunk<string, RegisterBySecretProps, ThunkConfig<string>>(
     "register",
-    async (props, { extra, dispatch, rejectWithValue }) => {
+    async (props, { extra, rejectWithValue }) => {
         try {
             const response = await extra.api.post<string>("auth/registration", props, { headers: { "Content-Type": "application/x-www-form-urlencoded" } })
             if (!response.data) {

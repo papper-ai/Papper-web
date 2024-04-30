@@ -14,3 +14,9 @@ export interface VaultSchema{
     user_id?: string
     documents?: IDocument[]
 }
+
+export interface VaultsSchema{
+    isLoading?: boolean
+    error?: string
+    vaults: VaultSchema[]
+}

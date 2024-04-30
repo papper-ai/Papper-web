@@ -1,6 +1,6 @@
 import classNames from "classnames"
-import * as cls from "./List.module.scss"
 import { Button, ThemeButton } from "../Button/Button"
+import * as cls from "./List.module.scss"
 
 interface ListProps {
     className?: string

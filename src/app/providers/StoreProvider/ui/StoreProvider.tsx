@@ -1,8 +1,8 @@
 import { FC } from "react"
-import { StateSchema } from "../config/StateSchema"
-import { createReduxStore } from "../config/store"
 import { Provider } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { StateSchema } from "../config/StateSchema"
+import { createReduxStore } from "../config/store"
 
 interface StoreProviderProps {
     children?: React.ReactNode;

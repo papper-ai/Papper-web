@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import "./TogglePanel.scss"
-import { Button } from "shared/ui/Button/Button"
 import { FC, memo } from "react"
+import { Button } from "shared/ui/Button/Button"
 
 interface TogglePanelProps {
   className?: string;

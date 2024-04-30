@@ -1,8 +1,8 @@
 import HTMLWebpackPlugin from "html-webpack-plugin"
-import webpack, { DefinePlugin, HotModuleReplacementPlugin } from "webpack"
-import { BuildOptions } from "../build/types/config"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import webpack, { DefinePlugin, HotModuleReplacementPlugin } from "webpack"
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer"
+import { BuildOptions } from "../build/types/config"
 
 export function buildPlugins ({ paths, isDev }: BuildOptions): webpack.WebpackPluginInstance[] {
     const plugins = [

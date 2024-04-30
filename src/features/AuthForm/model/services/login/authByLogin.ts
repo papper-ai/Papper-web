@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ThunkConfig } from "app/providers/StoreProvider/config/StateSchema"
+import type { ThunkConfig } from "app/providers/StoreProvider/config/StateSchema"
 import { tokenActions, TokenSchema } from "entities/Token"
 import { userActions } from "entities/User"
 import { REFRESH_TOKEN_KEY } from "shared/const/localStorage"

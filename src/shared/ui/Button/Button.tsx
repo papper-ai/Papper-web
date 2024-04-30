@@ -1,6 +1,6 @@
 import classNames from "classnames"
-import * as cls from "./Button.module.scss"
 import { FC } from "react"
+import * as cls from "./Button.module.scss"
 
 export enum ThemeButton {
     PRIMARY = "primary",
@@ -22,7 +22,7 @@ export const Button: FC<ButtonProps> = (props) => {
     } = props
 
     return (
-        <button {...otherProps} className={classNames(cls.Button, cls[theme], cls[className])}>
+        <button {...otherProps} className={classNames(cls.Button, cls[theme], className)}>
             {children}
         </button>
     )

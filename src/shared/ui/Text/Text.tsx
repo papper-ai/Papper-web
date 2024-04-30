@@ -1,6 +1,6 @@
 import classNames from "classnames"
-import * as cls from "./Text.module.scss"
 import { FC } from "react"
+import * as cls from "./Text.module.scss"
 
 export enum TextTheme {
     VAULT = "vault",

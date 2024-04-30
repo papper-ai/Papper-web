@@ -1,7 +1,8 @@
+/* eslint-disable @conarti/feature-sliced/layers-slices */
+import { RouteProps } from "react-router-dom"
 import { AuthPage } from "pages/AuthPage"
 import { MainPage } from "pages/MainPage"
 import { VaultPage } from "pages/VaultPage"
-import { RouteProps } from "react-router-dom"
 
 export enum AppRoutes {
     MAIN = "main",

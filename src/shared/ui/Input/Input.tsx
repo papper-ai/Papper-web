@@ -1,6 +1,6 @@
 import classNames from "classnames"
-import * as cls from "./Input.module.scss"
 import { FC } from "react"
+import * as cls from "./Input.module.scss"
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     className?: string;

@@ -1,7 +1,7 @@
 import classNames from "classnames"
-import * as cls from "./VaultPage.module.scss"
 import { Sidebar } from "widgets/Sidebar"
 import { Vault } from "widgets/Vault"
+import * as cls from "./VaultPage.module.scss"
 interface VaultPageProps {
     className?: string
 }

@@ -1,7 +1,7 @@
 import classNames from "classnames"
-import * as cls from "./Logo.module.scss"
-import Papper from "../../assets/images/Papper.png"
 import { useNavigate } from "react-router-dom"
+import Papper from "../../assets/images/Papper.png"
+import * as cls from "./Logo.module.scss"
 
 interface LogoProps {
     className?: string

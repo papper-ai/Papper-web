@@ -1,6 +1,6 @@
 import classNames from "classnames"
-import * as cls from "./Modal.module.scss"
 import { useEffect, useRef, useState } from "react"
+import * as cls from "./Modal.module.scss"
 
 interface ModalProps {
     className?: string;

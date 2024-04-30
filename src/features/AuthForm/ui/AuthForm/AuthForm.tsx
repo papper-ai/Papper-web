@@ -1,8 +1,8 @@
 import classNames from "classnames"
 import "./AuthForm.scss"
 import { useState } from "react"
-import { TogglePanel } from "../TogglePanel/TogglePanel"
 import { FormContainer } from "../FormContainer/FormContainer"
+import { TogglePanel } from "../TogglePanel/TogglePanel"
 
 export const AuthForm = () => {
     const [toggle, setToggle] = useState(false)

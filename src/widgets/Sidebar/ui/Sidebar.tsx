@@ -1,12 +1,12 @@
 import classNames from "classnames"
-import * as cls from "./Sidebar.module.scss"
-import { Logo } from "shared/ui/Logo/Logo"
-import { Button, ThemeButton } from "shared/ui/Button/Button"
-import { List } from "shared/ui/List/List"
 import { useState } from "react"
-import { Modal } from "shared/ui/Modal/Modal"
 import { useNavigate } from "react-router-dom"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
+import { Button, ThemeButton } from "shared/ui/Button/Button"
+import { List } from "shared/ui/List/List"
+import { Logo } from "shared/ui/Logo/Logo"
+import { Modal } from "shared/ui/Modal/Modal"
+import * as cls from "./Sidebar.module.scss"
 
 interface SidebarProps {
     className?: string

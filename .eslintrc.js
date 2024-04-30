@@ -3,7 +3,8 @@ module.exports = {
         "eslint-config-standard",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:@conarti/feature-sliced/recommended"
     ],
     "env": {
         browser: true,
@@ -28,6 +29,7 @@ module.exports = {
         "quotes": ["error", "double"],
         "no-tabs": ["error", { allowIndentationTabs: true }],
         "quote-props": ["error", "consistent-as-needed", { keywords: true, unnecessary: false }],
-        "react/display-name": "off"
+        "react/display-name": "off",
+        "no-empty-pattern": "off"
     }
 }

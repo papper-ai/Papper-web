@@ -1,8 +1,9 @@
 import { AxiosInstance } from "axios"
+import { NavigateOptions, To } from "react-router-dom"
+import { LoginSchema, RegisterSchema } from "features/AuthForm"
 import { IToken } from "entities/Token"
 import { User } from "entities/User"
-import { LoginSchema, RegisterSchema } from "features/AuthForm"
-import { NavigateOptions, To } from "react-router-dom"
+import { VaultsSchema } from "entities/Vault"
 
 export interface StateSchema {
     counter?: number;
@@ -10,6 +11,7 @@ export interface StateSchema {
     login: LoginSchema;
     register: RegisterSchema;
     user: User;
+    vaults: VaultsSchema
 }
 export interface ThunkExtraArg {
     api: AxiosInstance;
