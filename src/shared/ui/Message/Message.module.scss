@@ -1,0 +1,21 @@
+.Message{
+    display: flex;
+    width: 100%;
+    color: var(--font-color);
+}
+
+.content{
+    padding: 10px;
+    border-radius: var(--border-radius);
+}
+.bot{
+    .content{
+        background-color: var(--secondary-color);
+    }
+}
+.user{
+    flex-direction: row-reverse;
+    .content{
+        background-color: var(--primary-color);
+    }
+}

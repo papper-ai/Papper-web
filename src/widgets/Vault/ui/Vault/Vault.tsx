@@ -28,7 +28,7 @@ export const Vault = ({ className }: VaultProps) => {
             const result = await dispatch(getVaultsPreview({}))
         }
         getVaults()
-    }, [])
+    }, [dispatch])
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({
             key: item.id,
@@ -54,7 +54,7 @@ export const Vault = ({ className }: VaultProps) => {
         } catch (e) {
             console.log(e)
         }
-    }, [])
+    }, [login])
     const handleAccordionChange = (key: string) => {
         try {
             $api.get<IDocument[]>(`/vault/get_vault_documents/${key}`).then((res) => {

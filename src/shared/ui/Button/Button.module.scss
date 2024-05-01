@@ -4,7 +4,8 @@
     border-radius: var(--border-radius);
     color: var(--font-color);
     cursor: pointer;
-    font-size: 24px;
+    font-size: var(--font-size-m);
+    padding: 10px;
     text-align: center;
     transition: background-color 0.2s;
 }

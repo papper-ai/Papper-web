@@ -1,11 +1,13 @@
 import classNames from "classnames"
 import { useState } from "react"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { NewChatModal } from "features/CreateNewChat"
+import { getChats } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { Button, ThemeButton } from "shared/ui/Button/Button"
 import { List } from "shared/ui/List/List"
 import { Logo } from "shared/ui/Logo/Logo"
-import { Modal } from "shared/ui/Modal/Modal"
 import * as cls from "./Sidebar.module.scss"
 
 interface SidebarProps {
@@ -14,6 +16,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ className }: SidebarProps) => {
     const [newChatModal, setNewChatModal] = useState(false)
+    const chats = useSelector(getChats)
     const navigate = useNavigate()
     const handleNewChat = () => {
         setNewChatModal(true)
@@ -26,8 +29,8 @@ export const Sidebar = ({ className }: SidebarProps) => {
             <Logo/>
             <Button onClick={handleNewChat} theme={ThemeButton.LIST} className={"newChatBtn"}>Создать новый чат</Button>
             <Button onClick={handleVault} theme={ThemeButton.LIST} className={"newChatBtn"}>Ваши документы</Button>
-            <List/>
-            <Modal onClose={() => setNewChatModal(false)} isOpen={newChatModal}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque minima, optio ipsam nisi dolore necessitatibus sequi labore, aut temporibus quaerat reprehenderit eaque tempore fuga obcaecati consequuntur cum sunt libero atque!</Modal>
+            <List items={chats.map((item) => item.name)}/>
+            <NewChatModal isOpen={newChatModal} onClose={() => setNewChatModal(false)}/>
         </div>
     )
 }

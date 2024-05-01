@@ -15,7 +15,7 @@ const chatsSlice = createSlice({
         setChats: (state, action) => {
             state.chats = action.payload
         },
-        pushChats: (state, action) => {
+        pushChat: (state, action) => {
             state.chats.push(action.payload)
         }
     },

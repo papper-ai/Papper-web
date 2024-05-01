@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import { useEffect, useRef, useState } from "react"
+import { Portal } from "../Portal/Portal"
 import * as cls from "./Modal.module.scss"
 
 interface ModalProps {
@@ -18,7 +19,7 @@ export const Modal = (props: ModalProps) => {
     } = props
 
     const [closing, setClosing] = useState(false)
-    const timerRef = useRef<ReturnType <typeof setTimeout>>()
+    const timerRef = useRef<ReturnType<typeof setTimeout>>()
     const handleClick = () => {
         setClosing(true)
         timerRef.current = setTimeout(() => {
@@ -39,12 +40,14 @@ export const Modal = (props: ModalProps) => {
     }
 
     return (
-        <div className={classNames(cls.Modal, mods, [className])}>
-            <div onClick={handleClick} className={cls.overlay}>
-                <div onClick={(e) => e.stopPropagation()} className={cls.content}>
-                    {children}
+        <Portal>
+            <div className={classNames(cls.Modal, mods, [className])}>
+                <div onClick={handleClick} className={cls.overlay}>
+                    <div onClick={(e) => e.stopPropagation()} className={cls.content}>
+                        {children}
+                    </div>
                 </div>
             </div>
-        </div>
+        </Portal>
     )
 }

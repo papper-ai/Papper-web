@@ -15,8 +15,7 @@ export const getChatsPreview = createAsyncThunk<ChatSchema[], GetChatPreviewProp
             }
 
             const chats = response.data
-            dispatch(chatsActions.setChats(chats))
-            return response.data
+            return chats
         } catch (e) {
             console.log(e)
             return rejectWithValue("error")

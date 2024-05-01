@@ -4,23 +4,17 @@ import * as cls from "./List.module.scss"
 
 interface ListProps {
     className?: string
+    items?: string[]
 }
 
-export const List = ({ className }: ListProps) => {
+export const List = ({ className, items }: ListProps) => {
     return (
         <ul className={cls.List}>
-            <li className={cls.listItem}>
-                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
-            </li>
-            <li className={cls.listItem}>
-                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
-            </li>
-            <li className={cls.listItem}>
-                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
-            </li>
-            <li className={cls.listItem}>
-                <Button theme={ThemeButton.LIST} className={"newChatBtn"}>Чат</Button>
-            </li>
+            {items?.map((item) => (
+                <li className={cls.item} key={item}>
+                    <Button theme={ThemeButton.LIST}>{item}</Button>
+                </li>
+            ))}
         </ul>
     )
 }
