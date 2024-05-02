@@ -14,6 +14,9 @@ const currentChatSlice = createSlice({
     reducers: {
         setNewChat: (state, action) => {
             state.chat = action.payload
+        },
+        addMessage: (state, action) => {
+            state.chat.chat_history.history.push(action.payload)
         }
     },
     extraReducers: (builder) => {

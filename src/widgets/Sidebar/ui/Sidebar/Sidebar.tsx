@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { NewChatModal } from "features/CreateNewChat"
-import { getChats } from "entities/Chat"
+import { getChatsPreview } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { Button, ThemeButton } from "shared/ui/Button/Button"
 import { List } from "shared/ui/List/List"
@@ -16,7 +16,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ className }: SidebarProps) => {
     const [newChatModal, setNewChatModal] = useState(false)
-    const chats = useSelector(getChats)
+    const chats = useSelector(getChatsPreview)
     const navigate = useNavigate()
     const handleNewChat = () => {
         setNewChatModal(true)

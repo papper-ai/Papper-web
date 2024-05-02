@@ -3,23 +3,24 @@ export interface ITraceback{
     information: string
 }
 
-export interface IHistory {
+export interface AnswerSchema {
+    role: string
     content: string
     traceback?: ITraceback[]
 }
 
 export interface IChatHistory {
     chat_id: string
-    history: IHistory[]
+    history: AnswerSchema[]
 }
 
 export interface ChatSchema{
     id: string
     name: string
     vault_id: string
-    is_archived: boolean
-    created_at: string
-    chat_history: IChatHistory
+    is_archived?: boolean
+    created_at?: string
+    chat_history?: IChatHistory
 }
 
 export interface ChatsSchema{

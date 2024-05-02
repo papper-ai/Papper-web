@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import type { ThunkConfig } from "app/providers/StoreProvider/config/StateSchema"
-import { chatsActions } from "../slice/chatsSlice"
+import { currentChatActions } from "features/CreateNewChat"
 import { ChatSchema } from "../types/ChatSchema"
 interface GetChatPreviewProps {}
 
-export const getChatsPreview = createAsyncThunk<ChatSchema[], GetChatPreviewProps, ThunkConfig<string>>(
+export const fetchChatsPreview = createAsyncThunk<ChatSchema[], GetChatPreviewProps, ThunkConfig<string>>(
     "getChatsPreview",
     async ({}, { extra, dispatch, rejectWithValue }) => {
         try {
@@ -13,7 +13,7 @@ export const getChatsPreview = createAsyncThunk<ChatSchema[], GetChatPreviewProp
             if (!response.data) {
                 throw new Error()
             }
-
+            dispatch(currentChatActions.setNewChat(response.data[0]))
             const chats = response.data
             return chats
         } catch (e) {

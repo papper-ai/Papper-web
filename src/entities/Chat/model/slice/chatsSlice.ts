@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getChatsPreview } from "../services/GetChatsPreview"
+import { fetchChatsPreview } from "../services/fetchChatsPreview"
 import { ChatsSchema } from "../types/ChatSchema"
 
 const initialState: ChatsSchema = {
@@ -21,15 +21,15 @@ const chatsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getChatsPreview.pending, (state) => {
+            .addCase(fetchChatsPreview.pending, (state) => {
                 state.error = undefined
                 state.isLoading = true
             })
-            .addCase(getChatsPreview.fulfilled, (state, action) => {
+            .addCase(fetchChatsPreview.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.chats = action.payload
             })
-            .addCase(getChatsPreview.rejected, (state, action) => {
+            .addCase(fetchChatsPreview.rejected, (state, action) => {
                 state.isLoading = false
                 state.error = action.error.message
             })

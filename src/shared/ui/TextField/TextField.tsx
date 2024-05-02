@@ -4,10 +4,12 @@ import * as cls from "./TextField.module.scss"
 
 interface TextFieldProps {
     className?: string;
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    value?: string
 }
 
-export const TextField = ({ className }: TextFieldProps) => {
+export const TextField = ({ className, onChange, value }: TextFieldProps) => {
     return (
-        <TextArea autoSize={{ minRows: 3, maxRows: 7 }} className={classNames(cls.TextField, {}, [className])}/>
+        <TextArea value={value} onChange={onChange} autoSize={{ minRows: 3, maxRows: 7 }} className={classNames(cls.TextField, {}, [className])}/>
     )
 }

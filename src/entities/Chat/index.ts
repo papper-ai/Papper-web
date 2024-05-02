@@ -1,5 +1,5 @@
-import { getChats } from "./model/selectors/getChats"
-import { getChatsPreview } from "./model/services/GetChatsPreview"
+import { getChatsPreview } from "./model/selectors/getChatsPreview"
+import { fetchChatsPreview } from "./model/services/fetchChatsPreview"
 import { chatsReducer, chatsActions } from "./model/slice/chatsSlice"
-import { ChatsSchema, ChatSchema } from "./model/types/ChatSchema"
-export { ChatsSchema, chatsReducer, ChatSchema, chatsActions, getChatsPreview, getChats }
+import { ChatsSchema, ChatSchema, AnswerSchema } from "./model/types/ChatSchema"
+export { ChatsSchema, chatsReducer, ChatSchema, chatsActions, fetchChatsPreview, getChatsPreview, AnswerSchema }
