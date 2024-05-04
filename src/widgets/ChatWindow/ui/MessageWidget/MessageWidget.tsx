@@ -19,11 +19,11 @@ export const MessageWidget = ({ className }: MessageWidgetProps) => {
         dispatch(fetchChatHistory({ chatId: id }))
     }, [id, dispatch])
     const messages = currentChat?.chat_history?.history?.map((item) => {
-        return { content: item.content, sender: item.role }
+        return { content: item.content, sender: item.role, traceback: item.traceback }
     })
     return (
         <div className={classNames(cls.MessageWidget, {}, [className])}>
-            {messages?.map((item) => <Message key={item.content} sender={item.sender} content={item.content}/>) }
+            {messages?.map((item) => <Message key={item.content} sender={item.sender} content={item.content} traceback={item.traceback}/>) }
         </div>
     )
 }

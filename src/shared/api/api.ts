@@ -1,5 +1,5 @@
 import axios from "axios"
-import { REFRESH_TOKEN_KEY } from "../const/localStorage"
+import { ACCESS_TOKEN_KEY } from "../const/localStorage"
 
 const baseUrl = "http://ontollm.semograph.com:28080"
 
@@ -8,6 +8,6 @@ export const $api = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem(REFRESH_TOKEN_KEY)}`
+    config.headers.Authorization = `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
     return config
 })
