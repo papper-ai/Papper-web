@@ -6,12 +6,14 @@ import { VaultPage } from "pages/VaultPage"
 
 export enum AppRoutes {
     MAIN = "main",
+    MAIN_CHAT = "main-chat",
     AUTH = "auth",
-    VAULT = "vault"
+    VAULT = "vault",
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.MAIN]: "/main",
+    [AppRoutes.MAIN_CHAT]: "/main/:id",
     [AppRoutes.VAULT]: "/vault",
     [AppRoutes.AUTH]: "/"
 }
@@ -23,6 +25,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     },
     [AppRoutes.MAIN]: {
         path: RoutePath[AppRoutes.MAIN],
+        element: <MainPage />
+    },
+    [AppRoutes.MAIN_CHAT]: {
+        path: RoutePath[AppRoutes.MAIN_CHAT],
         element: <MainPage />
     },
     [AppRoutes.AUTH]: {

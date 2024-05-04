@@ -1,10 +1,12 @@
+export type IRole = "user" | "ai"
+
 export interface ITraceback{
     document_id: string
     information: string
 }
 
 export interface AnswerSchema {
-    role: string
+    role: IRole
     content: string
     traceback?: ITraceback[]
 }

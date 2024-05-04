@@ -19,7 +19,7 @@ export const MessageSender = ({ className }: MessageSenderProps) => {
     const sendMessageHandle = async () => {
         const result = dispatch(sendMessage({ chatId: currentChat.id, vaultId: currentChat.vault_id, query: message }))
         if (result) {
-            console.log(result)
+            console.log()
         }
     }
     return (

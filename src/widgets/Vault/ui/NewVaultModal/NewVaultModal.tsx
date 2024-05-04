@@ -6,7 +6,7 @@ import { Button, ThemeButton } from "shared/ui/Button/Button"
 import { Uploader } from "shared/ui/Uploader/Uploader"
 import { Selecter } from "shared/ui/Select/Selecter"
 import { Text } from "shared/ui/Text/Text"
-import { Input } from "shared/ui/Input/Input"
+import { FormInput } from "shared/ui/Input/Input"
 import { useRef, useState } from "react"
 import { $api } from "shared/api/api"
 import type { UploadProps } from "antd"
@@ -62,7 +62,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className={cls.modalContainer}>
                 <Text className={cls.title} title="Добавление нового хранилища" />
-                <Input value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
+                <FormInput value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
                 <Selecter value={newVaultType} onChange={handleChangeSelect} label="Выберите тип хранилища" />
                 {/* <input ref={filesRef} type="file" multiple accept="application/pdf, application/msword, text/plain" /> */}
                 <Uploader

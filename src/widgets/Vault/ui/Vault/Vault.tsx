@@ -8,6 +8,7 @@ import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Button, ThemeButton } from "shared/ui/Button/Button"
 import { Acordion } from "shared/ui/Collapse/Collapse"
 import type { AccordionItem } from "shared/ui/Collapse/Collapse"
+import { Loader } from "shared/ui/Loader/Loader"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
 import * as cls from "./Vault.module.scss"
@@ -70,7 +71,7 @@ export const Vault = ({ className }: VaultProps) => {
             <Text title={login} text="Ваши документы" />
             <Button onClick={() => setModalOpen(true)} theme={ThemeButton.LIST}>Добавить хранилище</Button>
             {/* <Collapse></Collapse> */}
-            {vaultsIsLoading ? <div>loading</div> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
+            {vaultsIsLoading ? <Loader /> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
             <NewVaultModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
         </div>
     )

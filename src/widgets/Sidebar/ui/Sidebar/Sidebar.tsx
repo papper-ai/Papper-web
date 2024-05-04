@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { NewChatModal } from "features/CreateNewChat"
@@ -17,7 +17,11 @@ interface SidebarProps {
 export const Sidebar = ({ className }: SidebarProps) => {
     const [newChatModal, setNewChatModal] = useState(false)
     const chats = useSelector(getChatsPreview)
+    const [chatsItems, setChatsItems] = useState([])
     const navigate = useNavigate()
+    useEffect(() => {
+        setChatsItems(chats.map((item) => { return { title: item.name, element_id: item.id } }))
+    }, [chats])
     const handleNewChat = () => {
         setNewChatModal(true)
     }
@@ -29,7 +33,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
             <Logo/>
             <Button onClick={handleNewChat} theme={ThemeButton.LIST} className={"newChatBtn"}>Создать новый чат</Button>
             <Button onClick={handleVault} theme={ThemeButton.LIST} className={"newChatBtn"}>Ваши документы</Button>
-            <List items={chats.map((item) => item.name)}/>
+            <List items={chatsItems}/>
             <NewChatModal isOpen={newChatModal} onClose={() => setNewChatModal(false)}/>
         </div>
     )

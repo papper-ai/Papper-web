@@ -15,6 +15,7 @@ export const sendMessage = createAsyncThunk<AnswerSchema, SendMessageProps, Thun
     "sendMessage",
     async ({ vaultId, chatId, query }, { extra, dispatch, rejectWithValue }) => {
         try {
+            dispatch(currentChatActions.addMessage({ content: query, role: "user" }))
             const response = await extra.api.post<AnswerSchema>("answer/generate_answer", { vault_id: vaultId, chat_id: chatId, query })
             if (!response.data) {
                 throw new Error()

@@ -4,5 +4,6 @@
     height: 100vh;
     background: var(--sidebar-color);
     padding: 20px 10px;
+    flex-shrink: 0;
 }
 

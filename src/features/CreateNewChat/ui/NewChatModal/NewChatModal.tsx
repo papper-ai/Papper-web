@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import { getVaults } from "entities/Vault"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Button, ThemeButton } from "shared/ui/Button/Button"
-import { Input } from "shared/ui/Input/Input"
+import { FormInput } from "shared/ui/Input/Input"
 import { Modal } from "shared/ui/Modal/Modal"
 import { RadioButton, RadioItem } from "shared/ui/RadioButton/RadioButton"
 import { Text, TextTheme } from "shared/ui/Text/Text"
@@ -38,7 +38,7 @@ export const NewChatModal = (props: NewChatModalProps) => {
         <Modal onClose={onClose} isOpen={isOpen} >
             <div className={classNames(cls.NewChatModal, {}, [className])}>
                 <Text textTheme={TextTheme.VAULT} title="Создание нового чата" />
-                <Input value={newChatName} onChange={(e) => setNewChatName(e.target.value)} placeholder="Название чата" />
+                <FormInput value={newChatName} onChange={(e) => setNewChatName(e.target.value)} placeholder="Название чата" />
                 <Text textTheme={TextTheme.VAULT} text="Выберите хранилище" />
                 <RadioButton value={selectItem} onChange={handleChangeSelectItem} items={radioButtonVaults}/>
                 <Button theme={ThemeButton.LIST} onClick={handleCreateNewChat}>Создать</Button>

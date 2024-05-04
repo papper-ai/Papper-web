@@ -1,10 +1,11 @@
 import "./FormContainer.scss"
+import { Form } from "antd"
 import { memo, useCallback } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Button } from "shared/ui/Button/Button"
-import { Input } from "shared/ui/Input/Input"
+import { FormInput } from "shared/ui/Input/Input"
 import { getLoginLogin } from "../../model/selectors/getLogin/getLoginLogin"
 import { getLoginPassword } from "../../model/selectors/getLogin/getLoginPassword"
 import { getRegisterLogin } from "../../model/selectors/getRegister/getRegisterLogin"
@@ -75,18 +76,20 @@ export const FormContainer = memo((props: FormContainerProps) => {
     }, [dispatch, login, password, secret, registerLogin, registerPassword, formType])
     return (
         <div className={"form-container " + formType}>
-            <form>
+            <Form>
                 <h1>{title}</h1>
                 <span>{description}</span>
                 {isSignUp && (
                     <>
-                        <Input value={secret} onChange={onChangeSecret} type="text" placeholder="Секретный ключ" />
+                        <FormInput value={secret} onChange={onChangeSecret} type="text" placeholder="Секретный ключ" />
                     </>
                 )}
-                <Input value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />
-                <Input value={isSignUp ? registerPassword : password} onChange={onChangePassword} type="password" placeholder="Пароль" />
+                <Form.Item label="Логин" >
+                    <FormInput value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />
+                </Form.Item>
+                <FormInput value={isSignUp ? registerPassword : password} onChange={onChangePassword} type="password" placeholder="Пароль" />
                 <Button onClick={onLoginClick}>{buttonName}</Button>
-            </form>
+            </Form>
         </div>
     )
 })
