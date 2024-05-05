@@ -19,7 +19,8 @@ export const Message = ({ className, sender, content, traceback }: MessageProps)
         <div className={classNames(cls.Message, {}, [className, cls[sender]])}>
             <Avatar theme={sender} />
             <div className={cls.content}>
-                {content.split(/\n/).map((line, index) => index === 0 ? line : <React.Fragment key={line}>{line}<br /></React.Fragment>)}
+                {/* {content.split(/\n/).map((line, index) => index === 0 ? line : <React.Fragment key={line}>{line}<br /></React.Fragment>)} */}
+                {content}
                 {sender === "ai" &&
                     <Acordion items={[{
                         key: "answer",

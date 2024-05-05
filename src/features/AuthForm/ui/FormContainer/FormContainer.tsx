@@ -1,5 +1,6 @@
 import "./FormContainer.scss"
 import { Form } from "antd"
+import FormItem from "antd/es/form/FormItem"
 import { memo, useCallback } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -81,13 +82,29 @@ export const FormContainer = memo((props: FormContainerProps) => {
                 <span>{description}</span>
                 {isSignUp && (
                     <>
-                        <FormInput value={secret} onChange={onChangeSecret} type="text" placeholder="Секретный ключ" />
+                        <Form.Item className="formItem" name="secret" rules={[{ required: true, message: "Поле обязательно для заполнения" }]}>
+                            <FormInput value={secret} onChange={onChangeSecret} type="text" placeholder="Секретный ключ" />
+                        </Form.Item>
                     </>
                 )}
-                <Form.Item label="Логин" >
+                <Form.Item className="formItem" name="login"
+                    rules={[{ required: true, message: "Поле обязательно для заполнения" },
+                        { min: 3, message: "Минимальная длина 3 символа" },
+                        { max: 32, message: "Максимальная длина 32 символа" }]}
+                >
                     <FormInput value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />
                 </Form.Item>
-                <FormInput value={isSignUp ? registerPassword : password} onChange={onChangePassword} type="password" placeholder="Пароль" />
+                <Form.Item className="formItem" name="password"
+                    rules={[{ required: true, message: "Поле обязательно для заполнения" },
+                        { min: 3, message: "Минимальная длина 3 символа" },
+                        { max: 32, message: "Максимальная длина 32 символа" },
+                        { pattern: /(?=.*[a-z])/, message: "Пароль должен содержать хотя бы одну строчную букву" },
+                        { pattern: /(?=.*[A-Z])/, message: "Пароль должен содержать хотя бы одну заглавную букву" },
+                        { pattern: /(?=.*[0-9])/, message: "Пароль должен содержать хотя бы одну цифру" },
+                        { pattern: /(?=.*[!@#$%^&*()])/, message: "Пароль должен содержать хотя бы один специальный символ: !@#$%^&*()" }
+                    ]}>
+                    <FormInput value={isSignUp ? registerPassword : password} onChange={onChangePassword} isPassword placeholder="Пароль" />
+                </Form.Item>
                 <Button onClick={onLoginClick}>{buttonName}</Button>
             </Form>
         </div>
