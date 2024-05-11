@@ -2,7 +2,7 @@ export interface LoginSchema {
     login: string;
     password: string;
     isLoading?: boolean;
-    error?: string
+    error?: string;
 }
 
 export interface RegisterSchema {
@@ -13,4 +13,5 @@ export interface RegisterSchema {
     password: string;
     isLoading?: boolean;
     error?: string;
+    success?: boolean;
 }

@@ -1,6 +1,6 @@
 import { RadioChangeEvent, theme } from "antd"
 import classNames from "classnames"
-import { useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import { getVaults } from "entities/Vault"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
@@ -18,31 +18,31 @@ interface NewChatModalProps {
     onClose?: () => void
 }
 
-export const NewChatModal = (props: NewChatModalProps) => {
+export const NewChatModal = memo((props: NewChatModalProps) => {
     const { className, isOpen, onClose } = props
-    const [radioButtonVaults, setRadioButtonVaults] = useState<RadioItem[]>([])
     const [selectItem, setSelectItem] = useState()
     const [newChatName, setNewChatName] = useState("")
     const vaults = useSelector(getVaults)
     const dispatch = useAppDispatch()
-    const handleChangeSelectItem = (e: RadioChangeEvent) => {
+    const handleChangeSelectItem = useCallback((e: RadioChangeEvent) => {
         setSelectItem(e.target.value)
-    }
-    const handleCreateNewChat = () => {
+    }, [setSelectItem])
+    const handleCreateNewChat = useCallback(() => {
         dispatch(createNewChat({ name: newChatName, vaultId: selectItem as string }))
-    }
-    useEffect(() => {
-        setRadioButtonVaults(vaults.map((item) => ({ value: item.id, label: item.name })))
-    }, [vaults])
+    }, [dispatch, newChatName, selectItem])
+    const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewChatName(e.target.value)
+    }, [setNewChatName])
+    const radioButtonVaults: RadioItem[] = useMemo(() => vaults.map((item) => ({ value: item.id, label: item.name })), [vaults])
     return (
         <Modal onClose={onClose} isOpen={isOpen} >
             <div className={classNames(cls.NewChatModal, {}, [className])}>
                 <Text textTheme={TextTheme.VAULT} title="Создание нового чата" />
-                <FormInput value={newChatName} onChange={(e) => setNewChatName(e.target.value)} placeholder="Название чата" />
+                <FormInput value={newChatName} onChange={handleChangeInput} placeholder="Название чата" />
                 <Text textTheme={TextTheme.VAULT} text="Выберите хранилище" />
                 <RadioButton value={selectItem} onChange={handleChangeSelectItem} items={radioButtonVaults}/>
                 <Button theme={ThemeButton.LIST} onClick={handleCreateNewChat}>Создать</Button>
             </div>
         </Modal>
     )
-}
+})

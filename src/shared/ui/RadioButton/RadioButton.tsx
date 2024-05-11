@@ -1,6 +1,6 @@
 import type { RadioChangeEvent } from "antd"
 import { Radio, Space } from "antd"
-import { useState } from "react"
+import { memo, useState } from "react"
 import * as cls from "./RadioButton.module.scss"
 
 export interface RadioItem {
@@ -14,7 +14,7 @@ interface RadioButtonProps {
     value?: string
 }
 
-export const RadioButton = (props: RadioButtonProps) => {
+export const RadioButton = memo((props: RadioButtonProps) => {
     const { items, onChange, value } = props
 
     return (
@@ -28,4 +28,4 @@ export const RadioButton = (props: RadioButtonProps) => {
             </Space>
         </Radio.Group>
     )
-}
+})

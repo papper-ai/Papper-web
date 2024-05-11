@@ -1,6 +1,7 @@
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
+import Markdown from "react-markdown"
 import { useSelector } from "react-redux"
 import { getVaults, getVaultsIsLoading, getVaultsPreview, IDocument, vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
@@ -40,7 +41,7 @@ export const Vault = ({ className }: VaultProps) => {
                         return {
                             key: doc.id,
                             label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
-                            children: <Text key={doc.id} text={doc.text} textTheme={TextTheme.INLINE} />
+                            children: <Markdown>{doc.text}</Markdown>
                         }
                     })}
             />

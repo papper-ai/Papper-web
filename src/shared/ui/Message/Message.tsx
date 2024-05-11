@@ -1,6 +1,7 @@
 import { UserOutlined } from "@ant-design/icons"
 import classNames from "classnames"
 import React from "react"
+import Markdown from "react-markdown"
 import type { IRole, ITraceback } from "entities/Chat"
 import { Avatar } from "../Avatar/Avatar"
 import { Acordion } from "../Collapse/Collapse"
@@ -19,8 +20,7 @@ export const Message = ({ className, sender, content, traceback }: MessageProps)
         <div className={classNames(cls.Message, {}, [className, cls[sender]])}>
             <Avatar theme={sender} />
             <div className={cls.content}>
-                {/* {content.split(/\n/).map((line, index) => index === 0 ? line : <React.Fragment key={line}>{line}<br /></React.Fragment>)} */}
-                {content}
+                <Markdown>{content}</Markdown>
                 {sender === "ai" &&
                     <Acordion items={[{
                         key: "answer",

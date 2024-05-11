@@ -13,10 +13,10 @@ const chatsSlice = createSlice({
     initialState,
     reducers: {
         setChats: (state, action) => {
-            state.chats = action.payload
+            return { ...state, chats: action.payload }
         },
         pushChat: (state, action) => {
-            state.chats.push(action.payload)
+            state.chats?.push(action.payload)
         }
     },
     extraReducers: (builder) => {
@@ -27,7 +27,8 @@ const chatsSlice = createSlice({
             })
             .addCase(fetchChatsPreview.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.chats = action.payload
+                console.log(action.payload)
+                state.chats.push(...action.payload)
             })
             .addCase(fetchChatsPreview.rejected, (state, action) => {
                 state.isLoading = false

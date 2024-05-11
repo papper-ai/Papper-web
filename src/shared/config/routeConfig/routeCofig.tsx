@@ -15,7 +15,7 @@ export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.MAIN]: "/main",
     [AppRoutes.MAIN_CHAT]: "/main/:id",
     [AppRoutes.VAULT]: "/vault",
-    [AppRoutes.AUTH]: "/"
+    [AppRoutes.AUTH]: "/auth"
 }
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {

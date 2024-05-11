@@ -32,6 +32,7 @@ const registerSlice = createSlice({
             })
             .addCase(registerBySecret.fulfilled, (state) => {
                 state.isLoading = false
+                state.success = true
                 state.error = undefined
             })
             .addCase(registerBySecret.rejected, (state, action) => {

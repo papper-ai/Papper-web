@@ -1,22 +1,7 @@
-// import { Button, message } from 'antd'
+import { message } from "antd"
+import classNames from "classnames"
+import * as cls from "./Alet.module.scss"
 
-// const App: React.FC = () => {
-//     const [messageApi, contextHolder] = message.useMessage()
-
-//     const success = () => {
-//         messageApi.open({
-//             type: 'насрано',
-//             content: 'Ты уебан?',
-//             duration: 10,
-//         })
-//     }
-
-//     return (
-//         <>
-//             {contextHolder}
-//             <Button onClick={success}>Customized display duration</Button>
-//         </>
-//     )
-// }
-
-// export default App
+interface AletProps {
+    className?: string
+}

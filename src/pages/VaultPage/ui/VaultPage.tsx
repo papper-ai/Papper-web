@@ -8,10 +8,7 @@ interface VaultPageProps {
 
 const VaultPage = ({ className }: VaultPageProps) => {
     return (
-        <div className={classNames(cls.VaultPage, {}, [className])}>
-            <Sidebar/>
-            <Vault/>
-        </div>
+        <Vault/>
     )
 }
 

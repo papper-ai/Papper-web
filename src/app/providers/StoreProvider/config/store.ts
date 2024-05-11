@@ -9,7 +9,7 @@ import { vaultsReducer } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { StateSchema } from "./StateSchema"
 
-export const createReduxStore = (navigate: NavigateFunction, initialState?: StateSchema) => {
+export const createReduxStore = ( initialState?: StateSchema, navigate?: NavigateFunction) => {
     const rootReducer: ReducersMapObject<StateSchema> = {
         token: tokenReducer,
         login: loginReducer,
@@ -36,3 +36,5 @@ export const createReduxStore = (navigate: NavigateFunction, initialState?: Stat
 }
 
 export type AppDispatch = ReturnType<typeof createReduxStore>["dispatch"]
+
+export type RootState = ReturnType<typeof createReduxStore>["getState"]

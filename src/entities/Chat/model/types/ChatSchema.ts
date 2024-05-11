@@ -28,5 +28,5 @@ export interface ChatSchema{
 export interface ChatsSchema{
     isLoading?: boolean
     error?: string
-    chats: ChatSchema[]
+    chats?: ChatSchema[]
 }

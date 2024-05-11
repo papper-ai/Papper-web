@@ -21,7 +21,8 @@ const currentChatSlice = createSlice({
         },
         addChatHistory: (state, action) => {
             state.chat.chat_history = action.payload
-        }
+        },
+
     },
     extraReducers: (builder) => {
         builder

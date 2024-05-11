@@ -1,11 +1,11 @@
 import { InboxOutlined } from "@ant-design/icons"
 import type { UploadProps } from "antd"
 import { message, Upload } from "antd"
-import React from "react"
+import React, { memo } from "react"
 
 const { Dragger } = Upload
 
-export const Uploader: React.FC<UploadProps> = (props: UploadProps) => (
+export const Uploader = memo((props: UploadProps) => (
     <div style={{ height: "200px", marginTop: "20px" }}>
         <Dragger {...props}>
             <p className="ant-upload-drag-icon">
@@ -19,4 +19,4 @@ export const Uploader: React.FC<UploadProps> = (props: UploadProps) => (
         </Dragger>
     </div>
 
-)
+))

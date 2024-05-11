@@ -1,4 +1,5 @@
 import classNames from "classnames"
+import { memo } from "react"
 import { useNavigate } from "react-router-dom"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { Button, ThemeButton } from "../Button/Button"
@@ -14,8 +15,9 @@ interface ListProps {
     items?: ListItem[]
 }
 
-export const List = ({ className, items }: ListProps) => {
+export const List = memo(({ className, items }: ListProps) => {
     const navigate = useNavigate()
+    
     return (
         <ul className={cls.List}>
             {items?.map((item) => (
@@ -25,4 +27,4 @@ export const List = ({ className, items }: ListProps) => {
             ))}
         </ul>
     )
-}
+})

@@ -15,7 +15,6 @@ export const fetchChatHistory = createAsyncThunk<ChatSchema, ChatHistoryProps, T
             if (!response.data) {
                 throw new Error()
             }
-            console.log(response.data?.chat_history?.history[3]?.content)
             dispatch(currentChatActions.addChatHistory(response.data.chat_history))
             return response.data
         } catch (e) {

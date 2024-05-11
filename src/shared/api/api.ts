@@ -1,7 +1,8 @@
 import axios from "axios"
-import { ACCESS_TOKEN_KEY } from "../const/localStorage"
+import type { TokenSchema } from "entities/Token"
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../const/localStorage"
 
-const baseUrl = "http://ontollm.semograph.com:28080"
+const baseUrl = "https://papper.skads.ru/api/"
 
 export const $api = axios.create({
     baseURL: baseUrl
@@ -11,3 +12,17 @@ $api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
     return config
 })
+
+$api.interceptors.response.use(
+    (config) => {
+        return config
+    },
+    async (error) => {
+        const originalRequest = error.config
+        if (error.response.status === 401) {
+            const response = await axios.post<TokenSchema>(`${baseUrl}auth/refresh_access_token`, { refresh_token: localStorage.getItem(REFRESH_TOKEN_KEY) })
+            localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access_token.token)
+            return $api.request(originalRequest)
+        }
+    }
+)

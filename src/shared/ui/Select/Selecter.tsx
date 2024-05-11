@@ -1,5 +1,6 @@
 import { Select } from "antd"
 import classNames from "classnames"
+import { memo } from "react"
 import { Text } from "../Text/Text"
 import * as cls from "./Selecter.module.scss"
 interface SelectProps {
@@ -9,7 +10,7 @@ interface SelectProps {
     label?: string
 }
 //  TODO: вынести в antd
-export const Selecter = (props: SelectProps) => {
+export const Selecter = memo((props: SelectProps) => {
     const {
         onChange,
         className,
@@ -30,10 +31,10 @@ export const Selecter = (props: SelectProps) => {
                 onChange={onChange}
                 options={[
                     { value: "graph", label: "Граф знаний" },
-                    { value: "vector", label: "Векторная база данных", disabled: true }
+                    { value: "vector", label: "Векторная база данных" }
                 ]}
             />
         </>
 
     )
-}
+})

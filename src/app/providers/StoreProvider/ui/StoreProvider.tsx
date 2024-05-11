@@ -11,8 +11,7 @@ interface StoreProviderProps {
 export let store: ReturnType<typeof createReduxStore>
 
 export const StoreProvider: FC<StoreProviderProps> = ({ children, initialState }) => {
-    const navigate = useNavigate()
-    const store = createReduxStore(navigate, initialState)
+    const store = createReduxStore(initialState)
 
     return (
         <Provider store={store}>

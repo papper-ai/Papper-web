@@ -1,6 +1,6 @@
 import { Input, InputProps } from "antd"
 import classNames from "classnames"
-import { FC } from "react"
+import { FC, memo } from "react"
 import * as cls from "./Input.module.scss"
 
 export interface FormInputProps extends InputProps {
@@ -14,7 +14,7 @@ const style = {
     fontSize: "16px"
 }
 
-export const FormInput: FC<FormInputProps> = (props) => {
+export const FormInput = memo((props: FormInputProps) => {
     const {
         className,
         onChange,
@@ -29,4 +29,4 @@ export const FormInput: FC<FormInputProps> = (props) => {
             : <Input onChange={onChange} value={value} {...otherProps} className={classNames(cls.Input, className)} />
         )
     )
-}
+})
