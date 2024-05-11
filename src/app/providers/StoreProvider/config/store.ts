@@ -9,7 +9,7 @@ import { vaultsReducer } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { StateSchema } from "./StateSchema"
 
-export const createReduxStore = ( initialState?: StateSchema, navigate?: NavigateFunction) => {
+export const createReduxStore = (initialState?: StateSchema, navigate?: NavigateFunction) => {
     const rootReducer: ReducersMapObject<StateSchema> = {
         token: tokenReducer,
         login: loginReducer,

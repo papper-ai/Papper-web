@@ -58,6 +58,7 @@
     "firebase": "^10.11.1",
     "firebase-tools": "^13.8.0",
     "react": "^18.2.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
     "react-redux": "^9.1.1",

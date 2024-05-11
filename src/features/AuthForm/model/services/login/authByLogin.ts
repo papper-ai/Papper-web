@@ -24,7 +24,6 @@ export const authByLogin = createAsyncThunk<TokenSchema, LoginByUsernameProps, T
             localStorage.setItem(ACCESS_TOKEN_KEY, accessToken.token)
             dispatch(tokenActions.setToken(accessToken.token))
             dispatch(userActions.setUser(login))
-            extra.navigate("/main")
             return response.data
         } catch (e) {
             console.log(e)

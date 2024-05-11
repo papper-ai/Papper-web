@@ -17,7 +17,7 @@ interface ListProps {
 
 export const List = memo(({ className, items }: ListProps) => {
     const navigate = useNavigate()
-    
+
     return (
         <ul className={cls.List}>
             {items?.map((item) => (

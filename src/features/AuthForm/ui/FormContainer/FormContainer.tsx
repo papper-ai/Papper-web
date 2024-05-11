@@ -32,6 +32,7 @@ interface FormContainerProps {
 export const FormContainer = memo((props: FormContainerProps) => {
     const [messageApi, contextHolder] = message.useMessage()
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const login = useSelector(getLoginLogin)
     const password = useSelector(getLoginPassword)
     const secret = useSelector(getRegisterSecret)
@@ -92,9 +93,14 @@ export const FormContainer = memo((props: FormContainerProps) => {
         let result
         if (formType === "sign-up") {
             result = await dispatch(registerBySecret({ secret, login: registerLogin, password: registerPassword }))
-        } else result = await dispatch(authByLogin({ login, password }))
+        } else {
+            result = await dispatch(authByLogin({ login, password }))
+            if (result.meta.requestStatus === "fulfilled") {
+                navigate("/main")
+            }
+        }
         console.log(result)
-    }, [dispatch, login, password, secret, registerLogin, registerPassword, formType])
+    }, [formType, dispatch, secret, registerLogin, registerPassword, login, password, navigate])
     return (
         <>
             {contextHolder}
@@ -111,19 +117,19 @@ export const FormContainer = memo((props: FormContainerProps) => {
                     )}
                     <Form.Item className="formItem" name="login"
                         rules={[{ required: true, message: "Поле обязательно для заполнения" },
-                            { min: 3, message: "Минимальная длина 3 символа" },
-                            { max: 32, message: "Максимальная длина 32 символа" }]}
+                        { min: 3, message: "Минимальная длина 3 символа" },
+                        { max: 32, message: "Максимальная длина 32 символа" }]}
                     >
                         <FormInput value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />
                     </Form.Item>
                     <Form.Item className="formItem" name="password"
                         rules={[{ required: true, message: "Поле обязательно для заполнения" },
-                            { min: 3, message: "Минимальная длина 3 символа" },
-                            { max: 32, message: "Максимальная длина 32 символа" },
-                            { pattern: /(?=.*[a-z])/, message: "Пароль должен содержать хотя бы одну строчную букву" },
-                            { pattern: /(?=.*[A-Z])/, message: "Пароль должен содержать хотя бы одну заглавную букву" },
-                            { pattern: /(?=.*[0-9])/, message: "Пароль должен содержать хотя бы одну цифру" },
-                            { pattern: /(?=.*[!@#$%^&*()])/, message: "Пароль должен содержать хотя бы один специальный символ: !@#$%^&*()" }
+                        { min: 3, message: "Минимальная длина 3 символа" },
+                        { max: 32, message: "Максимальная длина 32 символа" },
+                        { pattern: /(?=.*[a-z])/, message: "Пароль должен содержать хотя бы одну строчную букву" },
+                        { pattern: /(?=.*[A-Z])/, message: "Пароль должен содержать хотя бы одну заглавную букву" },
+                        { pattern: /(?=.*[0-9])/, message: "Пароль должен содержать хотя бы одну цифру" },
+                        { pattern: /(?=.*[!@#$%^&*()])/, message: "Пароль должен содержать хотя бы один специальный символ: !@#$%^&*()" }
                         ]}>
                         <FormInput value={isSignUp ? registerPassword : password} onChange={onChangePassword} isPassword placeholder="Пароль" />
                     </Form.Item>

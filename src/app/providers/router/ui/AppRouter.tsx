@@ -1,9 +1,9 @@
 import { FC, Suspense } from "react"
 import { Route, Routes } from "react-router-dom"
+import LayoutPage from "pages/LayoutPage/ui/LayoutPage"
 import { MainPage } from "pages/MainPage"
 import { routeConfig } from "shared/config/routeConfig/routeCofig"
 import { Loader } from "shared/ui/Loader/Loader"
-import LayoutPage from "pages/LayoutPage/ui/LayoutPage"
 
 export const AppRouter: FC = () => {
     return (

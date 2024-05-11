@@ -28,7 +28,7 @@ const chatsSlice = createSlice({
             .addCase(fetchChatsPreview.fulfilled, (state, action) => {
                 state.isLoading = false
                 console.log(action.payload)
-                state.chats.push(...action.payload)
+                state.chats = action.payload
             })
             .addCase(fetchChatsPreview.rejected, (state, action) => {
                 state.isLoading = false

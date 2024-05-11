@@ -1,6 +1,7 @@
+import { Skeleton, Statistic, StatisticProps } from "antd"
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb"
 import classNames from "classnames"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Markdown from "react-markdown"
 import { useSelector } from "react-redux"
 import { getVaults, getVaultsIsLoading, getVaultsPreview, IDocument, vaultsActions } from "entities/Vault"
@@ -13,6 +14,7 @@ import { Loader } from "shared/ui/Loader/Loader"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
 import * as cls from "./Vault.module.scss"
+import CountUp from "react-countup"
 
 interface VaultProps {
     className?: string
@@ -24,13 +26,14 @@ export const Vault = ({ className }: VaultProps) => {
     const vaultsIsLoading = useSelector(getVaultsIsLoading)
     const [accordionVaults, setaccordionVaults] = useState<AccordionItem>([])
     const vaults = useSelector(getVaults)
+    const [successNewVault, setSuccessNewVault] = useState(false)
     const dispatch = useAppDispatch()
     useEffect(() => {
         async function getVaults () {
             const result = await dispatch(getVaultsPreview({}))
         }
         getVaults()
-    }, [dispatch])
+    }, [])
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({
             key: item.id,
@@ -57,22 +60,27 @@ export const Vault = ({ className }: VaultProps) => {
             console.log(e)
         }
     }, [login])
-    const handleAccordionChange = (key: string) => {
+    const handleAccordionChange = (key: []) => {
         try {
-            $api.get<IDocument[]>(`/vault/get_vault_documents/${key}`).then((res) => {
-                dispatch(vaultsActions.addVaultDocument(res.data))
-            })
+            if (key.length > 0) {
+                $api.get<IDocument[]>(`/vault/get_vault_documents/${key}`).then((res) => {
+                    dispatch(vaultsActions.addVaultDocument(res.data))
+                })
+            }
         } catch (e) {
             console.log(e)
         }
     }
-    console.log(login)
+    const statFormatter: StatisticProps["formatter"] = (value) => {
+        return <CountUp end={value as number} />
+    }
     return (
         <div className={classNames(cls.Vault, {}, [className])}>
             <Text title={login} text="Ваши документы" />
+            <Statistic title="Ваши хранилища" value={vaults.length} formatter={statFormatter} />
             <Button onClick={() => setModalOpen(true)} theme={ThemeButton.LIST}>Добавить хранилище</Button>
             {/* <Collapse></Collapse> */}
-            {vaultsIsLoading ? <Loader /> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
+            {vaultsIsLoading ? <Skeleton /> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
             <NewVaultModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
         </div>
     )
