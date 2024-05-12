@@ -2,3 +2,18 @@
     flex-grow: 1;
     padding: 50px;
 }
+
+.header{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.vaultContainer{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+    overflow-y: auto;
+}

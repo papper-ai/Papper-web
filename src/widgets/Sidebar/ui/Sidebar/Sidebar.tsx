@@ -68,7 +68,7 @@ export const Sidebar = () => {
             label: "Выйти",
             danger: true,
             onClick: handleQuit,
-            style: { marginTop: "auto" }
+            style: { flex: "auto" }
         }
     ]
 

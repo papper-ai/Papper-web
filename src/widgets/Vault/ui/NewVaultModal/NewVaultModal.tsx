@@ -9,7 +9,9 @@ import { Text } from "shared/ui/Text/Text"
 import { FormInput } from "shared/ui/Input/Input"
 import { useRef, useState } from "react"
 import { $api } from "shared/api/api"
-import type { UploadProps } from "antd"
+import { message, type UploadProps } from "antd"
+import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { vaultsActions, VaultSchema } from "entities/Vault"
 
 interface NewVaultCreaterProps {
     className?: string;
@@ -25,8 +27,10 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         isOpen
     } = props
     const [newVaultName, setNewVaultName] = useState("")
+    const dispatch = useAppDispatch()
     const [newVaultType, setNewVaultType] = useState("graph")
     const [files, setFiles] = useState([])
+    const [messageApi, contextHolder] = message.useMessage()
     const handleChangeNewVaultName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewVaultName(e.target.value)
     }
@@ -34,7 +38,12 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         setNewVaultType(value)
     }
 
-    const handleSubmitNewVault = () => {
+    const handleSubmitNewVault = async () => {
+        messageApi.open({
+            type: "loading",
+            content: "Идет создание хранилища...",
+            duration: 0
+        })
         try {
             const vaultConfig = {
                 vault_name: newVaultName,
@@ -45,11 +54,30 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
             for (let i = 0; i < files?.length; i++) {
                 formData.append("files", files[i])
             }
-            $api.post("/vault/create_vault", formData, { headers: { "Content-Type": "multipart/form-data" } }).then((res) => {
-                console.log(res)
-            })
+            const result = await $api.post<VaultSchema>("/vault/create_vault", formData, { headers: { "Content-Type": "multipart/form-data" } })
+            messageApi.destroy()
+            console.log(result)
+            if (result) {
+                messageApi.open({
+                    type: "success",
+                    content: "Хранилище создано",
+                    duration: 0
+                })
+                dispatch(vaultsActions.pushVaults(result.data))
+                onClose()
+            } else {
+                throw new Error()
+            }
         } catch (e) {
-            console.log(e)
+            messageApi.open({
+                type: "error",
+                content: "Не удалось создать хранилище",
+                duration: 0
+            })
+        } finally {
+            setTimeout(() => {
+                messageApi.destroy()
+            }, 1500)
         }
     }
     const handleChangeUploader: UploadFunction = (options) => {
@@ -59,21 +87,25 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         options.onSuccess("file uploaded")
     }
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <div className={cls.modalContainer}>
-                <Text className={cls.title} title="Добавление нового хранилища" />
-                <FormInput value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
-                <Selecter value={newVaultType} onChange={handleChangeSelect} label="Выберите тип хранилища" />
-                {/* <input ref={filesRef} type="file" multiple accept="application/pdf, application/msword, text/plain" /> */}
-                <Uploader
-                    name="file"
-                    multiple={true}
-                    maxCount={5}
-                    accept="application/pdf, application/msword, text/plain"
-                    customRequest={handleChangeUploader}
-                />
-                <Button className={cls.btn} onClick={handleSubmitNewVault} theme={ThemeButton.PRIMARY}>Добавить</Button>
-            </div>
-        </Modal>
+        <>
+            {contextHolder}
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <div className={cls.modalContainer}>
+                    <Text className={cls.title} title="Добавление нового хранилища" />
+                    <FormInput value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
+                    <Selecter value={newVaultType} onChange={handleChangeSelect} label="Выберите тип хранилища" />
+                    {/* <input ref={filesRef} type="file" multiple accept="application/pdf, application/msword, text/plain" /> */}
+                    <Uploader
+                        name="file"
+                        multiple={true}
+                        maxCount={5}
+                        accept="application/pdf, application/msword, text/plain"
+                        customRequest={handleChangeUploader}
+                    />
+                    <Button className={cls.btn} onClick={handleSubmitNewVault} theme={ThemeButton.PRIMARY}>Добавить</Button>
+                </div>
+            </Modal>
+        </>
+
     )
 }

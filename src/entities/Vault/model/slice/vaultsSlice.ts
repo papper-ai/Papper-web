@@ -24,6 +24,21 @@ const vaultsSlice = createSlice({
                     state.vaults[i].documents = action.payload
                 }
             }
+        },
+        deleteVault: (state, action) => {
+            const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload)
+            state.vaults.splice(vaultIndex, 1)
+        },
+        renameVault: (state, action) => {
+            const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.id)
+            state.vaults[vaultIndex].name = action.payload.name
+        },
+        deleteDocument: (state, action: { payload: { vaultId: string; id: string } }) => {
+            const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.vaultId)
+            const documentIndex = state.vaults[vaultIndex].documents.findIndex(
+                (document) => document.id === action.payload.id
+            )
+            state.vaults[vaultIndex]?.documents?.splice(documentIndex, 1)
         }
     },
     extraReducers: (builder) => {

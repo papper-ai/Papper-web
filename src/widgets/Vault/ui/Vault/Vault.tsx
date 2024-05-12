@@ -1,23 +1,30 @@
-import { Skeleton, Statistic, StatisticProps } from "antd"
+import { DeleteOutlined, FolderAddOutlined } from "@ant-design/icons"
+import { Button, Skeleton, Statistic, StatisticProps, message } from "antd"
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb"
 import classNames from "classnames"
 import { useCallback, useEffect, useState } from "react"
+import CountUp from "react-countup"
 import Markdown from "react-markdown"
 import { useSelector } from "react-redux"
 import { getVaults, getVaultsIsLoading, getVaultsPreview, IDocument, vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
-import { Button, ThemeButton } from "shared/ui/Button/Button"
 import { Acordion } from "shared/ui/Collapse/Collapse"
 import type { AccordionItem } from "shared/ui/Collapse/Collapse"
 import { Loader } from "shared/ui/Loader/Loader"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
+import { VaultDocuments } from "../VaultDocuments/VaultDocuments"
+import { VaultExtra } from "../VaultExtra/VaultExtra"
 import * as cls from "./Vault.module.scss"
-import CountUp from "react-countup"
 
 interface VaultProps {
     className?: string
+}
+
+enum VaultTypes {
+    "graph" = "Граф знаний",
+    "vector" = "Векторная база данных",
 }
 
 export const Vault = ({ className }: VaultProps) => {
@@ -26,7 +33,7 @@ export const Vault = ({ className }: VaultProps) => {
     const vaultsIsLoading = useSelector(getVaultsIsLoading)
     const [accordionVaults, setaccordionVaults] = useState<AccordionItem>([])
     const vaults = useSelector(getVaults)
-    const [successNewVault, setSuccessNewVault] = useState(false)
+    const [messageApi, contextHolder] = message.useMessage()
     const dispatch = useAppDispatch()
     useEffect(() => {
         async function getVaults () {
@@ -34,32 +41,24 @@ export const Vault = ({ className }: VaultProps) => {
         }
         getVaults()
     }, [])
+
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({
             key: item.id,
-            label: <Text title={item.name} text={item.type} textTheme={TextTheme.INLINE} />,
-            children: <Acordion
-                items=
-                    {item.documents?.map((doc: IDocument) => {
-                        return {
-                            key: doc.id,
-                            label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
-                            children: <Markdown>{doc.text}</Markdown>
-                        }
-                    })}
-            />
+            label: <Text title={item.name} text={`Тип хранилища: ${VaultTypes[item.type]}`} textTheme={TextTheme.INLINE} />,
+            children: <VaultDocuments messageApi={messageApi} vaultId={item.id} items={item.documents} />,
+            extra: <VaultExtra id={item.id} messageApi={messageApi} />
         })))
-    }, [vaults])
+    }, [messageApi, vaults])
     useEffect(() => {
         try {
             $api.get("/auth/get_login").then((res) => {
                 setLogin(res.data.login)
             })
-            console.log(login)
         } catch (e) {
             console.log(e)
         }
-    }, [login])
+    }, [])
     const handleAccordionChange = (key: []) => {
         try {
             if (key.length > 0) {
@@ -75,13 +74,20 @@ export const Vault = ({ className }: VaultProps) => {
         return <CountUp end={value as number} />
     }
     return (
-        <div className={classNames(cls.Vault, {}, [className])}>
-            <Text title={login} text="Ваши документы" />
-            <Statistic title="Ваши хранилища" value={vaults.length} formatter={statFormatter} />
-            <Button onClick={() => setModalOpen(true)} theme={ThemeButton.LIST}>Добавить хранилище</Button>
-            {/* <Collapse></Collapse> */}
-            {vaultsIsLoading ? <Skeleton /> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
-            <NewVaultModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-        </div>
+        <>
+            {contextHolder}
+            <div className={classNames(cls.Vault, {}, [className])}>
+                <div className={cls.header}>
+                    <Text title={login} />
+                    <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Количество доступных хранилищ" value={vaults.length} formatter={statFormatter} />
+                    <Button onClick={() => setModalOpen(true)} size="large" icon={<FolderAddOutlined />}>Создать хранилище</Button>
+                </div>
+                <div className={cls.vaultContainer}>
+                    {vaultsIsLoading ? <Skeleton /> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
+                </div>
+                <NewVaultModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+            </div>
+
+        </>
     )
 }

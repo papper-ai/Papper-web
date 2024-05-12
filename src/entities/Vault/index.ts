@@ -12,5 +12,6 @@ export {
     getVaultsError,
     getVaultsIsLoading,
     IDocument,
-    vaultsActions
+    vaultsActions,
+    VaultSchema
 }
