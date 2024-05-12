@@ -39,6 +39,10 @@ const vaultsSlice = createSlice({
                 (document) => document.id === action.payload.id
             )
             state.vaults[vaultIndex]?.documents?.splice(documentIndex, 1)
+        },
+        addDocument: (state, action: { payload: { documents: IDocument[]; vaultId: string } }) => {
+            const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.vaultId)
+            state.vaults[vaultIndex].documents = action.payload.documents
         }
     },
     extraReducers: (builder) => {
