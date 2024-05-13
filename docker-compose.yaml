@@ -12,5 +12,3 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/:/etc/nginx/certs/
       - ./build:/etc/nginx/www
-      - ./error.log:/var/log/nginx/error.log
-      - ./access.log:/var/log/nginx/access.log
