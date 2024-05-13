@@ -2,6 +2,7 @@ import { configureStore, ReducersMapObject } from "@reduxjs/toolkit"
 import { NavigateFunction } from "react-router-dom"
 import { loginReducer, registerReducer } from "features/AuthForm"
 import { currentChatReducer } from "features/CreateNewChat"
+import { messageReducer } from "features/MessageSender"
 import { chatsReducer } from "entities/Chat"
 import { tokenReducer } from "entities/Token"
 import { userReducer } from "entities/User"
@@ -17,7 +18,8 @@ export const createReduxStore = (initialState?: StateSchema, navigate?: Navigate
         user: userReducer,
         vaults: vaultsReducer,
         chats: chatsReducer,
-        currentChat: currentChatReducer
+        currentChat: currentChatReducer,
+        message: messageReducer
     }
 
     return configureStore<StateSchema>({

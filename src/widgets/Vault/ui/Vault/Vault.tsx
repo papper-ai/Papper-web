@@ -1,5 +1,5 @@
 import { DeleteOutlined, FolderAddOutlined } from "@ant-design/icons"
-import { Button, Skeleton, Statistic, StatisticProps, message } from "antd"
+import { Button, List, Skeleton, Statistic, StatisticProps, message } from "antd"
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb"
 import classNames from "classnames"
 import { useCallback, useEffect, useState } from "react"
@@ -36,7 +36,7 @@ export const Vault = ({ className }: VaultProps) => {
     const [messageApi, contextHolder] = message.useMessage()
     const dispatch = useAppDispatch()
     useEffect(() => {
-        async function getVaults () {
+        async function getVaults() {
             const result = await dispatch(getVaultsPreview({}))
         }
         getVaults()
@@ -83,7 +83,10 @@ export const Vault = ({ className }: VaultProps) => {
                     <Button onClick={() => setModalOpen(true)} size="large" icon={<FolderAddOutlined />}>Создать хранилище</Button>
                 </div>
                 <div className={cls.vaultContainer}>
-                    {vaultsIsLoading ? <Skeleton /> : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
+                    {vaultsIsLoading
+                        ? (<Skeleton paragraph={{ rows: 10, width: "100%" }} >
+                        </Skeleton >)
+                        : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
                 </div>
                 <NewVaultModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
             </div>
