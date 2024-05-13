@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { sendMessage } from "../services/sendMessage"
 import { MessageSchema } from "../types/MessageSchema"
 
 const initialState: MessageSchema = {
@@ -13,6 +14,20 @@ export const messageSlice = createSlice({
         setMessage: (state, action) => {
             state.message = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(sendMessage.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(sendMessage.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.message = action.payload
+            })
+            .addCase(sendMessage.rejected, (state, action) => {
+                state.isLoading = false
+                state.error = action.payload
+            })
     }
 })
 

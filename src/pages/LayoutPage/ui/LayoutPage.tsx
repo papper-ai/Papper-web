@@ -11,6 +11,9 @@ import * as cls from "./LayoutPage.module.scss"
 const LayoutPage = () => {
     const dispatch = useAppDispatch()
     const chats = useSelector(getVaults)
+    useEffect(() => {
+        dispatch(getVaultsPreview({}))
+    }, [])
     console.log(chats)
     return (
         <div className={classNames(cls.LayoutPage)}>

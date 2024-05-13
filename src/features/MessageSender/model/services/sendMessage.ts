@@ -4,6 +4,7 @@ import type { ThunkConfig } from "app/providers/StoreProvider"
 import { currentChatActions } from "features/CreateNewChat"
 import { AnswerSchema } from "entities/Chat"
 import { messageActions } from "../slice/messageSlice"
+import { IMessage } from "../types/MessageSchema"
 
 interface SendMessageProps {
     vaultId: string
@@ -11,17 +12,16 @@ interface SendMessageProps {
     query: string
 }
 
-export const sendMessage = createAsyncThunk<AnswerSchema, SendMessageProps, ThunkConfig<string>>(
+export const sendMessage = createAsyncThunk<IMessage, SendMessageProps, ThunkConfig<string>>(
     "sendMessage",
     async ({ vaultId, chatId, query }, { extra, dispatch, rejectWithValue }) => {
         try {
             dispatch(currentChatActions.addMessage({ content: query, role: "user" }))
-            const response = await extra.api.post<AnswerSchema>("qa/generate_answer", { vault_id: vaultId, chat_id: chatId, query })
+            const response = await extra.api.post<IMessage>("qa/generate_answer", { vault_id: vaultId, chat_id: chatId, query })
             if (!response.data) {
                 throw new Error()
             }
-            dispatch(messageActions.setMessage(response.data))
-            dispatch(currentChatActions.addMessage(response.data))
+            dispatch(currentChatActions.addMessage(response.data.ai_message))
             return response.data
         } catch (e) {
             console.log(e)
