@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import type { ThunkConfig } from "app/providers/StoreProvider"
 import { ChatSchema } from "entities/Chat"
-import { currentChatActions} from "../slice/currentChatSlice"
+import { currentChatActions } from "../slice/currentChatSlice"
 interface ChatHistoryProps {
     chatId: string
 }
