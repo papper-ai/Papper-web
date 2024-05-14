@@ -61,7 +61,8 @@ export const Sidebar = () => {
         {
             key: "4",
             label: "Чаты",
-            children: chatsItems
+            children: chatsItems,
+            style: {maxHeight: "350px", overflow: "auto"}
         },
         {
             key: "5",
