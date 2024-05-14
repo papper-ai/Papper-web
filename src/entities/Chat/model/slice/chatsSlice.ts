@@ -17,6 +17,13 @@ const chatsSlice = createSlice({
         },
         pushChat: (state, action) => {
             state.chats?.push(action.payload)
+        },
+        deleteChat: (state, action) => {
+            state.chats = state.chats?.filter((item) => item.id !== action.payload)
+        },
+        renameChat: (state, action: { payload: { id: string; name: string } }) => {
+            const chatIndex = state.chats?.findIndex((item) => item.id === action.payload.id)
+            state.chats[chatIndex].name = action.payload.name
         }
     },
     extraReducers: (builder) => {

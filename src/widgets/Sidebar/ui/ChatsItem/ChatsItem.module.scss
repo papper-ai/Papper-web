@@ -1,0 +1,17 @@
+.ChatsItem{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.label{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actions{
+    display: flex;
+    gap: 5px;
+    margin-left: auto;
+}

@@ -21,7 +21,7 @@ export const Message = ({ className, sender, content, traceback }: MessageProps)
             <Avatar theme={sender} />
             <div className={cls.content}>
                 <Markdown>{content}</Markdown>
-                {sender === "ai" &&
+                {(sender === "ai" && traceback.length > 0) &&
                     <Acordion items={[{
                         key: "answer",
                         label: "Используемые документы в ответе",

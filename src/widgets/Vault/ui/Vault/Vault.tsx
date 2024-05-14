@@ -35,12 +35,6 @@ export const Vault = ({ className }: VaultProps) => {
     const vaults = useSelector(getVaults)
     const [messageApi, contextHolder] = message.useMessage()
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        async function getVaults() {
-            const result = await dispatch(getVaultsPreview({}))
-        }
-        getVaults()
-    }, [])
 
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({

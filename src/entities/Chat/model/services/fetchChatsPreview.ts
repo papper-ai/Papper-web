@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import type { ThunkConfig } from "app/providers/StoreProvider/config/StateSchema"
 import { currentChatActions } from "features/CreateNewChat"
-import { chatsActions } from "../slice/chatsSlice"
 import { ChatSchema } from "../types/ChatSchema"
 interface GetChatPreviewProps {
 

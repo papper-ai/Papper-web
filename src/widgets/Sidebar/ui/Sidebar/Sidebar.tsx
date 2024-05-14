@@ -1,4 +1,4 @@
-import { Menu, MenuProps } from "antd"
+import { Menu, MenuProps, message } from "antd"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import { NavLink, useNavigate } from "react-router-dom"
@@ -8,6 +8,8 @@ import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "shared/const/localStorage"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
+import { ChatsItem } from "../ChatsItem/ChatsItem"
+import { $api } from 'shared/api/api';
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -16,23 +18,23 @@ export const Sidebar = () => {
     const chats = useSelector(getChatsPreview)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const [messageApi, contextHolder] = message.useMessage()
+
     const chatSelect = useCallback((id: string) => {
         dispatch(currentChatActions.setNewChat(chats.find((item) => item.id === id)))
         navigate("/main" + "/" + id)
     }, [chats, dispatch, navigate])
-    const chatsItems = useMemo(() => chats.map((item) => ({ key: item.id, label: item.name, onClick: () => chatSelect(item.id) })), [chatSelect, chats])
+    const chatsItems = useMemo(() => chats.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats])
 
     const handleNewChat = useCallback(() => {
         setNewChatModal(true)
     }, [])
-    console.log(chats)
-    useEffect(() => {
-        async function fetchData () {
-            const result = await dispatch(fetchChatsPreview({}))
-            console.log(result)
-        }
-        fetchData()
-    }, [])
+    // useEffect(() => {
+    //     async function fetchData () {
+    //         const result = await dispatch(fetchChatsPreview({}))
+    //     }
+    //     fetchData()
+    // }, [])
     const handleVault = useCallback(() => {
         navigate(RoutePath[AppRoutes.VAULT])
     }, [navigate])
@@ -55,14 +57,14 @@ export const Sidebar = () => {
         },
         {
             key: "3",
-            label: <NavLink to={RoutePath[AppRoutes.VAULT]}>Ваши документы</NavLink>,
+            label: <NavLink to={RoutePath[AppRoutes.VAULT]}>Хранилища</NavLink>,
             onClick: handleVault
         },
         {
             key: "4",
             label: "Чаты",
             children: chatsItems,
-            style: {maxHeight: "350px", overflow: "auto"}
+            style: { maxHeight: "350px", overflow: "auto" }
         },
         {
             key: "5",
@@ -75,6 +77,7 @@ export const Sidebar = () => {
 
     return (
         <>
+            {contextHolder}
             <Menu
                 items={items}
                 style={{ height: "100%", width: "300px", flexShrink: 0 }}
