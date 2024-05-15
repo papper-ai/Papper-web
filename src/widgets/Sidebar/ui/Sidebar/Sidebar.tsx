@@ -83,7 +83,7 @@ export const Sidebar = () => {
                 style={{ height: "100%", width: "300px", flexShrink: 0 }}
                 mode="inline"
             />
-            <NewChatModal isOpen={newChatModal} onClose={() => setNewChatModal(false)} />
+            <NewChatModal messageApi={messageApi} isOpen={newChatModal} onClose={() => setNewChatModal(false)} />
         </>
 
     )

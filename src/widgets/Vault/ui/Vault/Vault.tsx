@@ -17,6 +17,7 @@ import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
 import { VaultDocuments } from "../VaultDocuments/VaultDocuments"
 import { VaultExtra } from "../VaultExtra/VaultExtra"
 import * as cls from "./Vault.module.scss"
+import { statsFormatter } from "shared/lib/statsFormatter"
 
 interface VaultProps {
     className?: string
@@ -64,16 +65,13 @@ export const Vault = ({ className }: VaultProps) => {
             console.log(e)
         }
     }
-    const statFormatter: StatisticProps["formatter"] = (value) => {
-        return <CountUp end={value as number} />
-    }
     return (
         <>
             {contextHolder}
             <div className={classNames(cls.Vault, {}, [className])}>
                 <div className={cls.header}>
                     <Text title={login} />
-                    <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Количество доступных хранилищ" value={vaults.length} formatter={statFormatter} />
+                    <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Количество доступных хранилищ" value={vaults.length} formatter={statsFormatter} />
                     <Button onClick={() => setModalOpen(true)} size="large" icon={<FolderAddOutlined />}>Создать хранилище</Button>
                 </div>
                 <div className={cls.vaultContainer}>

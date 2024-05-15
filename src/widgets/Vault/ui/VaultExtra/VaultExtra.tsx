@@ -7,6 +7,7 @@ import { vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import * as cls from "./VaultExtra.module.scss"
+import { fetchChatsPreview } from "entities/Chat"
 
 interface VaultExtraProps {
     className?: string;
@@ -28,6 +29,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
                     duration: 2
                 })
                 dispatch(vaultsActions.deleteVault(id))
+                dispatch(fetchChatsPreview({}))
             } else {
                 throw new Error()
             }
