@@ -7,6 +7,7 @@ import { Avatar } from "../Avatar/Avatar"
 import { Acordion } from "../Collapse/Collapse"
 import { Text, TextTheme } from "../Text/Text"
 import * as cls from "./Message.module.scss"
+import { Carousel } from "antd"
 
 interface MessageProps {
     className?: string
@@ -20,6 +21,7 @@ export const Message = ({ className, sender, content, traceback }: MessageProps)
         <div className={classNames(cls.Message, {}, [className, cls[sender]])}>
             <Avatar theme={sender} />
             <div className={cls.content}>
+                <Carousel />
                 <Markdown>{content}</Markdown>
                 {(sender === "ai" && traceback.length > 0) &&
                     <Acordion items={[{
