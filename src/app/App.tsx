@@ -7,7 +7,6 @@ import { redirect, useNavigate } from "react-router-dom"
 import { $api } from "shared/api/api"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { AppRouter } from "./providers/router"
-import { ACCESS_TOKEN_KEY } from "shared/const/localStorage"
 
 const App = () => {
     const navigate = useNavigate()

@@ -13,8 +13,8 @@ export const AuthForm = () => {
 
     return (
         <div className={classNames("container", { active: toggle })}>
-            <FormContainer title='Регистрация' formType={"sign-up"} buttonName='Создать аккаунт'/>
-            <FormContainer title='Вход' formType={"sign-in"} buttonName='Войти'/>
+            <FormContainer handleToggle={handleToggle} title='Регистрация' formType={"sign-up"} buttonName='Создать аккаунт'/>
+            <FormContainer handleToggle={handleToggle} title='Вход' formType={"sign-in"} buttonName='Войти'/>
             <div className="toggle-container">
                 <div className="toggle">
                     <TogglePanel

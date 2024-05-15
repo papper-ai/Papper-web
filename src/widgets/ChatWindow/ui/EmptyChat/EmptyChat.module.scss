@@ -1,0 +1,19 @@
+.EmptyChat{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.text{
+    text-align: center;
+    color: var(--font-color);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+.description{
+    text-align: center;
+    color: var(--tertiary-color);
+    font-size: var(--font-size-s);
+    font-weight: 400;
+    margin-top: 20px;
+}

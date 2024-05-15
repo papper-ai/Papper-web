@@ -1,5 +1,5 @@
 import { DeleteOutlined, FolderAddOutlined } from "@ant-design/icons"
-import { Button, List, Skeleton, Statistic, StatisticProps, message } from "antd"
+import { Button, Empty, List, Skeleton, Statistic, StatisticProps, message } from "antd"
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb"
 import classNames from "classnames"
 import { useCallback, useEffect, useState } from "react"
@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 import { getVaults, getVaultsIsLoading, getVaultsPreview, IDocument, vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { statsFormatter } from "shared/lib/statsFormatter"
 import { Acordion } from "shared/ui/Collapse/Collapse"
 import type { AccordionItem } from "shared/ui/Collapse/Collapse"
 import { Loader } from "shared/ui/Loader/Loader"
@@ -17,7 +18,6 @@ import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
 import { VaultDocuments } from "../VaultDocuments/VaultDocuments"
 import { VaultExtra } from "../VaultExtra/VaultExtra"
 import * as cls from "./Vault.module.scss"
-import { statsFormatter } from "shared/lib/statsFormatter"
 
 interface VaultProps {
     className?: string
@@ -78,7 +78,9 @@ export const Vault = ({ className }: VaultProps) => {
                     {vaultsIsLoading
                         ? (<Skeleton paragraph={{ rows: 10, width: "100%" }} >
                         </Skeleton >)
-                        : <Acordion onChange={handleAccordionChange} items={accordionVaults} />}
+                        : accordionVaults.length > 0
+                            ? <Acordion onChange={handleAccordionChange} items={accordionVaults} />
+                            : <Empty style={{ marginTop: "20px" }} description="Нет доступных хранилищ" />}
                 </div>
                 <NewVaultModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
             </div>

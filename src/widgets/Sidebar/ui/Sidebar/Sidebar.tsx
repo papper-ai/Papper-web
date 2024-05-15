@@ -1,15 +1,15 @@
 import { Menu, MenuProps, message } from "antd"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useNavigate, useParams } from "react-router-dom"
 import { currentChatActions, NewChatModal } from "features/CreateNewChat"
 import { fetchChatsPreview, getChatsPreview } from "entities/Chat"
+import { $api } from "shared/api/api"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "shared/const/localStorage"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
-import { $api } from 'shared/api/api';
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -19,22 +19,18 @@ export const Sidebar = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()
-
-    const chatSelect = useCallback((id: string) => {
-        dispatch(currentChatActions.setNewChat(chats.find((item) => item.id === id)))
-        navigate("/main" + "/" + id)
-    }, [chats, dispatch, navigate])
-    const chatsItems = useMemo(() => chats.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats])
+    const { id } = useParams()
+    // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пизду
+    const chatSelect = useCallback((chatid: string) => {
+        if (chatid === id) return
+        dispatch(currentChatActions.setNewChat(chats.find((item) => item.id === chatid)))
+        navigate("/main" + "/" + chatid)
+    }, [chats, dispatch, navigate, id])
+    const chatsItems = useMemo(() => chats.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])
 
     const handleNewChat = useCallback(() => {
         setNewChatModal(true)
     }, [])
-    // useEffect(() => {
-    //     async function fetchData () {
-    //         const result = await dispatch(fetchChatsPreview({}))
-    //     }
-    //     fetchData()
-    // }, [])
     const handleVault = useCallback(() => {
         navigate(RoutePath[AppRoutes.VAULT])
     }, [navigate])

@@ -1,4 +1,5 @@
 import { UserOutlined } from "@ant-design/icons"
+import { Carousel } from "antd"
 import classNames from "classnames"
 import React from "react"
 import Markdown from "react-markdown"
@@ -7,7 +8,6 @@ import { Avatar } from "../Avatar/Avatar"
 import { Acordion } from "../Collapse/Collapse"
 import { Text, TextTheme } from "../Text/Text"
 import * as cls from "./Message.module.scss"
-import { Carousel } from "antd"
 
 interface MessageProps {
     className?: string

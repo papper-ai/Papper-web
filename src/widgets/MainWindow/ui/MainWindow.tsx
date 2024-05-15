@@ -1,12 +1,12 @@
 import { Statistic } from "antd"
 import classNames from "classnames"
+import { useSelector } from "react-redux"
+import { getChatsPreview } from "entities/Chat"
+import { getVaults } from "entities/Vault"
+import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { statsFormatter } from "shared/lib/statsFormatter"
 import { Text } from "shared/ui/Text/Text"
 import * as cls from "./MainWindow.module.scss"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
-import { useSelector } from "react-redux"
-import { getVaults } from "entities/Vault"
-import { getChatsPreview } from "entities/Chat"
-import { statsFormatter } from "shared/lib/statsFormatter"
 
 interface MainWindowProps {
     className?: string
@@ -15,7 +15,6 @@ interface MainWindowProps {
 export const MainWindow = ({ className }: MainWindowProps) => {
     const vaultsPreview = useSelector(getVaults)
     const chatsPreview = useSelector(getChatsPreview)
-
 
     return (
         <div className={classNames(cls.MainWindow, {}, [className])}>

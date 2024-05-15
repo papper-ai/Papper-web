@@ -26,7 +26,8 @@ interface FormContainerProps {
     title: string,
     description?: string,
     buttonName: string,
-    formType: FormType
+    formType: FormType,
+    handleToggle: () => void
 }
 
 export const FormContainer = memo((props: FormContainerProps) => {
@@ -46,7 +47,8 @@ export const FormContainer = memo((props: FormContainerProps) => {
         title,
         description,
         buttonName,
-        formType
+        formType,
+        handleToggle
     } = props
 
     const isSignUp = formType === "sign-up"
@@ -55,6 +57,7 @@ export const FormContainer = memo((props: FormContainerProps) => {
             messageApi.error("Ошибка при регистрации")
         }
         if (registerSuccess) {
+            handleToggle()
             messageApi.success("Регистрация прошла успешно")
         }
     }, [registerError, messageApi, registerSuccess])
@@ -117,19 +120,19 @@ export const FormContainer = memo((props: FormContainerProps) => {
                     )}
                     <Form.Item className="formItem" name="login"
                         rules={[{ required: true, message: "Поле обязательно для заполнения" },
-                        { min: 3, message: "Минимальная длина 3 символа" },
-                        { max: 32, message: "Максимальная длина 32 символа" }]}
+                            { min: 3, message: "Минимальная длина 3 символа" },
+                            { max: 32, message: "Максимальная длина 32 символа" }]}
                     >
                         <FormInput value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />
                     </Form.Item>
                     <Form.Item className="formItem" name="password"
                         rules={[{ required: true, message: "Поле обязательно для заполнения" },
-                        { min: 3, message: "Минимальная длина 3 символа" },
-                        { max: 32, message: "Максимальная длина 32 символа" },
-                        { pattern: /(?=.*[a-z])/, message: "Пароль должен содержать хотя бы одну строчную букву" },
-                        { pattern: /(?=.*[A-Z])/, message: "Пароль должен содержать хотя бы одну заглавную букву" },
-                        { pattern: /(?=.*[0-9])/, message: "Пароль должен содержать хотя бы одну цифру" },
-                        { pattern: /(?=.*[!@#$%^&*()])/, message: "Пароль должен содержать хотя бы один специальный символ: !@#$%^&*()" }
+                            { min: 3, message: "Минимальная длина 3 символа" },
+                            { max: 32, message: "Максимальная длина 32 символа" },
+                            { pattern: /(?=.*[a-z])/, message: "Пароль должен содержать хотя бы одну строчную букву" },
+                            { pattern: /(?=.*[A-Z])/, message: "Пароль должен содержать хотя бы одну заглавную букву" },
+                            { pattern: /(?=.*[0-9])/, message: "Пароль должен содержать хотя бы одну цифру" },
+                            { pattern: /(?=.*[!@#$%^&*()])/, message: "Пароль должен содержать хотя бы один специальный символ: !@#$%^&*()" }
                         ]}>
                         <FormInput value={isSignUp ? registerPassword : password} onChange={onChangePassword} isPassword placeholder="Пароль" />
                     </Form.Item>

@@ -28,7 +28,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     } = props
     const [newVaultName, setNewVaultName] = useState("")
     const dispatch = useAppDispatch()
-    const [newVaultType, setNewVaultType] = useState("graph")
+    const [newVaultType, setNewVaultType] = useState("vector")
     const [files, setFiles] = useState<UploadFile[]>([])
     const [messageApi, contextHolder] = message.useMessage()
     const [uploading, setUploading] = useState(false)

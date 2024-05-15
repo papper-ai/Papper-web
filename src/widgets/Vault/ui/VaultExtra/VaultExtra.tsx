@@ -3,11 +3,11 @@ import { Button, Input } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
+import { fetchChatsPreview } from "entities/Chat"
 import { vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import * as cls from "./VaultExtra.module.scss"
-import { fetchChatsPreview } from "entities/Chat"
 
 interface VaultExtraProps {
     className?: string;
