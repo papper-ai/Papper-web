@@ -3,6 +3,8 @@ import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
 import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { getCurrentChat } from "features/CreateNewChat/model/selectors/getCurrentChat"
 import { getCurrentChatError } from "features/CreateNewChat/model/selectors/getCurrentChatError"
 import { getCurrentChatIsLoading } from "features/CreateNewChat/model/selectors/getCurrentChatIsLoading"
 import { getVaults } from "entities/Vault"
@@ -13,8 +15,6 @@ import { RadioButton, RadioItem } from "shared/ui/RadioButton/RadioButton"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import { createNewChat } from "../../model/services/createNewChat"
 import * as cls from "./NewChatModal.module.scss"
-import { useNavigate } from "react-router-dom"
-import { getCurrentChat } from "features/CreateNewChat/model/selectors/getCurrentChat"
 
 interface NewChatModalProps {
     className?: string
@@ -30,7 +30,6 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
         onClose,
         messageApi
     } = props
-    const currentChat = useSelector(getCurrentChat)
     const newChatError = useSelector(getCurrentChatError)
     const isLoading = useSelector(getCurrentChatIsLoading)
     const [newChatName, setNewChatName] = useState("")
@@ -42,7 +41,7 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
         setSelectItem(e.target.value)
     }, [setSelectItem])
     const handleCreateNewChat = useCallback(async () => {
-        await dispatch(createNewChat({ name: newChatName, vaultId: selectItem as string }))
+        await dispatch(createNewChat({ name: newChatName, vaultId: selectItem as string, navigate }))
         if (!newChatError) {
             messageApi.open({
                 type: "success",
@@ -52,8 +51,6 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
             setSelectItem(null)
             setNewChatName("")
             onClose()
-            navigate("main" + "/" + currentChat.id)
-
         } else {
             messageApi.open({
                 type: "error",

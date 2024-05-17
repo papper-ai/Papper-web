@@ -10,7 +10,7 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "shared/const/localStorage"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
-import * as cls from "./Sidebar.module.scss"
+import "./Sidebar.scss"
 type MenuItem = Required<MenuProps>["items"][number]
 
 export const Sidebar = () => {
@@ -60,7 +60,7 @@ export const Sidebar = () => {
         {
             key: "4",
             label: "Чаты",
-            children: chatsItems,
+            children: chatsItems
         },
         {
             key: "5",
@@ -75,7 +75,6 @@ export const Sidebar = () => {
         <>
             {contextHolder}
             <Menu
-                className={cls.Menu}
                 items={items}
                 style={{ height: "100%", width: "300px", flexShrink: 0 }}
                 mode="inline"
