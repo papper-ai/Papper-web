@@ -1,9 +1,6 @@
-.Sidebar {
-    position: relative;
-    width: 300px;
-    height: 100vh;
-    background: var(--sidebar-color);
-    padding: 20px 10px;
-    flex-shrink: 0;
+.Menu{
+    .ant-menu-inline{
+        max-height: 300px;
+        overflow-y: auto;
+    }
 }
-

@@ -10,7 +10,7 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "shared/const/localStorage"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
-
+import * as cls from "./Sidebar.module.scss"
 type MenuItem = Required<MenuProps>["items"][number]
 
 export const Sidebar = () => {
@@ -20,7 +20,8 @@ export const Sidebar = () => {
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()
     const { id } = useParams()
-    // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пизду
+    // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пиздe
+    // Похуй оставляем пока
     const chatSelect = useCallback((chatid: string) => {
         if (chatid === id) return
         dispatch(currentChatActions.setNewChat(chats.find((item) => item.id === chatid)))
@@ -60,7 +61,6 @@ export const Sidebar = () => {
             key: "4",
             label: "Чаты",
             children: chatsItems,
-            style: { maxHeight: "350px", overflow: "auto" }
         },
         {
             key: "5",
@@ -75,6 +75,7 @@ export const Sidebar = () => {
         <>
             {contextHolder}
             <Menu
+                className={cls.Menu}
                 items={items}
                 style={{ height: "100%", width: "300px", flexShrink: 0 }}
                 mode="inline"

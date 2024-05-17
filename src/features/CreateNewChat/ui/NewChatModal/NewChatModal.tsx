@@ -13,6 +13,8 @@ import { RadioButton, RadioItem } from "shared/ui/RadioButton/RadioButton"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import { createNewChat } from "../../model/services/createNewChat"
 import * as cls from "./NewChatModal.module.scss"
+import { useNavigate } from "react-router-dom"
+import { getCurrentChat } from "features/CreateNewChat/model/selectors/getCurrentChat"
 
 interface NewChatModalProps {
     className?: string
@@ -28,12 +30,14 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
         onClose,
         messageApi
     } = props
+    const currentChat = useSelector(getCurrentChat)
     const newChatError = useSelector(getCurrentChatError)
     const isLoading = useSelector(getCurrentChatIsLoading)
     const [newChatName, setNewChatName] = useState("")
     const vaults = useSelector(getVaults)
     const [selectItem, setSelectItem] = useState()
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const handleChangeSelectItem = useCallback((e: RadioChangeEvent) => {
         setSelectItem(e.target.value)
     }, [setSelectItem])
@@ -48,6 +52,8 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
             setSelectItem(null)
             setNewChatName("")
             onClose()
+            navigate("main" + "/" + currentChat.id)
+
         } else {
             messageApi.open({
                 type: "error",

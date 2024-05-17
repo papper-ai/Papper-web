@@ -7,6 +7,8 @@ import { chatsActions } from "entities/Chat"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import * as cls from "./ChatsItem.module.scss"
+import { useNavigate } from "react-router-dom"
+import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 
 interface ChatsItemProps {
     label: string
@@ -17,6 +19,7 @@ interface ChatsItemProps {
 export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
     const dispatch = useAppDispatch()
     const [isEdit, setIsEdit] = useState(false)
+    const navigate = useNavigate()
     const deleteChat = async () => {
         try {
             const result = await $api.delete(`/messaging/delete_chat/${id}`)
@@ -27,6 +30,7 @@ export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
                     duration: 2
                 })
                 dispatch(chatsActions.deleteChat(id))
+                navigate(RoutePath[AppRoutes.MAIN])
             } else {
                 throw new Error()
             }

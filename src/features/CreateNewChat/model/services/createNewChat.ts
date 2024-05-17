@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import type { ThunkConfig } from "app/providers/StoreProvider"
 import { chatsActions, ChatSchema } from "entities/Chat"
+import { currentChatActions } from "../slice/currentChatSlice"
 
 interface CreateNewChatProps {
     name: string
@@ -16,6 +17,7 @@ export const createNewChat = createAsyncThunk<ChatSchema, CreateNewChatProps, Th
                 throw new Error()
             }
             dispatch(chatsActions.pushChat(response.data))
+            dispatch(currentChatActions.setNewChat(response.data))
             return response.data
         } catch (e) {
             console.log(e)
