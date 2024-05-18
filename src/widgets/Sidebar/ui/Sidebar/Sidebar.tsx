@@ -22,9 +22,9 @@ export const Sidebar = () => {
     const { id } = useParams()
     // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пиздe
     // Похуй оставляем пока
-    const chatSelect = useCallback((chatid: string) => {
+    const chatSelect = useCallback(async (chatid: string) => {
         if (chatid === id) return
-        dispatch(currentChatActions.setNewChat(chats.find((item) => item.id === chatid)))
+        await dispatch(currentChatActions.setNewChat(chats.find((item) => item.id === chatid)))
         navigate("/main" + "/" + chatid)
     }, [chats, dispatch, navigate, id])
     const chatsItems = useMemo(() => chats.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])

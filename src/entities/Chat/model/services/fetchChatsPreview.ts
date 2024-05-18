@@ -20,8 +20,7 @@ export const fetchChatsPreview = createAsyncThunk<ChatSchema[], GetChatPreviewPr
 
             return chats
         } catch (e) {
-            console.log(e)
-            return rejectWithValue("error")
+            return rejectWithValue(e)
         }
     }
 )
