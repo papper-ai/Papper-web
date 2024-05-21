@@ -21,7 +21,7 @@ export const MainWindow = ({ className }: MainWindowProps) => {
             <h1 className={cls.title}>Добро пожаловать в <span>Papper</span></h1>
             <h2 className={cls.description}>Чат-бот по работе с документацией</h2>
             <div className={cls.stats}>
-                <Statistic className={cls.stat} title="Всего документов" value={vaultsPreview.length} formatter={statsFormatter}/>
+                <Statistic className={cls.stat} title="Всего хранилищ" value={vaultsPreview.length} formatter={statsFormatter}/>
                 <Statistic className={cls.stat} title="Всего чатов" value={chatsPreview.length} formatter={statsFormatter} />
             </div>
         </div>

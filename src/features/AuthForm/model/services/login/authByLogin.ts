@@ -23,7 +23,7 @@ export const authByLogin = createAsyncThunk<TokenSchema, LoginByUsernameProps, T
             localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken.token)
             localStorage.setItem(ACCESS_TOKEN_KEY, accessToken.token)
             dispatch(tokenActions.setToken(accessToken.token))
-            dispatch(userActions.setUser(login))
+            dispatch(userActions.setAuth(true))
             return response.data
         } catch (e) {
             console.log(e)

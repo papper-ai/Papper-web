@@ -1,7 +1,8 @@
 import { Menu, MenuProps, message } from "antd"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
-import { NavLink, useNavigate, useParams } from "react-router-dom"
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
+import { useAuth } from "app/providers/AuthProvider"
 import { currentChatActions, NewChatModal } from "features/CreateNewChat"
 import { fetchChatsPreview, getChatsPreview } from "entities/Chat"
 import { $api } from "shared/api/api"
@@ -13,6 +14,11 @@ import { ChatsItem } from "../ChatsItem/ChatsItem"
 import "./Sidebar.scss"
 type MenuItem = Required<MenuProps>["items"][number]
 
+const MenuKeys = {
+    [RoutePath[AppRoutes.MAIN]]: "1",
+    [RoutePath[AppRoutes.VAULT]]: "3"
+}
+
 export const Sidebar = () => {
     const [newChatModal, setNewChatModal] = useState(false)
     const chats = useSelector(getChatsPreview)
@@ -20,6 +26,9 @@ export const Sidebar = () => {
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()
     const { id } = useParams()
+    const { logout } = useAuth()
+    const location = useLocation()
+    console.log()
     // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пиздe
     // Похуй оставляем пока
     const chatSelect = useCallback(async (chatid: string) => {
@@ -36,9 +45,7 @@ export const Sidebar = () => {
         navigate(RoutePath[AppRoutes.VAULT])
     }, [navigate])
     const handleQuit = useCallback(() => {
-        localStorage.removeItem(ACCESS_TOKEN_KEY)
-        localStorage.removeItem(REFRESH_TOKEN_KEY)
-        navigate(RoutePath[AppRoutes.AUTH])
+        logout()
     }, [navigate])
 
     const items: MenuItem[] = [
@@ -78,6 +85,8 @@ export const Sidebar = () => {
                 items={items}
                 style={{ height: "100%", width: "300px", flexShrink: 0 }}
                 mode="inline"
+                openKeys={["4"]}
+                selectedKeys={[MenuKeys[location.pathname], id]}
             />
             <NewChatModal messageApi={messageApi} isOpen={newChatModal} onClose={() => setNewChatModal(false)} />
         </>

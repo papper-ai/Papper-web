@@ -3,6 +3,7 @@ import { Form, message } from "antd"
 import { memo, useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "app/providers/AuthProvider"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Button } from "shared/ui/Button/Button"
 import { FormInput } from "shared/ui/Input/Input"
@@ -42,7 +43,7 @@ export const FormContainer = memo((props: FormContainerProps) => {
     const registerError = useSelector(getRegisterError)
     const loginError = useSelector(getLoginError)
     const registerSuccess = useSelector(getRegisterSuccess)
-
+    const auth = useAuth()
     const {
         title,
         description,
@@ -100,10 +101,11 @@ export const FormContainer = memo((props: FormContainerProps) => {
             result = await dispatch(authByLogin({ login, password }))
             if (result.meta.requestStatus === "fulfilled") {
                 navigate("/main")
+                auth.login()
             }
         }
         console.log(result)
-    }, [formType, dispatch, secret, registerLogin, registerPassword, login, password, navigate])
+    }, [formType, dispatch, secret, registerLogin, registerPassword, login, password, navigate, auth])
     return (
         <>
             {contextHolder}
