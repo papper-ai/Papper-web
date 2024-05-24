@@ -3,12 +3,12 @@ import { Input, Button } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { chatsActions } from "entities/Chat"
 import { $api } from "shared/api/api"
+import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import * as cls from "./ChatsItem.module.scss"
-import { useNavigate } from "react-router-dom"
-import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 
 interface ChatsItemProps {
     label: string

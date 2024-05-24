@@ -30,7 +30,7 @@ export const MessageSender = memo(({ className }: MessageSenderProps) => {
     }, [setMessage])
     return (
         <div className={classNames(cls.MessageSender, {}, [className])}>
-        <TextField disabled={isLoading} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { sendMessageHandle() } }} value={message} onChange={handleChangeTextField} className={cls.textField} />
+            <TextField disabled={isLoading} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { sendMessageHandle() } }} value={message} onChange={handleChangeTextField} className={cls.textField} />
             <Button size="large" disabled={isLoading} className={cls.button} type="text" onClick={sendMessageHandle} icon={<SendOutlined style={{ color: "var(--primary-color)", fontSize: "var(--font-size-l)" }} />} />
         </div>
     )
