@@ -5,6 +5,7 @@ import { MainWindow } from "widgets/MainWindow"
 import { MessageSender } from "features/MessageSender"
 import { MessageWidget } from "../MessageWidget/MessageWidget"
 import * as cls from "./ChatWindow.module.scss"
+import { ChatInfo } from "../ChatInfo/ChatInfo"
 
 interface ChatWindowProps {
     className?: string
@@ -18,6 +19,7 @@ export const ChatWindow = memo(({ className }: ChatWindowProps) => {
             {id
                 ? (
                     <>
+                        <ChatInfo />
                         <MessageWidget />
                         <MessageSender />
                     </>

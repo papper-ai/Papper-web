@@ -19,8 +19,7 @@ const App = () => {
     return (
         <>
             <div className="app">
-                {/* <AppRouter /> */}
-                <UnderConstructionPage />
+                <AppRouter />
             </div>
         </>
 

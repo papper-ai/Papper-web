@@ -1,5 +1,4 @@
-import { Statistic, theme } from "antd"
-import { Content } from "antd/es/layout/layout"
+import { theme } from "antd"
 
 export const themeAnt = {
     algorithm: theme.darkAlgorithm,
