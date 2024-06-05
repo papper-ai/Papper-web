@@ -90,15 +90,20 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     }
     const handleChangeUploader: UploadProps["onChange"] = useCallback((info) => {
         let newFileList = [...info.fileList]
-
-        // 1. Limit the number of uploaded files
-        // Only to show two recent uploaded files, and old ones will be replaced by the new
         newFileList = newFileList.slice(-5)
-
-        // 2. Read from response and show file link
+        newFileList = newFileList.filter((file) => {
+            if (file.size > 10 * 1024 * 1024) {
+                messageApi.open({
+                    type: "error",
+                    content: "Файл должен быть меньше 10 МБ",
+                    duration: 2
+                })
+                return false
+            }
+            return true
+        })
         newFileList = newFileList.map((file) => {
             if (file.response) {
-                // Component will show file.url as link
                 file.url = file.response.url
             }
             return file
@@ -108,9 +113,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     }, [])
 
     const dummyRequest: UploadFunction = ({ onSuccess }) => {
-        setTimeout(() => {
-            onSuccess("ok")
-        }, 0)
+        onSuccess("ok")
     }
 
     return (

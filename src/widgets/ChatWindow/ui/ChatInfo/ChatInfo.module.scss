@@ -1,4 +1,4 @@
-.ChatInfo{
+.ChatInfo {
     position: absolute;
     top: 0;
     left: 10;
@@ -11,14 +11,20 @@
     border-radius: 20px;
     z-index: 10;
 }
-.title{
+
+.title {
     color: var(--font-color);
     font-size: var(--font-size-xl);
     font-weight: 700;
 }
-.description{
+
+.description {
     color: var(--font-info-color);
     font-size: var(--font-size-l);
     font-weight: 700;
     margin-left: 10px;
+}
+
+.actions {
+    margin-left: auto;
 }

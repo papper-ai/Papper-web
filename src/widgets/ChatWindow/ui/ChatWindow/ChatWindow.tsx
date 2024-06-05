@@ -3,9 +3,9 @@ import { memo } from "react"
 import { useParams } from "react-router-dom"
 import { MainWindow } from "widgets/MainWindow"
 import { MessageSender } from "features/MessageSender"
+import { ChatInfo } from "../ChatInfo/ChatInfo"
 import { MessageWidget } from "../MessageWidget/MessageWidget"
 import * as cls from "./ChatWindow.module.scss"
-import { ChatInfo } from "../ChatInfo/ChatInfo"
 
 interface ChatWindowProps {
     className?: string

@@ -3,6 +3,7 @@ import { Button, Skeleton, Upload, UploadProps } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import { memo } from "react"
 import Markdown from "react-markdown"
+import { TypeAnimation } from "react-type-animation"
 import { IDocument, vaultsActions, VaultSchema } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
@@ -93,7 +94,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
                             return {
                                 key: doc.id,
                                 label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
-                                children: <Markdown>{doc.text}</Markdown>,
+                                children: <TypeAnimation cursor={false} sequence={[doc.text]} wrapper="span" />,
                                 extra: <Button type="text" shape="circle" style={{ color: "red", fontSize: "20px" }} icon={<DeleteOutlined />} onClick={(e) => { e.stopPropagation(); deleteDocument(doc.id) }} />
                             }
                         })} />

@@ -7,7 +7,6 @@ import { fetchChatsPreview } from "entities/Chat"
 import { vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
-import * as cls from "./VaultExtra.module.scss"
 
 interface VaultExtraProps {
     className?: string;
@@ -65,7 +64,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
         }
     }, [dispatch, messageApi, newName])
     return (
-        <div className={classNames(cls.VaultExtra, {}, [className])}>
+        <div>
             {renameOpen && <Input value={newName} onClick={(e) => { e.stopPropagation() }} onChange={(e) => { setNewName(e.target.value) }} style={{ width: "200px" }} placeholder="Новое имя хранилища" onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") { renameVault(id) } }} />}
             <Button type="text" icon={<DeleteOutlined style={{ color: "red", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); deleteVault(id) }} />
             <Button type="text" icon={<EditOutlined style={{ color: "primary", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); setRenameOpen(!renameOpen) }} />

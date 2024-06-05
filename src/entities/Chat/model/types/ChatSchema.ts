@@ -3,6 +3,7 @@ export type IRole = "user" | "ai"
 export interface ITraceback{
     document_id: string
     information: string
+    document_name: string
 }
 
 export interface AnswerSchema {

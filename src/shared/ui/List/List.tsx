@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { memo } from "react"
 import { useNavigate } from "react-router-dom"
-import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
+import { AppRoutes, RoutePath } from "../../config/routeConfig/routeCofig"
 import { Button, ThemeButton } from "../Button/Button"
 import * as cls from "./List.module.scss"
 

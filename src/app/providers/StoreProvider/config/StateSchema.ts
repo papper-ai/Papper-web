@@ -5,7 +5,7 @@ import { CurrentChatSchema } from "features/CreateNewChat"
 import { MessageSchema } from "features/MessageSender"
 import { ChatsSchema } from "entities/Chat"
 import { IToken } from "entities/Token"
-import { User } from "entities/User"
+import { UserSchema } from "entities/User"
 import { VaultsSchema } from "entities/Vault"
 
 export interface StateSchema {
@@ -13,7 +13,7 @@ export interface StateSchema {
     token: IToken;
     login: LoginSchema;
     register: RegisterSchema;
-    user: User;
+    user: UserSchema;
     vaults: VaultsSchema;
     chats: ChatsSchema;
     currentChat: CurrentChatSchema;

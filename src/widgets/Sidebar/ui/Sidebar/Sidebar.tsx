@@ -4,14 +4,14 @@ import { useSelector } from "react-redux"
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "app/providers/AuthProvider"
 import { currentChatActions, NewChatModal } from "features/CreateNewChat"
-import { fetchChatsPreview, getChatsPreview } from "entities/Chat"
-import { $api } from "shared/api/api"
+import { getChatsPreview } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "shared/const/localStorage"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
 import "./Sidebar.scss"
+import { MenuProfile } from "../MenuProfile/MenuProfile"
+
 type MenuItem = Required<MenuProps>["items"][number]
 
 const MenuKeys = {
@@ -52,7 +52,8 @@ export const Sidebar = () => {
         {
             key: "1",
             label: <Logo />,
-            style: { textAlign: "center", height: "60px" }
+            style: { textAlign: "center", height: "auto", cursor: "pointer" },
+            disabled: true
         },
         {
             key: "2",
@@ -71,10 +72,9 @@ export const Sidebar = () => {
         },
         {
             key: "5",
-            label: "Выйти",
-            danger: true,
-            onClick: handleQuit,
-            style: { flex: "auto" }
+            label: <MenuProfile />,
+            style: { position: "absolute", bottom: 10, left: 0, cursor: "auto", height: "auto" },
+            disabled: true
         }
     ]
 
@@ -83,7 +83,7 @@ export const Sidebar = () => {
             {contextHolder}
             <Menu
                 items={items}
-                style={{ height: "100%", width: "300px", flexShrink: 0 }}
+                style={{ height: "100%", width: "350px", flexShrink: 0, position: "relative", border: "none", borderRadius: "20px", backgroundColor: "var(--bg-color)" }}
                 mode="inline"
                 openKeys={["4"]}
                 selectedKeys={[MenuKeys[location.pathname], id]}

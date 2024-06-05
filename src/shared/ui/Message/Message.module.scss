@@ -12,7 +12,7 @@
 }
 .ai{
     .content{
-        background-color: var(--secondary-color);
+        background-color: var(--message-color);
     }
 }
 .user{
@@ -20,4 +20,7 @@
     .content{
         background-color: var(--primary-color);
     }
+}
+.isExample{
+    width: 100%;
 }
