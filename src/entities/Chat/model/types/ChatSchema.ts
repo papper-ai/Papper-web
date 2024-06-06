@@ -29,5 +29,7 @@ export interface ChatSchema{
 export interface ChatsSchema{
     isLoading?: boolean
     error?: string
+    isLoadingHistory?: boolean
+    errorHistory?: string
     chats?: ChatSchema[]
 }

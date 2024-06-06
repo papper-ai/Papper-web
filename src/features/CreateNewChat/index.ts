@@ -1,7 +1,2 @@
-import { getCurrentChat } from "./model/selectors/getCurrentChat"
-import { getCurrentChatError } from "./model/selectors/getCurrentChatError"
-import { fetchChatHistory } from "./model/services/fetchChatHistory"
-import { currentChatReducer, currentChatActions } from "./model/slice/currentChatSlice"
-import { CurrentChatSchema } from "./model/types/NewChat"
-import { NewChatModal } from "./ui/NewChatModal/NewChatModal"
-export { CurrentChatSchema, currentChatReducer, currentChatActions, NewChatModal, getCurrentChat, fetchChatHistory, getCurrentChatError }
+// import { NewChatModal } from "./ui/NewChatModal/NewChatModal"
+// export { NewChatModal }

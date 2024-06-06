@@ -1,7 +1,6 @@
 import { AxiosInstance } from "axios"
 import { NavigateOptions, To } from "react-router-dom"
 import { LoginSchema, RegisterSchema } from "features/AuthForm"
-import { CurrentChatSchema } from "features/CreateNewChat"
 import { MessageSchema } from "features/MessageSender"
 import { ChatsSchema } from "entities/Chat"
 import { IToken } from "entities/Token"
@@ -16,7 +15,6 @@ export interface StateSchema {
     user: UserSchema;
     vaults: VaultsSchema;
     chats: ChatsSchema;
-    currentChat: CurrentChatSchema;
     message: MessageSchema;
 }
 export interface ThunkExtraArg {

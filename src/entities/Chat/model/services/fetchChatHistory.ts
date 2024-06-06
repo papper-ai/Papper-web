@@ -1,24 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import type { ThunkConfig } from "app/providers/StoreProvider"
-import { ChatSchema } from "entities/Chat"
-import { currentChatActions } from "../slice/currentChatSlice"
+import type { ThunkConfig } from "app/providers/StoreProvider/config/StateSchema"
+import { ChatSchema } from "../types/ChatSchema"
+
 interface ChatHistoryProps {
     chatId: string
 }
 
 export const fetchChatHistory = createAsyncThunk<ChatSchema, ChatHistoryProps, ThunkConfig<string>>(
-    "createNewChat",
+    "fetchChatHistory",
     async ({ chatId }, { extra, dispatch, rejectWithValue }) => {
         try {
             const response = await extra.api.get<ChatSchema>("messaging/get_chat/" + chatId)
+
             if (!response.data) {
                 throw new Error()
             }
-            dispatch(currentChatActions.addChatHistory(response.data.chat_history))
-            return response.data
+            const history = response.data
+            return history
         } catch (e) {
-            console.log(e)
-            return rejectWithValue("error")
+            return rejectWithValue(e)
         }
     }
 )

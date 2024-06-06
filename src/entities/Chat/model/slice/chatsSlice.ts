@@ -1,10 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { fetchChatHistory } from "../services/fetchChatHistory"
 import { fetchChatsPreview } from "../services/fetchChatsPreview"
-import { ChatsSchema } from "../types/ChatSchema"
+import { ChatsSchema, ChatSchema, AnswerSchema } from "../types/ChatSchema"
 
 const initialState: ChatsSchema = {
     isLoading: false,
     error: undefined,
+    errorHistory: undefined,
+    isLoadingHistory: false,
     chats: []
 }
 
@@ -24,6 +27,14 @@ const chatsSlice = createSlice({
         renameChat: (state, action: { payload: { id: string; name: string } }) => {
             const chatIndex = state.chats?.findIndex((item) => item.id === action.payload.id)
             state.chats[chatIndex].name = action.payload.name
+        },
+        addHistory: (state, action: PayloadAction<ChatSchema>) => {
+            const chatIndex = state.chats.findIndex((chat) => chat.id === action.payload.id)
+            state.chats[chatIndex] = action.payload
+        },
+        addMessage: (state, action: PayloadAction<{id: string; message: AnswerSchema }>) => {
+            const chatIndex = state.chats.findIndex((chat) => chat.id === action.payload.id)
+            state.chats[chatIndex].chat_history.history.push(action.payload.message)
         }
     },
     extraReducers: (builder) => {
@@ -40,6 +51,20 @@ const chatsSlice = createSlice({
             .addCase(fetchChatsPreview.rejected, (state, action) => {
                 state.isLoading = false
                 state.error = action.error.message
+            })
+            .addCase(fetchChatHistory.pending, (state) => {
+                state.errorHistory = undefined
+                state.isLoadingHistory = true
+            })
+            .addCase(fetchChatHistory.fulfilled, (state, action: PayloadAction<ChatSchema>) => {
+                state.errorHistory = undefined
+                state.isLoadingHistory = false
+                const chatIndex = state.chats.findIndex((chat) => chat.id === action.payload.id)
+                state.chats[chatIndex] = action.payload
+            })
+            .addCase(fetchChatHistory.rejected, (state, action) => {
+                state.errorHistory = action.error.message
+                state.isLoadingHistory = true
             })
     }
 })

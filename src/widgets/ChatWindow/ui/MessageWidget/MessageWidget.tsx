@@ -4,9 +4,8 @@ import { memo, useEffect, useMemo, useRef } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import type { StateSchema } from "app/providers/StoreProvider"
-import { fetchChatHistory, getCurrentChatError } from "features/CreateNewChat"
 import { getSendMessageError, getSendMessageIsLoading } from "features/MessageSender"
-import { fetchChatsPreview } from "entities/Chat"
+import { fetchChatHistory, fetchChatsPreview, getChatsHistoryError, getChatsHistoryLoading, getCurrentChat } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Message } from "shared/ui/Message/Message"
@@ -23,8 +22,9 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
     const messageIsLoading = useSelector(getSendMessageIsLoading)
     const messageError = useSelector(getSendMessageError)
     const dispatch = useAppDispatch()
-    const currentChat = useSelector((state: StateSchema) => state.currentChat)
-    const error = useSelector(getCurrentChatError)
+    const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
+    const error = useSelector(getChatsHistoryError)
+    const loading = useSelector(getChatsHistoryLoading)
     const [messageApi, contextHolder] = message.useMessage()
     const navigate = useNavigate()
     if (error) {
@@ -51,14 +51,14 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
     useEffect(() => {
         chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" })
     }, [currentChat])
-    const messages = useMemo(() => currentChat?.chat?.chat_history?.history?.map((item) => {
+    const messages = useMemo(() => currentChat?.chat_history?.history?.map((item) => {
         return { content: item.content, sender: item.role, traceback: item.traceback }
     }), [currentChat])
     return (
         <>
             {contextHolder}
             <div ref={chatRef} className={classNames(cls.MessageWidget, {}, [className])}>
-                {currentChat.isLoading
+                {loading
                     ? <Skeleton active />
                     : messages?.length > 0
                         ? (<>

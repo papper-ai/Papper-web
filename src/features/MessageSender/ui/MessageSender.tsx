@@ -3,7 +3,9 @@ import { Button } from "antd"
 import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
 import { useSelector } from "react-redux"
-import { getCurrentChat } from "features/CreateNewChat"
+import { useParams } from "react-router-dom"
+import { StateSchema } from "app/providers/StoreProvider"
+import { getCurrentChat } from "entities/Chat"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { TextField } from "shared/ui/TextField/TextField"
 import { getSendMessageIsLoading } from "../model/selectors/getSendMessageIsLoading"
@@ -16,7 +18,8 @@ interface MessageSenderProps {
 
 export const MessageSender = memo(({ className }: MessageSenderProps) => {
     const dispatch = useAppDispatch()
-    const currentChat = useSelector(getCurrentChat)
+    const { id } = useParams()
+    const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
     const [message, setMessage] = useState("")
     const isLoading = useSelector(getSendMessageIsLoading)
     const sendMessageHandle = async () => {
