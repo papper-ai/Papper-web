@@ -5,11 +5,10 @@ import { memo, useCallback, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { AppDispatch, StateSchema } from "app/providers/StoreProvider"
-import { getCurrentChat } from "entities/Chat"
+import { chatsApi, getCurrentChat } from "entities/Chat"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { TextField } from "shared/ui/TextField/TextField"
 import { getSendMessageIsLoading } from "../model/selectors/getSendMessageIsLoading"
-import { sendMessage } from "../model/services/sendMessage"
 import * as cls from "./MessageSender.module.scss"
 
 interface MessageSenderProps {
@@ -17,13 +16,13 @@ interface MessageSenderProps {
 }
 
 export const MessageSender = memo(({ className }: MessageSenderProps) => {
-    const dispatch = useAppDispatch()
     const { id } = useParams()
+    const [sendMessage, { isLoading, error }] = chatsApi.useSendMessageMutation()
     const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
     const [message, setMessage] = useState("")
-    const isLoading = useSelector(getSendMessageIsLoading)
     const sendMessageHandle = async () => {
-        const result = await dispatch(sendMessage({ chatId: currentChat?.id, vaultId: currentChat?.vault_id, query: message }))
+        const result = await sendMessage({ chat_id: id, vault_id: currentChat?.vault_id, query: message })
+        console.log(result)
         if (result) {
             setMessage("")
         }

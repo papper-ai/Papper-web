@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import type { StateSchema } from "app/providers/StoreProvider"
 import { getSendMessageError, getSendMessageIsLoading } from "features/MessageSender"
-import { fetchChatHistory, fetchChatsPreview, getChatsHistoryError, getChatsHistoryLoading, getChatsPreview, getCurrentChat } from "entities/Chat"
+import { chatsApi, fetchChatHistory, fetchChatsPreview, getChatsHistoryError, getChatsHistoryLoading, getChatsPreview, getCurrentChat } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Message } from "shared/ui/Message/Message"
@@ -19,16 +19,13 @@ interface MessageWidgetProps {
 export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
     const { id } = useParams()
     const chatRef = useRef<HTMLDivElement>(null)
-    const messageIsLoading = useSelector(getSendMessageIsLoading)
-    const messageError = useSelector(getSendMessageError)
+    const [sendMessage, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation()
     const dispatch = useAppDispatch()
-    const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
-    const error = useSelector(getChatsHistoryError)
-    const loading = useSelector(getChatsHistoryLoading)
+    const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
     const [messageApi, contextHolder] = message.useMessage()
     const chats = useSelector(getChatsPreview)
     const navigate = useNavigate()
-    if (error) {
+    if (chatError) {
         dispatch(fetchChatsPreview())
         navigate(RoutePath[AppRoutes.MAIN])
         messageApi.error({
@@ -59,7 +56,7 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
         <>
             {contextHolder}
             <div ref={chatRef} className={classNames(cls.MessageWidget, {}, [className])}>
-                {loading
+                {isLoading
                     ? <Skeleton active />
                     : (messages?.length && messages?.length > 0)
                         ? (<>

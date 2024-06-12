@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "app/providers/AuthProvider"
-import { fetchChatHistory, getChatsPreview } from "entities/Chat"
+import { chatsApi, fetchChatHistory, getChatsPreview } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
@@ -20,7 +20,7 @@ const MenuKeys = {
 
 export const Sidebar = () => {
     const [newChatModal, setNewChatModal] = useState(false)
-    const chats = useSelector(getChatsPreview)
+    const { data: chats } = chatsApi.useGetChatsPreviewQuery()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()

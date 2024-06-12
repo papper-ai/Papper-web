@@ -2,7 +2,7 @@ import { configureStore, ReducersMapObject } from "@reduxjs/toolkit"
 import { NavigateFunction } from "react-router-dom"
 import { loginReducer, registerReducer } from "features/AuthForm"
 import { messageReducer } from "features/MessageSender"
-import { chatsReducer } from "entities/Chat"
+import { chatsApi, chatsReducer } from "entities/Chat"
 import { tokenReducer } from "entities/Token"
 import { userReducer } from "entities/User"
 import { vaultsReducer } from "entities/Vault"
@@ -17,21 +17,23 @@ export const createReduxStore = (initialState?: StateSchema, navigate?: Navigate
         user: userReducer,
         vaults: vaultsReducer,
         chats: chatsReducer,
-        message: messageReducer
+        message: messageReducer,
+        [chatsApi.reducerPath]: chatsApi.reducer
     }
 
-    return configureStore<StateSchema>({
+    return configureStore({
         reducer: rootReducer,
         devTools: true,
         preloadedState: initialState,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-            thunk: {
-                extraArgument: {
-                    api: $api,
-                    navigate
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                thunk: {
+                    extraArgument: {
+                        api: $api,
+                        navigate
+                    }
                 }
-            }
-        })
+            }).concat(chatsApi.middleware)
     })
 }
 

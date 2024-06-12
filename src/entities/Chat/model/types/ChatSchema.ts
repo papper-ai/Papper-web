@@ -33,3 +33,9 @@ export interface ChatsSchema{
     errorHistory?: string
     chats?: ChatSchema[]
 }
+
+export interface SendMessageProps {
+    vault_id: string
+    chat_id: string
+    query: string
+}

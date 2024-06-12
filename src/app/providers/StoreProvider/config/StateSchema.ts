@@ -2,7 +2,7 @@ import { AxiosInstance } from "axios"
 import { NavigateOptions, To } from "react-router-dom"
 import { LoginSchema, RegisterSchema } from "features/AuthForm"
 import { MessageSchema } from "features/MessageSender"
-import { ChatsSchema } from "entities/Chat"
+import { chatsApi, ChatsSchema } from "entities/Chat"
 import { IToken } from "entities/Token"
 import { UserSchema } from "entities/User"
 import { VaultsSchema } from "entities/Vault"
@@ -16,6 +16,7 @@ export interface StateSchema {
     vaults: VaultsSchema;
     chats: ChatsSchema;
     message: MessageSchema;
+    [chatsApi.reducerPath]: ReturnType<typeof chatsApi.reducer>;
 }
 export interface ThunkExtraArg {
     api: AxiosInstance;
