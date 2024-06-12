@@ -3,7 +3,6 @@ import { baseUrl } from "shared/api/api"
 import { ACCESS_TOKEN_KEY } from "shared/const/localStorage"
 import { ChatSchema, AnswerSchema, SendMessageProps } from "../types/ChatSchema"
 
-
 export const chatsApi = createApi({
     reducerPath: "chatsApi",
     baseQuery: fetchBaseQuery({
@@ -29,7 +28,7 @@ export const chatsApi = createApi({
                 method: "POST",
                 body: props
             }),
-            async onQueryStarted (message, { dispatch, queryFulfilled }) {
+            async onQueryStarted (message, { dispatch }) {
                 console.log(message)
                 dispatch(chatsApi.util.updateQueryData("getChatHistory", message.chat_id, (draft) => {
                     draft.chat_history.history.push({ content: message.query, role: "user" })

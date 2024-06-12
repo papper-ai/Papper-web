@@ -23,7 +23,7 @@ export const createReduxStore = (initialState?: StateSchema, navigate?: Navigate
 
     return configureStore({
         reducer: rootReducer,
-        devTools: true,
+        devTools: __IS_DEV__,
         preloadedState: initialState,
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware({
