@@ -4,11 +4,9 @@ import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { AppDispatch, StateSchema } from "app/providers/StoreProvider"
+import type { StateSchema } from "app/providers/StoreProvider"
 import { chatsApi, getCurrentChat } from "entities/Chat"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { TextField } from "shared/ui/TextField/TextField"
-import { getSendMessageIsLoading } from "../model/selectors/getSendMessageIsLoading"
 import * as cls from "./MessageSender.module.scss"
 
 interface MessageSenderProps {
@@ -17,7 +15,8 @@ interface MessageSenderProps {
 
 export const MessageSender = memo(({ className }: MessageSenderProps) => {
     const { id } = useParams()
-    const [sendMessage, { isLoading, error }] = chatsApi.useSendMessageMutation()
+    const [sendMessage, { isLoading }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
+
     const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
     const [message, setMessage] = useState("")
     const sendMessageHandle = async () => {

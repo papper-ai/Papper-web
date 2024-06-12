@@ -19,7 +19,8 @@ interface MessageWidgetProps {
 export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
     const { id } = useParams()
     const chatRef = useRef<HTMLDivElement>(null)
-    const [sendMessage, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation()
+    const [, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
+    console.log(messageIsLoading, messageError)
     const dispatch = useAppDispatch()
     const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
     const [messageApi, contextHolder] = message.useMessage()
@@ -34,6 +35,7 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
         })
     }
     useEffect(() => {
+        console.log(messageError)
         if (messageError) {
             messageApi.error({
                 content: "Произошла ошибка при отправке сообщения",
