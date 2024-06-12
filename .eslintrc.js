@@ -31,6 +31,7 @@ module.exports = {
         "quote-props": ["error", "consistent-as-needed", { keywords: true, unnecessary: false }],
         "react/display-name": "off",
         "no-empty-pattern": "off",
-        "@conarti/feature-sliced/layers-slices": "warn"
+        "@conarti/feature-sliced/layers-slices": "warn",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }

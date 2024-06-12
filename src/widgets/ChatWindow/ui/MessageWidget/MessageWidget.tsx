@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import type { StateSchema } from "app/providers/StoreProvider"
 import { getSendMessageError, getSendMessageIsLoading } from "features/MessageSender"
-import { fetchChatHistory, fetchChatsPreview, getChatsHistoryError, getChatsHistoryLoading, getCurrentChat } from "entities/Chat"
+import { fetchChatHistory, fetchChatsPreview, getChatsHistoryError, getChatsHistoryLoading, getChatsPreview, getCurrentChat } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Message } from "shared/ui/Message/Message"
@@ -26,9 +26,10 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
     const error = useSelector(getChatsHistoryError)
     const loading = useSelector(getChatsHistoryLoading)
     const [messageApi, contextHolder] = message.useMessage()
+    const chats = useSelector(getChatsPreview)
     const navigate = useNavigate()
     if (error) {
-        dispatch(fetchChatsPreview({}))
+        dispatch(fetchChatsPreview())
         navigate(RoutePath[AppRoutes.MAIN])
         messageApi.error({
             content: "Чат не найден",
@@ -47,7 +48,7 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
         if (id) {
             dispatch(fetchChatHistory({ chatId: id }))
         }
-    }, [id, dispatch])
+    }, [id, dispatch, chats])
     useEffect(() => {
         chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" })
     }, [currentChat])
@@ -60,7 +61,7 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
             <div ref={chatRef} className={classNames(cls.MessageWidget, {}, [className])}>
                 {loading
                     ? <Skeleton active />
-                    : messages?.length > 0
+                    : (messages?.length && messages?.length > 0)
                         ? (<>
 
                             {messages?.map((item) => <Message key={Math.random()} sender={item.sender} content={item.content} traceback={item.traceback} />)}

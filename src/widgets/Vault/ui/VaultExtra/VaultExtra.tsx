@@ -22,18 +22,18 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
         try {
             const result = await $api.delete(`/vault/delete_vault/${id}`)
             if (result) {
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Хранилище удалено",
                     duration: 2
                 })
                 dispatch(vaultsActions.deleteVault(id))
-                dispatch(fetchChatsPreview({}))
+                dispatch(fetchChatsPreview())
             } else {
                 throw new Error()
             }
         } catch (e) {
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при удалении хранилища",
                 duration: 2
@@ -45,7 +45,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
         try {
             const result = await $api.patch("/vault/update_vault_name", { vault_id: id, name: newName })
             if (result) {
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Хранилище переименовано",
                     duration: 2
@@ -56,7 +56,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
             }
             setRenameOpen(false)
         } catch (e) {
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при переименовании хранилища",
                 duration: 2
@@ -66,7 +66,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
     return (
         <div>
             {renameOpen && <Input value={newName} onClick={(e) => { e.stopPropagation() }} onChange={(e) => { setNewName(e.target.value) }} style={{ width: "200px" }} placeholder="Новое имя хранилища" onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") { renameVault(id) } }} />}
-            <Button type="text" icon={<DeleteOutlined style={{ color: "red", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); deleteVault(id) }} />
+            <Button type="text" icon={<DeleteOutlined style={{ color: "red", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); if (id) deleteVault(id) }} />
             <Button type="text" icon={<EditOutlined style={{ color: "primary", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); setRenameOpen(!renameOpen) }} />
         </div>
     )

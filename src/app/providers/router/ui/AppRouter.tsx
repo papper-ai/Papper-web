@@ -17,7 +17,7 @@ export const AppRouter: FC = () => {
                     </Route>
                 </Route>
                 <Route path={routeConfig.auth.path} element={routeConfig.auth.element} />
-                <Route path="/" element={<Navigate to={routeConfig.main.path} />} />
+                <Route path="/" element={<Navigate to={routeConfig.main.path || "/main"} />} />
             </Routes>
         </Suspense>
 

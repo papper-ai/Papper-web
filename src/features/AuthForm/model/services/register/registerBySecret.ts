@@ -15,6 +15,8 @@ export const registerBySecret = createAsyncThunk<string, RegisterBySecretProps, 
             if (!response.data) {
                 throw new Error()
             }
+
+            return response.data
         } catch (e) {
             console.log(e)
             return rejectWithValue("error")

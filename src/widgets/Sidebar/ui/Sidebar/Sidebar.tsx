@@ -36,7 +36,7 @@ export const Sidebar = () => {
         await dispatch(fetchChatHistory({ chatId }))
         navigate("/main" + "/" + chatId)
     }, [chats, dispatch, navigate, id])
-    const chatsItems = useMemo(() => chats.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])
+    const chatsItems = useMemo(() => chats?.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])
 
     const handleNewChat = useCallback(() => {
         setNewChatModal(true)
@@ -45,7 +45,7 @@ export const Sidebar = () => {
         navigate(RoutePath[AppRoutes.VAULT])
     }, [navigate])
     const handleQuit = useCallback(() => {
-        logout()
+        logout?.()
     }, [navigate])
 
     const items: MenuItem[] = [
@@ -86,7 +86,7 @@ export const Sidebar = () => {
                 style={{ height: "100%", width: "350px", flexShrink: 0, position: "relative", border: "none", borderRadius: "20px", backgroundColor: "var(--bg-color)" }}
                 mode="inline"
                 openKeys={["4"]}
-                selectedKeys={[MenuKeys[location.pathname], id]}
+                selectedKeys={[MenuKeys[location.pathname], id || ""]}
             />
             {/* <NewChatModal messageApi={messageApi} isOpen={newChatModal} onClose={() => setNewChatModal(false)} /> */}
         </>

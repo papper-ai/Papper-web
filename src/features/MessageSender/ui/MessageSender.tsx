@@ -4,7 +4,7 @@ import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { StateSchema } from "app/providers/StoreProvider"
+import { AppDispatch, StateSchema } from "app/providers/StoreProvider"
 import { getCurrentChat } from "entities/Chat"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { TextField } from "shared/ui/TextField/TextField"
@@ -23,7 +23,7 @@ export const MessageSender = memo(({ className }: MessageSenderProps) => {
     const [message, setMessage] = useState("")
     const isLoading = useSelector(getSendMessageIsLoading)
     const sendMessageHandle = async () => {
-        const result = await dispatch(sendMessage({ chatId: currentChat.id, vaultId: currentChat.vault_id, query: message }))
+        const result = await dispatch(sendMessage({ chatId: currentChat?.id, vaultId: currentChat?.vault_id, query: message }))
         if (result) {
             setMessage("")
         }

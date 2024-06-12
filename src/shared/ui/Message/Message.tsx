@@ -27,10 +27,10 @@ export const Message = (props: MessageProps) => {
         isExample = false
     } = props
     return (
-        <div className={classNames(cls.Message, {}, [className, cls[sender]])}>
+        <div className={classNames(cls.Message, {}, [className, cls[sender || "user"]])}>
             <Avatar theme={sender} />
             <div className={classNames(cls.content, { [cls.isExample]: isExample })}>
-                {isExample ? <TypeAnimation cursor={false} sequence={[content]} /> : <Markdown>{content}</Markdown>}
+                {isExample ? <TypeAnimation cursor={false} sequence={[content as string]} /> : <Markdown>{content}</Markdown>}
                 {(sender === "ai" && traceback.length > 0) &&
                     <Acordion items={[{
                         key: "answer",

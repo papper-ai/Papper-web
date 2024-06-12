@@ -1,3 +1,3 @@
 import type { StateSchema } from "app/providers/StoreProvider"
 
-export const getCurrentChat = (id: string, state: StateSchema) => state?.chats?.chats?.find((chat) => chat.id === id)
+export const getCurrentChat = (id: string | undefined, state: StateSchema) => state?.chats?.chats?.find((chat) => chat.id === id)

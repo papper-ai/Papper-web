@@ -33,14 +33,15 @@ const vaultsSlice = createSlice({
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.id)
             state.vaults[vaultIndex].name = action.payload.name
         },
-        deleteDocument: (state, action: { payload: { vaultId: string; id: string } }) => {
+        deleteDocument: (state, action: { payload: { vaultId: string | undefined; id: string } }) => {
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.vaultId)
-            const documentIndex = state.vaults[vaultIndex].documents.findIndex(
+            const documentIndex = state.vaults[vaultIndex]?.documents?.findIndex(
                 (document) => document.id === action.payload.id
             )
+            if (!documentIndex) return
             state.vaults[vaultIndex]?.documents?.splice(documentIndex, 1)
         },
-        addDocument: (state, action: { payload: { documents: IDocument[]; vaultId: string } }) => {
+        addDocument: (state, action: { payload: { documents: IDocument[] | undefined; vaultId: string } }) => {
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.vaultId)
             state.vaults[vaultIndex].documents = action.payload.documents
         }

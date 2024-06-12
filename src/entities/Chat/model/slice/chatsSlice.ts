@@ -26,15 +26,21 @@ const chatsSlice = createSlice({
         },
         renameChat: (state, action: { payload: { id: string; name: string } }) => {
             const chatIndex = state.chats?.findIndex((item) => item.id === action.payload.id)
+            if (!chatIndex) return
+            if (!state.chats?.[chatIndex]) return
             state.chats[chatIndex].name = action.payload.name
         },
         addHistory: (state, action: PayloadAction<ChatSchema>) => {
-            const chatIndex = state.chats.findIndex((chat) => chat.id === action.payload.id)
+            const chatIndex = state.chats?.findIndex((chat) => chat.id === action.payload.id)
+            if (!chatIndex) return
+            if (!state.chats?.[chatIndex]) return
             state.chats[chatIndex] = action.payload
         },
-        addMessage: (state, action: PayloadAction<{id: string; message: AnswerSchema }>) => {
-            const chatIndex = state.chats.findIndex((chat) => chat.id === action.payload.id)
-            state.chats[chatIndex].chat_history.history.push(action.payload.message)
+        addMessage: (state, action: PayloadAction<{ id: string; message: AnswerSchema }>) => {
+            const chatIndex = state.chats?.findIndex((chat) => chat.id === action.payload.id)
+            if (!chatIndex) return
+            if (!state.chats?.[chatIndex]) return
+            state.chats[chatIndex].chat_history?.history.push(action.payload.message)
         }
     },
     extraReducers: (builder) => {
@@ -59,7 +65,10 @@ const chatsSlice = createSlice({
             .addCase(fetchChatHistory.fulfilled, (state, action: PayloadAction<ChatSchema>) => {
                 state.errorHistory = undefined
                 state.isLoadingHistory = false
-                const chatIndex = state.chats.findIndex((chat) => chat.id === action.payload.id)
+                console.log(action.payload)
+                const chatIndex = state.chats?.findIndex((chat) => chat.id === action.payload.id)
+                if (!chatIndex) return
+                if (!state.chats?.[chatIndex]) return
                 state.chats[chatIndex] = action.payload
             })
             .addCase(fetchChatHistory.rejected, (state, action) => {

@@ -8,7 +8,7 @@ interface ChatHistoryProps {
 
 export const fetchChatHistory = createAsyncThunk<ChatSchema, ChatHistoryProps, ThunkConfig<string>>(
     "fetchChatHistory",
-    async ({ chatId }, { extra, dispatch, rejectWithValue }) => {
+    async ({ chatId }, { extra, rejectWithValue }) => {
         try {
             const response = await extra.api.get<ChatSchema>("messaging/get_chat/" + chatId)
 
@@ -18,7 +18,7 @@ export const fetchChatHistory = createAsyncThunk<ChatSchema, ChatHistoryProps, T
             const history = response.data
             return history
         } catch (e) {
-            return rejectWithValue(e)
+            return rejectWithValue("error")
         }
     }
 )

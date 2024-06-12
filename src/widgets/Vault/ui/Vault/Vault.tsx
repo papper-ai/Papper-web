@@ -50,7 +50,7 @@ export const Vault = ({ className }: VaultProps) => {
             console.log(e)
         }
     }, [])
-    const handleAccordionChange = (key: []) => {
+    const handleAccordionChange = (key: string | string[]) => {
         try {
             if (key.length > 0) {
                 $api.get<IDocument[]>(`/vault/get_vault_documents/${key}`).then((res) => {
@@ -74,7 +74,7 @@ export const Vault = ({ className }: VaultProps) => {
                     {vaultsIsLoading
                         ? (<Skeleton paragraph={{ rows: 10, width: "100%" }} >
                         </Skeleton >)
-                        : accordionVaults.length > 0
+                        : (accordionVaults?.length ?? 0) > 0
                             ? <Acordion onChange={handleAccordionChange} items={accordionVaults} />
                             : <Empty style={{ marginTop: "20px" }} description="Нет доступных хранилищ" />}
                 </div>

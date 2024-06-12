@@ -13,7 +13,7 @@ const LayoutPage = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(getVaultsPreview({}))
-        dispatch(fetchChatsPreview({}))
+        dispatch(fetchChatsPreview())
         dispatch(fetchUserData())
     }, [])
     return (

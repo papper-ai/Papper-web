@@ -8,14 +8,14 @@ import * as cls from "./ChatInfo.module.scss"
 
 export const ChatInfo = () => {
     const { id } = useParams()
-    const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
+    const currentChat = useSelector((state: StateSchema) => getCurrentChat(id || "", state))
 
     const vaults = useSelector(getVaults)
     const currentChatVault = vaults.find(vault => vault.id === currentChat?.vault_id)
     return (
         <div className={classNames(cls.ChatInfo, {}, [])}>
             <div className={cls.title}>
-                {currentChat.name}
+                {currentChat?.name}
             </div>
             <div className={cls.description}>{" - " + currentChatVault?.name}</div>
             <div className={cls.actions}>

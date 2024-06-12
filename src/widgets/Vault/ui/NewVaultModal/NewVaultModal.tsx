@@ -12,11 +12,12 @@ import { $api } from "shared/api/api"
 import { message, UploadFile, type UploadProps } from "antd"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { vaultsActions, VaultSchema } from "entities/Vault"
+import { UploadChangeParam } from "antd/es/upload"
 
 interface NewVaultCreaterProps {
     className?: string;
     onClose?: () => void
-    isOpen?: boolean
+    isOpen: boolean
 }
 
 type UploadFunction = UploadProps["customRequest"]
@@ -59,7 +60,8 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
             const formData = new FormData()
             formData.append("create_vault_credentials", JSON.stringify(vaultConfig))
             for (let i = 0; i < files?.length; i++) {
-                formData.append("files", files[i].originFileObj)
+                if (!files[i].originFileObj) continue
+                formData.append("files", files[i].originFileObj as string | Blob)
             }
             const result = await $api.post<VaultSchema>("/vault/create_vault", formData, { headers: { "Content-Type": "multipart/form-data" } })
             messageApi.destroy()
@@ -88,10 +90,11 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
             }, 1500)
         }
     }
-    const handleChangeUploader: UploadProps["onChange"] = useCallback((info) => {
+    const handleChangeUploader: UploadProps["onChange"] = useCallback((info: UploadChangeParam<UploadFile<any>>) => {
         let newFileList = [...info.fileList]
         newFileList = newFileList.slice(-5)
         newFileList = newFileList.filter((file) => {
+            if (!file.size) return false
             if (file.size > 10 * 1024 * 1024) {
                 messageApi.open({
                     type: "error",
@@ -113,7 +116,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     }, [])
 
     const dummyRequest: UploadFunction = ({ onSuccess }) => {
-        onSuccess("ok")
+        onSuccess?.("ok")
     }
 
     return (

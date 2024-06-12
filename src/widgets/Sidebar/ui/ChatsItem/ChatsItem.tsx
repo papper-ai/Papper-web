@@ -24,7 +24,7 @@ export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
         try {
             const result = await $api.delete(`/messaging/delete_chat/${id}`)
             if (result) {
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Чат удален",
                     duration: 2
@@ -35,7 +35,7 @@ export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
                 throw new Error()
             }
         } catch (e) {
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при удалении чата",
                 duration: 2
@@ -48,7 +48,7 @@ export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
         try {
             const result = await $api.patch("/messaging/rename_chat", { chat_id: id, name: value })
             if (result) {
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Чат переименован",
                     duration: 2
@@ -59,7 +59,7 @@ export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
             }
             setIsEdit(false)
         } catch (e) {
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при переименовании чата",
                 duration: 2

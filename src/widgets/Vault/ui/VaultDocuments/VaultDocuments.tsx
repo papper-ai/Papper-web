@@ -22,7 +22,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
         try {
             const result = await $api.delete(`/vault/delete_document/${vaultId}/${id}`)
             if (result) {
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Документ удален",
                     duration: 2
@@ -33,7 +33,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
             }
         } catch (e) {
             console.log(e)
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при удалении документа",
                 duration: 2
@@ -42,9 +42,10 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
     }
     const uploadNewDocument: UploadFunction = async (options) => {
         const formData = new FormData()
+        if (!vaultId) return
         formData.append("vault_id", vaultId)
         formData.append("file", options.file)
-        messageApi.open({
+        messageApi?.open({
             type: "loading",
             content: "Идет загрузка документа...",
             duration: 0
@@ -53,26 +54,26 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
             const result = await $api.post<VaultSchema>("/vault/upload_document", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
-            messageApi.destroy()
+            messageApi?.destroy()
             if (result?.data) {
                 console.log(result)
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Документ добавлен",
                     duration: 2
                 })
-                options.onSuccess(result)
+                options.onSuccess?.(result)
                 dispatch(vaultsActions.addDocument({ vaultId, documents: result.data.documents }))
             } else {
                 throw new Error()
             }
         } catch (e) {
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при добавлении документа",
                 duration: 2
             })
-            options.onError(e)
+            options?.onError?.(e as Error)
         }
     }
     return (
@@ -87,10 +88,10 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
                     <Button size="large" icon={<UploadOutlined />}>Добавить новый документ</Button>
                 </Upload>
             </div>
-            {items?.length > 0
+            { (items?.length ?? 0) > 0
                 ? <Acordion
                     items=
-                        {items.map((doc: IDocument) => {
+                        {items?.map((doc: IDocument) => {
                             return {
                                 key: doc.id,
                                 label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
