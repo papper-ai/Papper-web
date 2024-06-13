@@ -1,9 +1,8 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Button, Input } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
-import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
-import { fetchChatsPreview } from "entities/Chat"
+import { chatsApi } from "entities/Chat"
 import { vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
@@ -14,10 +13,11 @@ interface VaultExtraProps {
     messageApi?: MessageInstance
 }
 
-export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) => {
+export const VaultExtra = memo(({ id, messageApi }: VaultExtraProps) => {
     const dispatch = useAppDispatch()
     const [renameOpen, setRenameOpen] = useState(false)
     const [newName, setNewName] = useState("")
+    const { refetch } = chatsApi.useGetChatsPreviewQuery()
     const deleteVault = useCallback(async (id: string) => {
         try {
             const result = await $api.delete(`/vault/delete_vault/${id}`)
@@ -28,7 +28,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
                     duration: 2
                 })
                 dispatch(vaultsActions.deleteVault(id))
-                dispatch(fetchChatsPreview())
+                refetch()
             } else {
                 throw new Error()
             }
@@ -39,7 +39,7 @@ export const VaultExtra = memo(({ className, id, messageApi }: VaultExtraProps) 
                 duration: 2
             })
         }
-    }, [dispatch, messageApi])
+    }, [dispatch, messageApi, refetch])
 
     const renameVault = useCallback(async (id: string) => {
         try {

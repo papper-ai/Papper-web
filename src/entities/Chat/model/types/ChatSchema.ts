@@ -39,3 +39,7 @@ export interface SendMessageProps {
     chat_id: string
     query: string
 }
+export interface NewChatProps {
+    vault_id: string;
+    name: string;
+}

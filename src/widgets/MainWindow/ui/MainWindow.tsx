@@ -1,13 +1,6 @@
-import { Statistic } from "antd"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { getChatsPreview } from "entities/Chat"
-import { getVaults } from "entities/Vault"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
-import { statsFormatter } from "shared/lib/statsFormatter"
 import { Message } from "shared/ui/Message/Message"
-import { Text } from "shared/ui/Text/Text"
 import * as cls from "./MainWindow.module.scss"
 
 interface MainWindowProps {
@@ -15,8 +8,6 @@ interface MainWindowProps {
 }
 
 export const MainWindow = ({ className }: MainWindowProps) => {
-    const vaultsPreview = useSelector(getVaults)
-    const chatsPreview = useSelector(getChatsPreview)
     const [showAiAnswer, setShowAiAnswer] = useState(false)
     useEffect(() => {
         setTimeout(() => setShowAiAnswer(true), 2000)

@@ -1,8 +1,7 @@
 import { configureStore, ReducersMapObject } from "@reduxjs/toolkit"
 import { NavigateFunction } from "react-router-dom"
 import { loginReducer, registerReducer } from "features/AuthForm"
-import { messageReducer } from "features/MessageSender"
-import { chatsApi, chatsReducer } from "entities/Chat"
+import { chatsApi } from "entities/Chat"
 import { tokenReducer } from "entities/Token"
 import { userReducer } from "entities/User"
 import { vaultsReducer } from "entities/Vault"
@@ -16,8 +15,6 @@ export const createReduxStore = (initialState?: StateSchema, navigate?: Navigate
         register: registerReducer,
         user: userReducer,
         vaults: vaultsReducer,
-        chats: chatsReducer,
-        message: messageReducer,
         [chatsApi.reducerPath]: chatsApi.reducer
     }
 

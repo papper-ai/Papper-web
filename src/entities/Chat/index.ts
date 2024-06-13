@@ -1,10 +1,3 @@
-import { getChatsHistoryError } from "./model/selectors/getChatsHistoryError"
-import { getChatsHistoryLoading } from "./model/selectors/getChatsHistoryLoading"
-import { getChatsPreview } from "./model/selectors/getChatsPreview"
-import { getCurrentChat } from "./model/selectors/getCurrentChat"
 import { chatsApi } from "./model/services/ChatsAPI"
-import { fetchChatHistory } from "./model/services/fetchChatHistory"
-import { fetchChatsPreview } from "./model/services/fetchChatsPreview"
-import { chatsReducer, chatsActions } from "./model/slice/chatsSlice"
 import { ChatsSchema, ChatSchema, AnswerSchema, IRole, ITraceback } from "./model/types/ChatSchema"
-export { chatsApi, ChatsSchema, chatsReducer, ChatSchema, chatsActions, fetchChatsPreview, getChatsPreview, IRole, AnswerSchema, ITraceback, fetchChatHistory, getCurrentChat, getChatsHistoryError, getChatsHistoryLoading }
+export { chatsApi, ChatsSchema, ChatSchema, IRole, AnswerSchema, ITraceback }

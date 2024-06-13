@@ -1,2 +1,2 @@
-// import { NewChatModal } from "./ui/NewChatModal/NewChatModal"
-// export { NewChatModal }
+import { NewChatModal } from "./ui/NewChatModal/NewChatModal"
+export { NewChatModal }

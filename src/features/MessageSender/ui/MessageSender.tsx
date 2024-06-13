@@ -2,10 +2,8 @@ import { SendOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
-import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import type { StateSchema } from "app/providers/StoreProvider"
-import { chatsApi, getCurrentChat } from "entities/Chat"
+import { chatsApi } from "entities/Chat"
 import { TextField } from "shared/ui/TextField/TextField"
 import * as cls from "./MessageSender.module.scss"
 
@@ -17,7 +15,11 @@ export const MessageSender = memo(({ className }: MessageSenderProps) => {
     const { id } = useParams()
     const [sendMessage, { isLoading }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
 
-    const currentChat = useSelector((state: StateSchema) => getCurrentChat(id, state))
+    const { currentChat } = chatsApi.useGetChatsPreviewQuery(undefined, {
+        selectFromResult: ({ data }) => ({
+            currentChat: data?.find(chat => chat?.id === id)
+        })
+    })
     const [message, setMessage] = useState("")
     const sendMessageHandle = async () => {
         const result = await sendMessage({ chat_id: id, vault_id: currentChat?.vault_id, query: message })

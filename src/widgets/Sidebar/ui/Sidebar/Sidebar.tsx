@@ -1,11 +1,9 @@
 import { Menu, MenuProps, message } from "antd"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useSelector } from "react-redux"
+import { useCallback, useMemo, useState } from "react"
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
-import { useAuth } from "app/providers/AuthProvider"
-import { chatsApi, fetchChatHistory, getChatsPreview } from "entities/Chat"
+import { NewChatModal } from "features/CreateNewChat"
+import { chatsApi } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
 import "./Sidebar.scss"
@@ -21,11 +19,9 @@ const MenuKeys = {
 export const Sidebar = () => {
     const [newChatModal, setNewChatModal] = useState(false)
     const { data: chats } = chatsApi.useGetChatsPreviewQuery()
-    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [messageApi, contextHolder] = message.useMessage()
     const { id } = useParams()
-    const { logout } = useAuth()
     const location = useLocation()
     console.log()
     // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пиздe
@@ -33,9 +29,8 @@ export const Sidebar = () => {
     const chatSelect = useCallback(async (chatId: string) => {
         if (chatId === id) return
         console.log(chatId)
-        await dispatch(fetchChatHistory({ chatId }))
         navigate("/main" + "/" + chatId)
-    }, [chats, dispatch, navigate, id])
+    }, [navigate, id])
     const chatsItems = useMemo(() => chats?.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])
 
     const handleNewChat = useCallback(() => {
@@ -43,9 +38,6 @@ export const Sidebar = () => {
     }, [])
     const handleVault = useCallback(() => {
         navigate(RoutePath[AppRoutes.VAULT])
-    }, [navigate])
-    const handleQuit = useCallback(() => {
-        logout?.()
     }, [navigate])
 
     const items: MenuItem[] = [
@@ -88,7 +80,7 @@ export const Sidebar = () => {
                 openKeys={["4"]}
                 selectedKeys={[MenuKeys[location.pathname], id || ""]}
             />
-            {/* <NewChatModal messageApi={messageApi} isOpen={newChatModal} onClose={() => setNewChatModal(false)} /> */}
+            <NewChatModal messageApi={messageApi} isOpen={newChatModal} onClose={() => setNewChatModal(false)} />
         </>
 
     )
