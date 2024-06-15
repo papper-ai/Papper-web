@@ -1,4 +1,4 @@
-import { theme } from "antd"
+import { theme, Timeline } from "antd"
 
 export const themeAnt = {
     algorithm: theme.darkAlgorithm,
@@ -10,6 +10,9 @@ export const themeAnt = {
         Statistic: {
             contentFontSize: 20,
             titleFontSize: 20
+        },
+        Timeline: {
+            dotBg: "transparent"
         }
     }
 }

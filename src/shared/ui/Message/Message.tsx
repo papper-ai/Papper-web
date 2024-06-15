@@ -1,7 +1,7 @@
-import { UserOutlined } from "@ant-design/icons"
-import { Carousel } from "antd"
+import { DownCircleOutlined, QuestionCircleOutlined, UserOutlined } from "@ant-design/icons"
+import { Button, Carousel, Drawer, Timeline } from "antd"
 import classNames from "classnames"
-import React from "react"
+import React, { useCallback, useState } from "react"
 import Markdown from "react-markdown"
 import { TypeAnimation } from "react-type-animation"
 import type { IRole, ITraceback } from "entities/Chat"
@@ -19,6 +19,13 @@ interface MessageProps {
 }
 
 export const Message = (props: MessageProps) => {
+    const [drawerIsOpen, setDrawerIsOpen] = useState(false)
+    const openDrawer = useCallback(() => {
+        setDrawerIsOpen(true)
+    }, [])
+    const closeDrawer = useCallback(() => {
+        setDrawerIsOpen(false)
+    }, [])
     const {
         className,
         sender,
@@ -31,12 +38,24 @@ export const Message = (props: MessageProps) => {
             <Avatar theme={sender} />
             <div className={classNames(cls.content, { [cls.isExample]: isExample })}>
                 {isExample ? <TypeAnimation cursor={false} sequence={[content as string]} /> : <Markdown>{content}</Markdown>}
-                {(sender === "ai" && traceback.length > 0) &&
-                    <Acordion items={[{
-                        key: "answer",
-                        label: "Используемые документы в ответе",
-                        children: traceback.map((item) => <Text key={item.document_id} title={item.document_name} text={item.information} textTheme={TextTheme.VAULT} />)
-                    }]} />
+                {(sender === "ai" && traceback?.length > 0) &&
+                    <>
+                        <Button style={{ marginLeft: "auto", display: "block" }} size="large" type="text" icon={<QuestionCircleOutlined style={{ color: "var(--font-color)", fontSize: "30px" }} />} onClick={openDrawer} />
+                        <Drawer title="Используемые документы в ответе" placement="right" onClose={closeDrawer} size="large" open={drawerIsOpen}>
+                            <Timeline
+                                mode="left"
+                                items={traceback.map((item) => ({
+                                    children: <Text title={item.document_name} text={item.information} textTheme={TextTheme.TRACEBACK} />,
+                                    dot: <DownCircleOutlined style={{ color: "var(--primary-color)", fontSize: "15px" }} />
+                                }))}
+                            />
+                        </Drawer>
+                    </>
+                    // <Acordion items={[{
+                    //     key: "answer",
+                    //     label: "Используемые документы в ответе",
+                    //     children: traceback.map((item) => <Text key={item.document_id} title={item.document_name} text={item.information} textTheme={TextTheme.VAULT} />)
+                    // }]} />
                 }
             </div>
         </div>

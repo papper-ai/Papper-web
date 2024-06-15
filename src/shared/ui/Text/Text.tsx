@@ -5,7 +5,8 @@ import * as cls from "./Text.module.scss"
 export enum TextTheme {
     VAULT = "vault",
     ERROR = "error",
-    INLINE = "inline"
+    INLINE = "inline",
+    TRACEBACK = "traceback"
 }
 
 interface TextProps {

@@ -1,23 +1,51 @@
-.Text{
+.Text {
     min-width: 200px;
-    text-align: center; 
+    text-align: center;
 }
-.vault{
+
+.vault {
     color: var(--font-color);
     font-size: var(--font-size-xl);
 }
-.title{
+
+.title {
     color: var(--font-color);
     font-size: var(--font-size-l);
 }
-.text{
+
+.text {
     color: var(--font-color);
     font-size: var(--font-size-m);
 }
-.inline{
+
+.inline {
     display: flex;
     align-items: center;
-    .text{
+
+    .text {
         margin-left: 10px;
+    }
+}
+
+.traceback {
+    position: relative;
+    padding-top: 25px;
+
+    .title {
+        position: absolute;
+        top: -10px;
+        left: 0;
+        text-align: left;
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-bold);
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .text {
+        text-align: left;
+        font-weight: var(--font-medium);
     }
 }
