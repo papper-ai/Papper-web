@@ -1,6 +1,11 @@
 .LayoutPage{
-    display: flex;
     width: 100%;
     height: 100vh;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.Layout{
+    display: flex;
+    flex: 1
 }

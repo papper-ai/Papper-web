@@ -1,13 +1,14 @@
 import { Menu, MenuProps, message } from "antd"
-import { useCallback, useMemo, useState } from "react"
+import { CSSProperties, useCallback, useMemo, useState } from "react"
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
 import { NewChatModal } from "features/CreateNewChat"
 import { chatsApi } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
-import "./Sidebar.scss"
 import { MenuProfile } from "../MenuProfile/MenuProfile"
+import * as cls from "./Sidebar.module.scss"
+import classNames from "classnames"
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -15,8 +16,11 @@ const MenuKeys = {
     [RoutePath[AppRoutes.MAIN]]: "1",
     [RoutePath[AppRoutes.VAULT]]: "3"
 }
-
-export const Sidebar = () => {
+interface SidebarProps {
+    width?: number
+    isMenuOpen?: boolean
+}
+export const Sidebar = ({ width, isMenuOpen }: SidebarProps) => {
     const [newChatModal, setNewChatModal] = useState(false)
     const { data: chats } = chatsApi.useGetChatsPreviewQuery()
     const navigate = useNavigate()
@@ -44,7 +48,7 @@ export const Sidebar = () => {
         {
             key: "1",
             label: <Logo />,
-            style: { textAlign: "center", height: "auto", cursor: "pointer" },
+            style: { display: (width < 992 ? "none" : "block"), textAlign: "center", height: "auto", cursor: "pointer" },
             disabled: true
         },
         {
@@ -69,13 +73,25 @@ export const Sidebar = () => {
             disabled: true
         }
     ]
-
+    // const menuStyle = useMemo<CSSProperties>(() => (
+    //     {
+    //         height: "100%",
+    //         width: (width < 1000) ? "0   %" : "350px",
+    //         flexShrink: 0,
+    //         position: "relative",
+    //         border: "none",
+    //         borderRadius: "20px",
+    //         backgroundColor: "var(--bg-color)"
+    //     }), [])
+    const menuMods = {
+        [cls.menuOpen]: isMenuOpen
+    }
     return (
         <>
             {contextHolder}
             <Menu
+                className={classNames(cls.Menu, menuMods)}
                 items={items}
-                style={{ height: "100%", width: "350px", flexShrink: 0, position: "relative", border: "none", borderRadius: "20px", backgroundColor: "var(--bg-color)" }}
                 mode="inline"
                 openKeys={["4"]}
                 selectedKeys={[MenuKeys[location.pathname], id || ""]}

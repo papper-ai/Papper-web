@@ -28,7 +28,6 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
         })
     }
     useEffect(() => {
-        console.log(messageError)
         if (messageError) {
             messageApi.error({
                 content: "Произошла ошибка при отправке сообщения",

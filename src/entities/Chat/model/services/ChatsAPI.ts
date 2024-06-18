@@ -32,20 +32,20 @@ export const chatsApi = createApi({
     endpoints: (build) => ({
         getChatsPreview: build.query<ChatSchema[], void>({
             query: () => ({
-                url: "messaging/get_user_chats_preview",
+                url: "/messaging/chats/preview",
                 method: "GET"
             }),
             providesTags: result => ["Chats"]
         }),
         getChatHistory: build.query<ChatSchema, string>({
             query: (chatId) => ({
-                url: `messaging/get_chat/${chatId}`,
+                url: `messaging/chat/${chatId}`,
                 method: "GET"
             })
         }),
         sendMessage: build.mutation<AnswerSchema, SendMessageProps>({
             query: (props) => ({
-                url: "/qa/generate_answer",
+                url: "/qa/generation",
                 method: "POST",
                 data: props
             }),
@@ -87,7 +87,7 @@ export const chatsApi = createApi({
         }),
         createNewChat: build.mutation<ChatSchema, NewChatProps>({
             query: (props) => ({
-                url: "messaging/create_chat",
+                url: "messaging/chat",
                 method: "POST",
                 data: props
             }),
@@ -95,14 +95,14 @@ export const chatsApi = createApi({
         }),
         deleteChat: build.mutation<void, string>({
             query: (chatId) => ({
-                url: `messaging/delete_chat/${chatId}`,
+                url: `messaging/chat/${chatId}`,
                 method: "DELETE"
             }),
             invalidatesTags: ["Chats"]
         }),
         renameChat: build.mutation<void, { chat_id: string, name: string }>({
             query: (props) => ({
-                url: "messaging/rename_chat",
+                url: "messaging/chat/renaming",
                 method: "PATCH",
                 data: props
             }),

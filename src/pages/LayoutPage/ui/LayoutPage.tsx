@@ -1,6 +1,7 @@
 import classNames from "classnames"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
+import { Header } from "widgets/Header"
 import { Sidebar } from "widgets/Sidebar"
 import { fetchUserData } from "entities/User"
 import { getVaultsPreview } from "entities/Vault"
@@ -9,14 +10,28 @@ import * as cls from "./LayoutPage.module.scss"
 
 const LayoutPage = () => {
     const dispatch = useAppDispatch()
+    const [width, setWidth] = useState(window.innerWidth)
+    const [isMenuOpen, setIsMenuOpen] = useState(true)
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth)
+        }
+        window.addEventListener("resize", handleResize)
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
+    })
     useEffect(() => {
         dispatch(getVaultsPreview({}))
         dispatch(fetchUserData())
     }, [])
     return (
         <div className={classNames(cls.LayoutPage)}>
-            <Sidebar/>
-            <Outlet/>
+            <Header />
+            <div className={cls.Layout}>
+                <Sidebar isMenuOpen={isMenuOpen} width={width} />
+                <Outlet />
+            </div>
         </div>
     )
 }

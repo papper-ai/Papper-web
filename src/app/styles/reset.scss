@@ -20,6 +20,7 @@
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--bg-color) ;
+    // outline: 2px solid green !important;
 }
 
 /* для Chrome/Edge/Safari */
@@ -39,6 +40,7 @@
 }
 
 body {
+    // overflow-x: hidden;
     background-color: var(--bg-color);
     font-family: 'Panagram', sans-serif;
 }

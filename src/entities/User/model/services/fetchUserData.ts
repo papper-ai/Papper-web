@@ -6,7 +6,7 @@ export const fetchUserData = createAsyncThunk<User, void, ThunkConfig<string>>(
     "fetchUserData",
     async (_, { extra, rejectWithValue }) => {
         try {
-            const response = await extra.api.get<User>("auth/get_login")
+            const response = await extra.api.get<User>("auth/user-login")
 
             if (!response.data) {
                 throw new Error()
