@@ -1,15 +1,24 @@
-import { Logo } from "shared/ui/Logo/Logo"
+import classNames from "classnames"
+import React from "react"
+import { Logo, LogoLocation } from "shared/ui/Logo/Logo"
 import * as cls from "./Header.module.scss"
-
-export const Header = () => {
+interface HeaderProps {
+    setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isMenuOpen?: boolean
+}
+export const Header = ({ setIsMenuOpen, isMenuOpen }: HeaderProps) => {
+    const burgerMods: Record<string, boolean> = {
+        [cls.open]: isMenuOpen
+    }
     return (
         <div className={cls.Header}>
-            <div className={cls.burger}>
+
+            <Logo location={LogoLocation.LEFT} />
+            <div onClick={() => setIsMenuOpen((prev) => !prev)} className={classNames(cls.burger, burgerMods)}>
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-            <Logo />
         </div>
     )
 }

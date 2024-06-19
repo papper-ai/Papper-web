@@ -18,6 +18,10 @@ form{
     left: 0;
     width: 50%;
     z-index: 2;
+    @media screen and (max-width: 768px) {
+        height: 50%;
+        width: 100%;
+    }
 }
 
 .sign-up{
@@ -25,8 +29,15 @@ form{
     width: 50%;
     opacity: 0;
     z-index: 1;
+    @media screen and (max-width: 768px) {
+        height: 50%;
+        width: 100%;
+    }
 }
 
 .formItem{
     width: 100%;
+    @media screen and (max-width: 768px) {
+        margin-bottom: 0px;
+    }
 }

@@ -1,14 +1,16 @@
 import { Menu, MenuProps, message } from "antd"
-import { CSSProperties, useCallback, useMemo, useState } from "react"
+import classNames from "classnames"
+import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react"
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
 import { NewChatModal } from "features/CreateNewChat"
 import { chatsApi } from "entities/Chat"
+import Chats from "shared/assets/icons/Chats.svg"
+import VaultIcon from "shared/assets/icons/VaultIcon.svg"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
 import { MenuProfile } from "../MenuProfile/MenuProfile"
 import * as cls from "./Sidebar.module.scss"
-import classNames from "classnames"
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -58,11 +60,13 @@ export const Sidebar = ({ width, isMenuOpen }: SidebarProps) => {
         },
         {
             key: "3",
+            icon: <VaultIcon style={{ marginTop: "2px" }} />,
             label: <NavLink to={RoutePath[AppRoutes.VAULT]}>Хранилища</NavLink>,
             onClick: handleVault
         },
         {
             key: "4",
+            icon: <Chats style={{ marginTop: "4px" }} />,
             label: "Чаты",
             children: chatsItems
         },
@@ -73,16 +77,7 @@ export const Sidebar = ({ width, isMenuOpen }: SidebarProps) => {
             disabled: true
         }
     ]
-    // const menuStyle = useMemo<CSSProperties>(() => (
-    //     {
-    //         height: "100%",
-    //         width: (width < 1000) ? "0   %" : "350px",
-    //         flexShrink: 0,
-    //         position: "relative",
-    //         border: "none",
-    //         borderRadius: "20px",
-    //         backgroundColor: "var(--bg-color)"
-    //     }), [])
+
     const menuMods = {
         [cls.menuOpen]: isMenuOpen
     }

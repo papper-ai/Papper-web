@@ -7,6 +7,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 .title{
     color: var(--font-color);
@@ -32,6 +35,9 @@
 .preview{
     margin-top: 30px;
     width: 600px;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
     padding: 20px;
     height: 230px;
     border: 2px solid var(--tertiary-color);

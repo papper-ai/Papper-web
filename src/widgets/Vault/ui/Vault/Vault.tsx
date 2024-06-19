@@ -3,6 +3,7 @@ import { Button, Empty, List, Skeleton, Statistic, message } from "antd"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { getUserUsername } from "entities/User"
 import { getVaults, getVaultsIsLoading, IDocument, vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
@@ -25,7 +26,7 @@ enum VaultTypes {
 }
 
 export const Vault = ({ className }: VaultProps) => {
-    const [login, setLogin] = useState("")
+    const login = useSelector(getUserUsername)
     const [modalOpen, setModalOpen] = useState(false)
     const vaultsIsLoading = useSelector(getVaultsIsLoading)
     const [accordionVaults, setaccordionVaults] = useState<AccordionItem>([])
@@ -41,15 +42,7 @@ export const Vault = ({ className }: VaultProps) => {
             extra: <VaultExtra id={item.id} messageApi={messageApi} />
         })))
     }, [messageApi, vaults])
-    useEffect(() => {
-        try {
-            $api.get("/auth/get_login").then((res) => {
-                setLogin(res.data.login)
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }, [])
+
     const handleAccordionChange = (key: string | string[]) => {
         try {
             if (key.length > 0) {

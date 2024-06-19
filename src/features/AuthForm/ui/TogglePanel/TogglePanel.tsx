@@ -24,8 +24,8 @@ export const TogglePanel: FC<TogglePanelProps> = memo(function TogglePanel (prop
 
     return (
         <div className={classNames("togglePanel", {}, [className])}>
-            <h1>{title}</h1>
-            <p>{description}</p>
+            <h1 className="togglePanel__title">{title}</h1>
+            <p className="togglePanel__description">{description}</p>
             <Button onClick={onClick} className="hidden">{buttonName}</Button>
         </div>
     )

@@ -11,7 +11,7 @@ import * as cls from "./LayoutPage.module.scss"
 const LayoutPage = () => {
     const dispatch = useAppDispatch()
     const [width, setWidth] = useState(window.innerWidth)
-    const [isMenuOpen, setIsMenuOpen] = useState(true)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
     useEffect(() => {
         const handleResize = () => {
             setWidth(window.innerWidth)
@@ -27,7 +27,7 @@ const LayoutPage = () => {
     }, [])
     return (
         <div className={classNames(cls.LayoutPage)}>
-            <Header />
+            <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             <div className={cls.Layout}>
                 <Sidebar isMenuOpen={isMenuOpen} width={width} />
                 <Outlet />

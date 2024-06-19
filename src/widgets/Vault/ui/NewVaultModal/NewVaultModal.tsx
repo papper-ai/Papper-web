@@ -63,7 +63,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                 if (!files[i].originFileObj) continue
                 formData.append("files", files[i].originFileObj as string | Blob)
             }
-            const result = await $api.post<VaultSchema>("/vault/create_vault", formData, { headers: { "Content-Type": "multipart/form-data" } })
+            const result = await $api.post<VaultSchema>("/vault", formData, { headers: { "Content-Type": "multipart/form-data" } })
             messageApi.destroy()
             console.log(result)
             if (result) {

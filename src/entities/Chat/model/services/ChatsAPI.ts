@@ -39,7 +39,7 @@ export const chatsApi = createApi({
         }),
         getChatHistory: build.query<ChatSchema, string>({
             query: (chatId) => ({
-                url: `messaging/chat/${chatId}`,
+                url: `/messaging/chat/${chatId}`,
                 method: "GET"
             })
         }),
@@ -87,7 +87,7 @@ export const chatsApi = createApi({
         }),
         createNewChat: build.mutation<ChatSchema, NewChatProps>({
             query: (props) => ({
-                url: "messaging/chat",
+                url: "/messaging/chat",
                 method: "POST",
                 data: props
             }),
@@ -95,14 +95,14 @@ export const chatsApi = createApi({
         }),
         deleteChat: build.mutation<void, string>({
             query: (chatId) => ({
-                url: `messaging/chat/${chatId}`,
+                url: `/messaging/chat/${chatId}`,
                 method: "DELETE"
             }),
             invalidatesTags: ["Chats"]
         }),
         renameChat: build.mutation<void, { chat_id: string, name: string }>({
             query: (props) => ({
-                url: "messaging/chat/renaming",
+                url: "/messaging/chat/renaming",
                 method: "PATCH",
                 data: props
             }),
