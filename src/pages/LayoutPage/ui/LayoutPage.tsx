@@ -29,7 +29,7 @@ const LayoutPage = () => {
         <div className={classNames(cls.LayoutPage)}>
             <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             <div className={cls.Layout}>
-                <Sidebar isMenuOpen={isMenuOpen} width={width} />
+                <Sidebar setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} width={width} />
                 <Outlet />
             </div>
         </div>

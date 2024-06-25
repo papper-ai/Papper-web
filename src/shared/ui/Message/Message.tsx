@@ -1,6 +1,9 @@
 import { DownCircleOutlined, QuestionCircleOutlined, UserOutlined } from "@ant-design/icons"
+import { useGSAP } from "@gsap/react"
 import { Button, Carousel, Drawer, Timeline } from "antd"
 import classNames from "classnames"
+import gsap from "gsap"
+import TextPlugin from "gsap/TextPlugin"
 import React, { useCallback, useState } from "react"
 import Markdown from "react-markdown"
 import { TypeAnimation } from "react-type-animation"
@@ -10,6 +13,7 @@ import { Acordion } from "../Collapse/Collapse"
 import { Text, TextTheme } from "../Text/Text"
 import * as cls from "./Message.module.scss"
 
+gsap.registerPlugin(useGSAP, TextPlugin)
 interface MessageProps {
     className?: string
     sender?: IRole
@@ -20,6 +24,7 @@ interface MessageProps {
 
 export const Message = (props: MessageProps) => {
     const [drawerIsOpen, setDrawerIsOpen] = useState(false)
+
     const openDrawer = useCallback(() => {
         setDrawerIsOpen(true)
     }, [])
@@ -33,6 +38,7 @@ export const Message = (props: MessageProps) => {
         traceback = [],
         isExample = false
     } = props
+
     return (
         <div className={classNames(cls.Message, {}, [className, cls[sender || "user"]])}>
             <Avatar theme={sender} />

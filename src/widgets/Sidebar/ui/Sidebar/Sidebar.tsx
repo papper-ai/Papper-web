@@ -11,6 +11,7 @@ import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
 import { MenuProfile } from "../MenuProfile/MenuProfile"
 import * as cls from "./Sidebar.module.scss"
+import { PlusCircleOutlined } from "@ant-design/icons"
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -21,8 +22,9 @@ const MenuKeys = {
 interface SidebarProps {
     width?: number
     isMenuOpen?: boolean
+    setIsMenuOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }
-export const Sidebar = ({ width, isMenuOpen }: SidebarProps) => {
+export const Sidebar = ({ width, isMenuOpen, setIsMenuOpen }: SidebarProps) => {
     const [newChatModal, setNewChatModal] = useState(false)
     const { data: chats } = chatsApi.useGetChatsPreviewQuery()
     const navigate = useNavigate()
@@ -35,16 +37,18 @@ export const Sidebar = ({ width, isMenuOpen }: SidebarProps) => {
     const chatSelect = useCallback(async (chatId: string) => {
         if (chatId === id) return
         console.log(chatId)
+        setIsMenuOpen?.(false)
         navigate("/main" + "/" + chatId)
-    }, [navigate, id])
+    }, [navigate, id, setIsMenuOpen])
     const chatsItems = useMemo(() => chats?.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])
 
     const handleNewChat = useCallback(() => {
         setNewChatModal(true)
     }, [])
     const handleVault = useCallback(() => {
+        setIsMenuOpen?.(false)
         navigate(RoutePath[AppRoutes.VAULT])
-    }, [navigate])
+    }, [navigate, setIsMenuOpen])
 
     const items: MenuItem[] = [
         {
@@ -55,6 +59,7 @@ export const Sidebar = ({ width, isMenuOpen }: SidebarProps) => {
         },
         {
             key: "2",
+            icon: <PlusCircleOutlined style={{ fontSize: "20px", marginTop: "4px" }} />,
             label: "Создать новый чат",
             onClick: handleNewChat
         },

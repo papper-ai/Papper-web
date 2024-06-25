@@ -7,6 +7,9 @@
 }
 .Layout{
     display: flex;
-    flex: 1;
     position: relative;
+    height: 100%;
+    @media screen and (max-width: 992px) {
+        height: calc(100% - var(--header-height));
+    }
 }

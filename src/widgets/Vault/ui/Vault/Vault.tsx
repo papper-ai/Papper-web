@@ -46,7 +46,7 @@ export const Vault = ({ className }: VaultProps) => {
     const handleAccordionChange = (key: string | string[]) => {
         try {
             if (key.length > 0) {
-                $api.get<IDocument[]>(`/vault/get_vault_documents/${key}`).then((res) => {
+                $api.get<IDocument[]>(`/vault/${key}/documents`).then((res) => {
                     dispatch(vaultsActions.addVaultDocument(res.data))
                 })
             }
@@ -59,7 +59,7 @@ export const Vault = ({ className }: VaultProps) => {
             {contextHolder}
             <div className={classNames(cls.Vault, {}, [className])}>
                 <div className={cls.header}>
-                    <Text title={login} />
+                    <Text title={"Управление хранилищами"} />
                     <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Количество доступных хранилищ" value={vaults.length} formatter={statsFormatter} />
                     <Button onClick={() => setModalOpen(true)} size="large" icon={<FolderAddOutlined />}>Создать хранилище</Button>
                 </div>

@@ -13,7 +13,6 @@ export interface AnswerSchema {
 }
 
 export interface IChatHistory {
-    chat_id: string
     history: AnswerSchema[]
 }
 

@@ -1,5 +1,5 @@
 import { BaseQueryFn, createApi } from "@reduxjs/toolkit/query/react"
-import { AxiosRequestConfig } from "axios"
+import { AxiosError, AxiosRequestConfig } from "axios"
 import { $api } from "shared/api/api"
 import { ChatSchema, AnswerSchema, SendMessageProps, NewChatProps } from "../types/ChatSchema"
 interface AxiosBaseQueryArgs {
@@ -8,14 +8,15 @@ interface AxiosBaseQueryArgs {
     data?: AxiosRequestConfig["data"];
     params?: AxiosRequestConfig["params"];
 }
-const axiosBaseQuery = ({ baseUrl }: { baseUrl: string } = { baseUrl: "" }): BaseQueryFn<AxiosBaseQueryArgs, unknown, unknown> =>
+type BaseQueryError = { status: number; data: any }
+const axiosBaseQuery = ({ baseUrl }: { baseUrl: string } = { baseUrl: "" }): BaseQueryFn<AxiosBaseQueryArgs, unknown, BaseQueryError> =>
 
     async ({ url, params, method, data }) => {
         try {
             const result = await $api({ url: baseUrl + url, params, method, data })
             return { data: result.data }
         } catch (axiosError) {
-            const err = axiosError
+            const err = axiosError as AxiosError
             return {
                 error: {
                     status: err.response?.status,
@@ -52,6 +53,7 @@ export const chatsApi = createApi({
             async onQueryStarted (message, { dispatch, queryFulfilled }) {
                 console.log(message)
                 dispatch(chatsApi.util.updateQueryData("getChatHistory", message.chat_id, (draft) => {
+                    console.log(draft.id)
                     draft.chat_history.history.push({ content: message.query, role: "user" })
                 }))
 

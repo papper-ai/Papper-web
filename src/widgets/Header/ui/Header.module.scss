@@ -1,5 +1,6 @@
 .Header{
     width: 100%;
+    height: var(--header-height);
     border-radius: var(--border-radius);
     background-color: var(--bg-color);
     display: none;

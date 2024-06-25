@@ -1,4 +1,5 @@
 import { message, Skeleton } from "antd"
+import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
 import { memo, useEffect, useMemo, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -9,23 +10,31 @@ import { EmptyChat } from "../EmptyChat/EmptyChat"
 import * as cls from "./MessageWidget.module.scss"
 
 interface MessageWidgetProps {
-    className?: string
+    className?: string;
+    messageApi?: MessageInstance;
 }
 
-export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
+export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps) => {
     const { id } = useParams()
     const chatRef = useRef<HTMLDivElement>(null)
     const [, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
     console.log(messageIsLoading, messageError)
     const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
-    const [messageApi, contextHolder] = message.useMessage()
     const navigate = useNavigate()
     if (chatError) {
-        navigate(RoutePath[AppRoutes.MAIN])
-        messageApi.error({
-            content: "Чат не найден",
-            duration: 2
-        })
+        if ("data" in chatError) {
+            messageApi.error({
+                content: chatError.data,
+                duration: 2
+            })
+        } else {
+            // Обработка SerializedError или других типов ошибок
+            messageApi.error({
+                content: "Произошла ошибка при получении чата",
+                duration: 2
+            })
+        }
+        navigate(RoutePath[AppRoutes.MAIN]) 
     }
     useEffect(() => {
         if (messageError) {
@@ -43,7 +52,6 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
     }), [currentChat])
     return (
         <>
-            {contextHolder}
             <div ref={chatRef} className={classNames(cls.MessageWidget, {}, [className])}>
                 {isLoading
                     ? <Skeleton active />

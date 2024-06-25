@@ -28,7 +28,9 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
     const [createNewChat, { isLoading, error: newChatError }] = chatsApi.useCreateNewChatMutation()
     const [newChatName, setNewChatName] = useState("")
     const vaults = useSelector(getVaults)
-    const [selectItem, setSelectItem] = useState()
+    const radioButtonVaults: RadioItem[] = useMemo(() => vaults.map((item) => ({ value: item.id, label: item.name })), [vaults])
+
+    const [selectItem, setSelectItem] = useState(radioButtonVaults[0]?.value)
     const handleChangeSelectItem = useCallback((e: RadioChangeEvent) => {
         setSelectItem(e.target.value)
     }, [setSelectItem])
@@ -49,6 +51,7 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
     //     }
     // }, [isLoading, messageApi, newChatError])
     const handleCreateNewChat = useCallback(async () => {
+        console.log(selectItem, newChatName)
         if (!selectItem) return
         if (!newChatName) return
         try {
@@ -65,7 +68,6 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
     const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setNewChatName(e.target.value)
     }, [setNewChatName])
-    const radioButtonVaults: RadioItem[] = useMemo(() => vaults.map((item) => ({ value: item.id, label: item.name })), [vaults])
     return (
         <Modal onClose={onClose} isOpen={isOpen} >
             <div className={classNames(cls.NewChatModal, {}, [className])}>

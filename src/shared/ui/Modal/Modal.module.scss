@@ -25,7 +25,7 @@
     background-color: var(--bg-color);
     color: var(--font-color);
     max-width: 60%;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1200px) {
         max-width: 90%;
         width: 100%;
     }
