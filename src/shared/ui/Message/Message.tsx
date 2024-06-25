@@ -24,7 +24,6 @@ interface MessageProps {
 
 export const Message = (props: MessageProps) => {
     const [drawerIsOpen, setDrawerIsOpen] = useState(false)
-
     const openDrawer = useCallback(() => {
         setDrawerIsOpen(true)
     }, [])

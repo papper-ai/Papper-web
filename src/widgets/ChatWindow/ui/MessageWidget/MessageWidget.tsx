@@ -1,6 +1,9 @@
+import { useGSAP } from "@gsap/react"
 import { message, Skeleton } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
+import gsap from "gsap"
+import ScrollTrigger from "gsap/ScrollTrigger"
 import { memo, useEffect, useMemo, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { chatsApi } from "entities/Chat"
@@ -8,7 +11,7 @@ import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
 import { Message } from "shared/ui/Message/Message"
 import { EmptyChat } from "../EmptyChat/EmptyChat"
 import * as cls from "./MessageWidget.module.scss"
-
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 interface MessageWidgetProps {
     className?: string;
     messageApi?: MessageInstance;
@@ -21,6 +24,21 @@ export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps
     console.log(messageIsLoading, messageError)
     const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
     const navigate = useNavigate()
+    useGSAP(() => {
+        const sections = gsap.utils.toArray<HTMLElement>(".message")
+        sections.forEach((section) => {
+            gsap.to(section, {
+                opacity: 0,
+                scrollTrigger: {
+                    scroller: "." + cls.MessageWidget,
+                    trigger: section,
+                    start: "top +=50px center",
+                    scrub: true
+                    // markers: true
+                }
+            })
+        })
+    }, [currentChat, messageError])
     if (chatError) {
         if ("data" in chatError) {
             messageApi.error({
@@ -34,7 +52,7 @@ export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps
                 duration: 2
             })
         }
-        navigate(RoutePath[AppRoutes.MAIN]) 
+        navigate(RoutePath[AppRoutes.MAIN])
     }
     useEffect(() => {
         if (messageError) {
@@ -58,7 +76,7 @@ export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps
                     : (messages?.length && messages?.length > 0)
                         ? (<>
 
-                            {messages?.map((item) => <Message key={Math.random()} sender={item.sender} content={item.content} traceback={item.traceback} />)}
+                            {messages?.map((item) => <Message className={"message"} key={Math.random()} sender={item.sender} content={item.content} traceback={item.traceback} />)}
                             {messageIsLoading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
                         </>)
                         : <EmptyChat />}
