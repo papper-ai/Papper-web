@@ -1,6 +1,7 @@
+import { PlusCircleOutlined } from "@ant-design/icons"
 import { Menu, MenuProps, message } from "antd"
 import classNames from "classnames"
-import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom"
 import { NewChatModal } from "features/CreateNewChat"
 import { chatsApi } from "entities/Chat"
@@ -11,7 +12,7 @@ import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
 import { MenuProfile } from "../MenuProfile/MenuProfile"
 import * as cls from "./Sidebar.module.scss"
-import { PlusCircleOutlined } from "@ant-design/icons"
+import { AddPhoto } from "../AddPhotoModal/AddPhotoModal"
 
 type MenuItem = Required<MenuProps>["items"][number]
 
@@ -31,7 +32,6 @@ export const Sidebar = ({ width, isMenuOpen, setIsMenuOpen }: SidebarProps) => {
     const [messageApi, contextHolder] = message.useMessage()
     const { id } = useParams()
     const location = useLocation()
-    console.log()
     // Поменять эту хуйню блять, а то это пиздец, currentChat нахуй в пиздe
     // Похуй оставляем пока
     const chatSelect = useCallback(async (chatId: string) => {

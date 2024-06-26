@@ -9,6 +9,7 @@ import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Acordion } from "shared/ui/Collapse/Collapse"
 import { TextTheme, Text } from "shared/ui/Text/Text"
+import { VaultDocumentsExtra } from "../VaultDocumentsExtra/VaultDocumentsExtra"
 import * as cls from "./VaultDocuments.module.scss"
 interface VaultDocumentsProps {
     items?: IDocument[];
@@ -51,7 +52,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
             duration: 0
         })
         try {
-            const result = await $api.post<VaultSchema>("/vault/upload_document", formData, {
+            const result = await $api.post<VaultSchema>("/vault/document", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
             messageApi?.destroy()
@@ -96,7 +97,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
                                 key: doc.id,
                                 label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
                                 children: <TypeAnimation cursor={false} sequence={[doc.text]} wrapper="span" />,
-                                extra: <Button type="text" shape="circle" style={{ color: "red", fontSize: "20px" }} icon={<DeleteOutlined />} onClick={(e) => { e.stopPropagation(); deleteDocument(doc.id) }} />
+                                extra: <VaultDocumentsExtra deleteDocument={deleteDocument} doc={doc}/>
                             }
                         })} />
                 : <Skeleton active paragraph={{ rows: 5 }} />}

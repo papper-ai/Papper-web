@@ -27,6 +27,16 @@
     }
 }
 
+.error {
+    .title {
+        color: var(--error-color);
+    }
+
+    .text {
+        color: var(--error-color);
+    }
+}
+
 .traceback {
     position: relative;
     padding-top: 25px;

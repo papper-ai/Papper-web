@@ -32,6 +32,7 @@ module.exports = {
         "react/display-name": "off",
         "no-empty-pattern": "off",
         "@conarti/feature-sliced/layers-slices": "warn",
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 }
