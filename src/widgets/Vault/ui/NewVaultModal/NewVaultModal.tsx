@@ -18,7 +18,7 @@ interface NewVaultCreaterProps {
     onClose?: () => void
     isOpen: boolean
 }
-
+// TODO:Полный ад с upload надо рефакторить
 type UploadFunction = UploadProps["customRequest"]
 export const NewVaultModal = (props: NewVaultCreaterProps) => {
     const {

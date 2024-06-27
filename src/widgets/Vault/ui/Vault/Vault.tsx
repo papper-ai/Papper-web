@@ -15,6 +15,7 @@ import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
 import { VaultDocuments } from "../VaultDocuments/VaultDocuments"
 import { VaultExtra } from "../VaultExtra/VaultExtra"
 import * as cls from "./Vault.module.scss"
+import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 
 interface VaultProps {
     className?: string
@@ -33,11 +34,12 @@ export const Vault = ({ className }: VaultProps) => {
     const vaults = useSelector(getVaults)
     const [messageApi, contextHolder] = message.useMessage()
     const dispatch = useAppDispatch()
-
+    const width = useDeviceWidth()
+    console.log(width)
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({
             key: item.id,
-            label: <Text title={item.name} text={`Тип хранилища: ${VaultTypes[item.type]}`} textTheme={TextTheme.INLINE} />,
+            label: <Text title={item.name} text={width > 1100 ? "Тип хранилища: " + VaultTypes[item.type] : VaultTypes[item.type]} textTheme={TextTheme.INLINE} />,
             children: <VaultDocuments messageApi={messageApi} vaultId={item.id} items={item.documents} />,
             extra: <VaultExtra id={item.id} messageApi={messageApi} />
         })))

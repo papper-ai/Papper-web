@@ -5,7 +5,14 @@ export interface ITraceback{
     information: string
     document_name: string
 }
-
+export interface AiMessage{
+    content: string
+    traceback?: ITraceback[]
+    role: IRole
+}
+export interface AIAnswer{
+    ai_message: AiMessage
+}
 export interface AnswerSchema {
     role: IRole
     content: string

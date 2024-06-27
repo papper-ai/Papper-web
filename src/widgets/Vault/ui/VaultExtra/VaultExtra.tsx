@@ -6,7 +6,7 @@ import { chatsApi } from "entities/Chat"
 import { vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
-
+import * as cls from "./VaultExtra.module.scss"
 interface VaultExtraProps {
     className?: string;
     id?: string;
@@ -43,7 +43,7 @@ export const VaultExtra = memo(({ id, messageApi }: VaultExtraProps) => {
 
     const renameVault = useCallback(async (id: string) => {
         try {
-            const result = await $api.patch("/vault/update_vault_name", { vault_id: id, name: newName })
+            const result = await $api.patch("/vault/name", { vault_id: id, name: newName })
             if (result) {
                 messageApi?.open({
                     type: "success",
@@ -64,10 +64,12 @@ export const VaultExtra = memo(({ id, messageApi }: VaultExtraProps) => {
         }
     }, [dispatch, messageApi, newName])
     return (
-        <div>
-            {renameOpen && <Input value={newName} onClick={(e) => { e.stopPropagation() }} onChange={(e) => { setNewName(e.target.value) }} style={{ width: "200px" }} placeholder="Новое имя хранилища" onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") { renameVault(id) } }} />}
-            <Button type="text" icon={<DeleteOutlined style={{ color: "red", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); if (id) deleteVault(id) }} />
-            <Button type="text" icon={<EditOutlined style={{ color: "primary", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); setRenameOpen(!renameOpen) }} />
-        </div>
+        <>
+            {renameOpen && <Input value={newName} onClick={(e) => { e.stopPropagation() }} onChange={(e) => { setNewName(e.target.value) }} className={cls.input} placeholder="Новое имя хранилища" onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") { renameVault(id) } }} />}
+            <div style={{ display: "flex", flexWrap: "nowrap" }}>
+                <Button type="text" icon={<DeleteOutlined style={{ color: "red", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); if (id) deleteVault(id) }} />
+                <Button type="text" icon={<EditOutlined style={{ color: "primary", fontSize: "20px" }} />} onClick={(e) => { e.stopPropagation(); setRenameOpen(!renameOpen) }} />
+            </div>
+        </>
     )
 })

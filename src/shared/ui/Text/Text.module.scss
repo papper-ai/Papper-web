@@ -21,9 +21,27 @@
 .inline {
     display: flex;
     align-items: center;
-
+    .title {
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        @media screen and (max-width: 1100px) {
+            max-width: 150px;
+        }
+        
+    }
     .text {
         margin-left: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        @media screen and (max-width: 525px) {
+            max-width: 100px;
+        }
+        @media screen and (max-width: 420px) {
+            display: none;
+        }
     }
 }
 

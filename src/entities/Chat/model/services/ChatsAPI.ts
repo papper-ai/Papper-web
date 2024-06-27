@@ -1,7 +1,7 @@
 import { BaseQueryFn, createApi } from "@reduxjs/toolkit/query/react"
 import { AxiosError, AxiosRequestConfig } from "axios"
 import { $api } from "shared/api/api"
-import { ChatSchema, AnswerSchema, SendMessageProps, NewChatProps } from "../types/ChatSchema"
+import { ChatSchema, SendMessageProps, NewChatProps, AIAnswer } from "../types/ChatSchema"
 interface AxiosBaseQueryArgs {
     url: string;
     method: AxiosRequestConfig["method"];
@@ -44,7 +44,7 @@ export const chatsApi = createApi({
                 method: "GET"
             })
         }),
-        sendMessage: build.mutation<AnswerSchema, SendMessageProps>({
+        sendMessage: build.mutation<AIAnswer, SendMessageProps>({
             query: (props) => ({
                 url: "/qa/generation",
                 method: "POST",
@@ -57,33 +57,11 @@ export const chatsApi = createApi({
                     draft.chat_history.history.push({ content: message.query, role: "user" })
                 }))
 
-                try {
+                queryFulfilled.then((answer) => {
                     dispatch(chatsApi.util.updateQueryData("getChatHistory", message.chat_id, (draft) => {
-                        draft.chat_history.history.push(
-                            {
-                                content: "asdasdasdad",
-                                role: "ai",
-                                traceback: [{
-                                    document_id: "1",
-                                    information: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus doloremque vero nulla quidem odit. Expedita ad dolor, temporibus natus possimus quia inventore. Eveniet eos accusantium ea pariatur quae. Numquam, eum?",
-                                    document_name: "AADADADADADADADADADsl;adldsaldkas;dkasdal;skdasldklasdkals;dksa;dlkas;ldkas;ldk;as"
-                                },
-                                {
-                                    document_id: "1",
-                                    information: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus doloremque vero nulla quidem odit. Expedita ad dolor, temporibus natus possimus quia inventore. Eveniet eos accusantium ea pariatur quae. Numquam, eum?",
-                                    document_name: "asdasdasdad"
-                                },
-                                {
-                                    document_id: "1",
-                                    information: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus doloremque vero nulla quidem odit. Expedita ad dolor, temporibus natus possimus quia inventore. Eveniet eos accusantium ea pariatur quae. Numquam, eum?",
-                                    document_name: "asdasdasdad"
-                                }
-                                ]
-                            })
+                        draft.chat_history.history.push({ content: answer.data.ai_message.content, role: answer.data.ai_message.role, traceback: answer.data.ai_message.traceback })
                     }))
-                } catch (e) {
-                    console.log(e)
-                }
+                })
             }
 
         }),

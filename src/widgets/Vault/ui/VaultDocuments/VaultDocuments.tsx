@@ -21,7 +21,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
     const dispatch = useAppDispatch()
     const deleteDocument = async (id: string) => {
         try {
-            const result = await $api.delete(`/vault/delete_document/${vaultId}/${id}`)
+            const result = await $api.delete(`/vault/${vaultId}/document/${id}`)
             if (result) {
                 messageApi?.open({
                     type: "success",

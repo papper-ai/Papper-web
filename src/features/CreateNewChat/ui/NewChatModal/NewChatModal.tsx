@@ -10,6 +10,7 @@ import { Modal } from "shared/ui/Modal/Modal"
 import { RadioButton, RadioItem } from "shared/ui/RadioButton/RadioButton"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import * as cls from "./NewChatModal.module.scss"
+import { useNavigate } from "react-router-dom"
 
 interface NewChatModalProps {
     className?: string
@@ -29,7 +30,7 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
     const [newChatName, setNewChatName] = useState("")
     const vaults = useSelector(getVaults)
     const radioButtonVaults: RadioItem[] = useMemo(() => vaults.map((item) => ({ value: item.id, label: item.name })), [vaults])
-
+    const navigate = useNavigate()
     const [selectItem, setSelectItem] = useState(radioButtonVaults[0]?.value)
     const handleChangeSelectItem = useCallback((e: RadioChangeEvent) => {
         setSelectItem(e.target.value)
@@ -56,7 +57,10 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
         if (!newChatName) return
         try {
             const result = await createNewChat({ name: newChatName, vault_id: selectItem })
-            console.log(result)
+            if("data" in result){
+                onClose?.()
+                navigate("main/" + result.data.id)
+            }
         } catch (e) {
             messageApi.open({
                 type: "error",
@@ -107,8 +111,6 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
 
                             </Form.Item>
                         </Form>
-                        <Text textTheme={TextTheme.INLINE} text="Выберите хранилище" />
-
                     </>
                     : <Empty description="Нет доступных хранилищ для создания чата" />
                 }

@@ -6,6 +6,9 @@
     height: 50px;
     border-radius: 50%;
     flex-shrink: 0;
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 }
 
 .bot {

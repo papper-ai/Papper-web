@@ -1,6 +1,9 @@
 .Vault{
     flex-grow: 1;
     padding: 50px;
+    @media screen and (max-width: 768px) {
+        padding: 10px;
+    }
     max-height: 100vh;
     display: flex;
     flex-direction: column;

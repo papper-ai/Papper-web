@@ -1,26 +1,38 @@
-.Message{
+.Message {
     display: flex;
     width: 100%;
     color: var(--font-color);
     margin-bottom: 20px;
 }
 
-.content{
+.content {
     padding: 30px;
     border-radius: var(--border-radius);
     white-space: pre-wrap;
+
+    
 }
-.ai{
-    .content{
+
+.ai {
+    .content {
         background-color: var(--message-color);
+        @media screen and (max-width: 768px) {
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
     }
 }
-.user{
+
+.user {
     flex-direction: row-reverse;
-    .content{
+
+    .content {
         background-color: var(--primary-color);
+        @media screen and (max-width: 768px) {
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
     }
 }
-.isExample{
+
+.isExample {
     width: 100%;
 }
