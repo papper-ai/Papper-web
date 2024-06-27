@@ -3,6 +3,7 @@ export type IRole = "user" | "ai"
 export interface ITraceback{
     document_id: string
     information: string
+    document_name: string
 }
 
 export interface AnswerSchema {
@@ -12,7 +13,6 @@ export interface AnswerSchema {
 }
 
 export interface IChatHistory {
-    chat_id: string
     history: AnswerSchema[]
 }
 
@@ -28,5 +28,17 @@ export interface ChatSchema{
 export interface ChatsSchema{
     isLoading?: boolean
     error?: string
+    isLoadingHistory?: boolean
+    errorHistory?: string
     chats?: ChatSchema[]
+}
+
+export interface SendMessageProps {
+    vault_id: string
+    chat_id: string
+    query: string
+}
+export interface NewChatProps {
+    vault_id: string;
+    name: string;
 }

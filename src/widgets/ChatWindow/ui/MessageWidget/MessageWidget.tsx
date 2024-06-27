@@ -1,39 +1,58 @@
-import { Empty, message, Skeleton } from "antd"
+import { useGSAP } from "@gsap/react"
+import { message, Skeleton } from "antd"
+import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
+import gsap from "gsap"
+import ScrollTrigger from "gsap/ScrollTrigger"
 import { memo, useEffect, useMemo, useRef } from "react"
-import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-import type { StateSchema } from "app/providers/StoreProvider"
-import { fetchChatHistory, getCurrentChatError } from "features/CreateNewChat"
-import { getSendMessageError, getSendMessageIsLoading } from "features/MessageSender"
-import { fetchChatsPreview } from "entities/Chat"
+import { chatsApi } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Message } from "shared/ui/Message/Message"
 import { EmptyChat } from "../EmptyChat/EmptyChat"
 import * as cls from "./MessageWidget.module.scss"
-
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 interface MessageWidgetProps {
-    className?: string
+    className?: string;
+    messageApi?: MessageInstance;
 }
 
-export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
+export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps) => {
     const { id } = useParams()
     const chatRef = useRef<HTMLDivElement>(null)
-    const messageIsLoading = useSelector(getSendMessageIsLoading)
-    const messageError = useSelector(getSendMessageError)
-    const dispatch = useAppDispatch()
-    const currentChat = useSelector((state: StateSchema) => state.currentChat)
-    const error = useSelector(getCurrentChatError)
-    const [messageApi, contextHolder] = message.useMessage()
+    const [, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
+    console.log(messageIsLoading, messageError)
+    const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
     const navigate = useNavigate()
-    if (error) {
-        dispatch(fetchChatsPreview({}))
-        navigate(RoutePath[AppRoutes.MAIN])
-        messageApi.error({
-            content: "Чат не найден",
-            duration: 2
+    useGSAP(() => {
+        const sections = gsap.utils.toArray<HTMLElement>(".message")
+        sections.forEach((section) => {
+            gsap.to(section, {
+                opacity: 0,
+                scrollTrigger: {
+                    scroller: "." + cls.MessageWidget,
+                    trigger: section,
+                    start: "top +=50px center",
+                    scrub: true
+                    // markers: true
+                }
+            })
         })
+    }, [currentChat, messageError])
+    if (chatError) {
+        if ("data" in chatError) {
+            messageApi.error({
+                content: chatError.data,
+                duration: 2
+            })
+        } else {
+            // Обработка SerializedError или других типов ошибок
+            messageApi.error({
+                content: "Произошла ошибка при получении чата",
+                duration: 2
+            })
+        }
+        navigate(RoutePath[AppRoutes.MAIN])
     }
     useEffect(() => {
         if (messageError) {
@@ -44,26 +63,20 @@ export const MessageWidget = memo(({ className }: MessageWidgetProps) => {
         }
     }, [messageApi, messageError])
     useEffect(() => {
-        if (id) {
-            dispatch(fetchChatHistory({ chatId: id }))
-        }
-    }, [id, dispatch])
-    useEffect(() => {
         chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" })
     }, [currentChat])
-    const messages = useMemo(() => currentChat?.chat?.chat_history?.history?.map((item) => {
+    const messages = useMemo(() => currentChat?.chat_history?.history?.map((item) => {
         return { content: item.content, sender: item.role, traceback: item.traceback }
     }), [currentChat])
     return (
         <>
-            {contextHolder}
             <div ref={chatRef} className={classNames(cls.MessageWidget, {}, [className])}>
-                {currentChat.isLoading
+                {isLoading
                     ? <Skeleton active />
-                    : messages?.length > 0
+                    : (messages?.length && messages?.length > 0)
                         ? (<>
 
-                            {messages?.map((item) => <Message key={Math.random()} sender={item.sender} content={item.content} traceback={item.traceback} />)}
+                            {messages?.map((item) => <Message className={"message"} key={Math.random()} sender={item.sender} content={item.content} traceback={item.traceback} />)}
                             {messageIsLoading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
                         </>)
                         : <EmptyChat />}

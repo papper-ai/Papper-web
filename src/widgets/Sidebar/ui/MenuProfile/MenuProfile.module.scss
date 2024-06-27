@@ -1,0 +1,22 @@
+.MenuProfile{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: var(--primary-shade-color);
+    border-radius: var(--border-radius);
+    padding: 0 10px;
+}
+.username{
+    margin-left: 10px;
+    color: var(--font-color);
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-l);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.btn{
+    margin-left: auto;
+    padding: 20px;
+}

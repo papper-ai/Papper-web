@@ -2,9 +2,8 @@
 import classNames from "classnames"
 import * as cls from "./NewVaultModal.module.scss"
 import { Modal } from "shared/ui/Modal/Modal"
-import { Button } from "antd"
-import { Uploader } from "shared/ui/Uploader/Uploader"
-import { Selecter } from "shared/ui/Select/Selecter"
+import { Button, Form, Input, Select, Upload } from "antd"
+
 import { Text } from "shared/ui/Text/Text"
 import { FormInput } from "shared/ui/Input/Input"
 import { useCallback, useRef, useState } from "react"
@@ -12,11 +11,14 @@ import { $api } from "shared/api/api"
 import { message, UploadFile, type UploadProps } from "antd"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { vaultsActions, VaultSchema } from "entities/Vault"
+import { UploadChangeParam } from "antd/es/upload"
+import { InboxOutlined } from "@ant-design/icons"
 
+const { Dragger } = Upload
 interface NewVaultCreaterProps {
     className?: string;
     onClose?: () => void
-    isOpen?: boolean
+    isOpen: boolean
 }
 
 type UploadFunction = UploadProps["customRequest"]
@@ -59,9 +61,10 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
             const formData = new FormData()
             formData.append("create_vault_credentials", JSON.stringify(vaultConfig))
             for (let i = 0; i < files?.length; i++) {
-                formData.append("files", files[i].originFileObj)
+                if (!files[i].originFileObj) continue
+                formData.append("files", files[i].originFileObj as string | Blob)
             }
-            const result = await $api.post<VaultSchema>("/vault/create_vault", formData, { headers: { "Content-Type": "multipart/form-data" } })
+            const result = await $api.post<VaultSchema>("/vault", formData, { headers: { "Content-Type": "multipart/form-data" } })
             messageApi.destroy()
             console.log(result)
             if (result) {
@@ -70,6 +73,8 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                     content: "Хранилище создано",
                     duration: 0
                 })
+                setFiles([])
+                setNewVaultName("")
                 dispatch(vaultsActions.pushVaults(result.data))
                 closeModal()
             } else {
@@ -88,17 +93,23 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
             }, 1500)
         }
     }
-    const handleChangeUploader: UploadProps["onChange"] = useCallback((info) => {
+    const handleChangeUploader: UploadProps["onChange"] = useCallback((info: UploadChangeParam<UploadFile<any>>) => {
         let newFileList = [...info.fileList]
-
-        // 1. Limit the number of uploaded files
-        // Only to show two recent uploaded files, and old ones will be replaced by the new
         newFileList = newFileList.slice(-5)
-
-        // 2. Read from response and show file link
+        newFileList = newFileList.filter((file) => {
+            if (!file.size) return false
+            if (file.size > 10 * 1024 * 1024) {
+                messageApi.open({
+                    type: "error",
+                    content: "Файл должен быть меньше 10 МБ",
+                    duration: 2
+                })
+                return false
+            }
+            return true
+        })
         newFileList = newFileList.map((file) => {
             if (file.response) {
-                // Component will show file.url as link
                 file.url = file.response.url
             }
             return file
@@ -108,9 +119,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     }, [])
 
     const dummyRequest: UploadFunction = ({ onSuccess }) => {
-        setTimeout(() => {
-            onSuccess("ok")
-        }, 0)
+        onSuccess?.("ok")
     }
 
     return (
@@ -119,22 +128,72 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
             <Modal isOpen={isOpen} onClose={closeModal}>
                 <div className={cls.modalContainer}>
                     <Text className={cls.title} title="Добавление нового хранилища" />
-                    <FormInput disabled={uploading} value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
-                    <Selecter value={newVaultType} onChange={handleChangeSelect} label="Выберите тип хранилища" />
-                    <Uploader
-                        disabled={uploading}
-                        name="file"
-                        maxCount={5}
-                        fileList={files}
-                        multiple
-                        onRemove={(e) => {
-                            setFiles(files.filter((item) => item.uid !== e.uid))
-                        }}
-                        accept=".pdf,.docx,.txt,.md"
-                        onChange={handleChangeUploader}
-                        customRequest={dummyRequest}
-                    />
-                    <Button disabled={uploading} className={cls.btn} onClick={handleSubmitNewVault} loading={uploading}>Добавить</Button>
+                    <Form
+                        layout="vertical"
+                        style={{ width: "100%" }}
+                        autoComplete="off"
+                        onFinish={handleSubmitNewVault}
+                        requiredMark={false}
+                    >
+                        <Form.Item
+                            name="name"
+                            label="Название хранилища"
+                            style={{ width: "100%" }}
+                            rules={[{ required: true, message: "Название хранилища обязательно", whitespace: true }]}
+                            hasFeedback
+                        >
+                            <FormInput style={{ marginTop: "0" }} autoComplete="off" disabled={uploading} value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
+                        </Form.Item>
+                        <Form.Item
+                            name="type"
+                            label="Тип хранилища"
+                            style={{ width: "100%" }}
+                            rules={[{ required: true, message: "Тип хранилища обязателен" }]}
+                            hasFeedback
+                        >
+                            <Select
+                                value={newVaultType}
+                                style={{ width: "100%", height: "50px" }}
+                                onChange={handleChangeSelect}
+                                options={[
+                                    { value: "graph", label: "Граф знаний" },
+                                    { value: "vector", label: "Векторная база данных" }
+                                ]}
+                            />
+
+                        </Form.Item>
+                        <Form.Item
+                            name="files"
+                            style={{ width: "100%" }}
+                            rules={[{ required: true, message: "Файлы обязательны" }]}
+                        >
+                            <div style={{ height: "200px", width: "100%", marginTop: "20px" }}>
+                                <Dragger
+                                    style={{ width: "100%" }}
+                                    maxCount={5} multiple={true}
+                                    fileList={files}
+                                    onChange={handleChangeUploader}
+                                    customRequest={dummyRequest}
+                                    accept={".pdf, .md, .docx, .txt"}
+                                    onRemove={(e) => {
+                                        setFiles(files.filter((item) => item.uid !== e.uid))
+                                    }}
+                                >
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined />
+                                    </p>
+                                    <p className="ant-upload-text">Кликните или перетащите для загрузки ваш файл</p>
+                                    <p className="ant-upload-hint">
+                                        Поддерживаемые форматы: .pdf, .md, .docx, .txt
+                                    </p>
+                                </Dragger>
+                            </div>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button htmlType="submit" loading={uploading} type="primary" className={cls.btn}>Добавить</Button>
+                        </Form.Item>
+                    </Form>
+
                 </div>
             </Modal>
         </>

@@ -1,9 +1,12 @@
-import { getUserAuth } from "./model/selectors/getUserLogin"
+import { getUserUsername } from "./model/selectors/getUserUsername"
+import { fetchUserData } from "./model/services/fetchUserData"
 import { userActions, userReducer } from "./model/slice/userSlice"
-import { User } from "./model/types/User"
+import { User, UserSchema } from "./model/types/User"
 export {
     User,
-    getUserAuth,
+    getUserUsername,
     userReducer,
-    userActions
+    userActions,
+    UserSchema,
+    fetchUserData
 }

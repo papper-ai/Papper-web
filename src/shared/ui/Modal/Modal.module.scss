@@ -6,6 +6,7 @@
     bottom: 0;
     opacity: 0;
     pointer-events: none;
+    z-index: 1000;
 }
 
 .overlay{
@@ -15,6 +16,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 }
 
 .content{
@@ -23,6 +25,10 @@
     background-color: var(--bg-color);
     color: var(--font-color);
     max-width: 60%;
+    @media screen and (max-width: 1200px) {
+        max-width: 90%;
+        width: 100%;
+    }
     transform: scale(0.5);
     transition: transform 0.3s;
 }

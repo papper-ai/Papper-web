@@ -1,0 +1,29 @@
+.ChatInfo {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-color);
+    height: 108px;
+    padding: 0 20px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    @media screen and (max-width: 992px) {
+        margin-top: 10px;
+    }
+}
+
+.title {
+    color: var(--font-color);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.description {
+    color: var(--font-info-color);
+    font-size: var(--font-size-l);
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.actions {
+    margin-left: auto;
+}

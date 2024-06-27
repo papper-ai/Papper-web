@@ -1,13 +1,15 @@
 .dark {
+    --body-color: #1E1E1E;
     --bg-color: #181818;
     --primary-color: #008000;
     --secondary-color: #202020;
     --tertiary-color: #8D0088;
     --quaternary-color: #E63D43;
     --sidebar-color: #131313;
-
+    --message-color: #292929;
     --secondary-shade-color: #353535;
-    --primary-shade-color: #44884492;
+    --primary-shade-color: rgba(0, 128, 0, 0.2);
     --primary-light-color: #aaf9aa;
     --font-color: #fff;
+    --font-info-color: #7E7E7E;
 }   

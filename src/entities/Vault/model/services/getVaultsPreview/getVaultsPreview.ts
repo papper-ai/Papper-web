@@ -8,7 +8,7 @@ export const getVaultsPreview = createAsyncThunk<VaultSchema[], GetVaultPreviewP
     "getVaultPreview",
     async ({}, { extra, dispatch, rejectWithValue }) => {
         try {
-            const response = await extra.api.get<VaultSchema[]>("vault/get_user_vaults_preview")
+            const response = await extra.api.get<VaultSchema[]>("/vault/vaults/preview")
 
             if (!response.data) {
                 throw new Error()

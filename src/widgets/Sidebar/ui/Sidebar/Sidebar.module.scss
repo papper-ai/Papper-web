@@ -1,0 +1,29 @@
+
+
+.Menu{
+    height: 100%;
+    width: 350px;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--bg-color);
+    overflow: hidden;
+    transition: 0.5s all;
+    .ant-menu-sub{
+        max-height: 300px;
+        overflow-y: auto;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .Menu{
+        position: absolute;
+        z-index: 8;
+        left: -100%;
+        width: 90%;
+    }
+    .menuOpen{
+        left: 0px;
+    }
+}

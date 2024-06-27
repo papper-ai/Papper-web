@@ -37,7 +37,7 @@ const registerSlice = createSlice({
             })
             .addCase(registerBySecret.rejected, (state, action) => {
                 state.isLoading = false
-                state.error = action.payload
+                state.error = action.payload as string
             })
     }
 })

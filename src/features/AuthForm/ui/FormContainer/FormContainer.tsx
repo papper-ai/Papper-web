@@ -101,7 +101,7 @@ export const FormContainer = memo((props: FormContainerProps) => {
             result = await dispatch(authByLogin({ login, password }))
             if (result.meta.requestStatus === "fulfilled") {
                 navigate("/main")
-                auth.login()
+                auth.login?.()
             }
         }
         console.log(result)

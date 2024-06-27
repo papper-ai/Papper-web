@@ -30,6 +30,9 @@ module.exports = {
         "no-tabs": ["error", { allowIndentationTabs: true }],
         "quote-props": ["error", "consistent-as-needed", { keywords: true, unnecessary: false }],
         "react/display-name": "off",
-        "no-empty-pattern": "off"
+        "no-empty-pattern": "off",
+        "@conarti/feature-sliced/layers-slices": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 }

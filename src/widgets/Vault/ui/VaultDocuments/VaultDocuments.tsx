@@ -3,11 +3,13 @@ import { Button, Skeleton, Upload, UploadProps } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import { memo } from "react"
 import Markdown from "react-markdown"
+import { TypeAnimation } from "react-type-animation"
 import { IDocument, vaultsActions, VaultSchema } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { Acordion } from "shared/ui/Collapse/Collapse"
 import { TextTheme, Text } from "shared/ui/Text/Text"
+import { VaultDocumentsExtra } from "../VaultDocumentsExtra/VaultDocumentsExtra"
 import * as cls from "./VaultDocuments.module.scss"
 interface VaultDocumentsProps {
     items?: IDocument[];
@@ -21,7 +23,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
         try {
             const result = await $api.delete(`/vault/delete_document/${vaultId}/${id}`)
             if (result) {
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Документ удален",
                     duration: 2
@@ -32,7 +34,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
             }
         } catch (e) {
             console.log(e)
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при удалении документа",
                 duration: 2
@@ -41,37 +43,38 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
     }
     const uploadNewDocument: UploadFunction = async (options) => {
         const formData = new FormData()
+        if (!vaultId) return
         formData.append("vault_id", vaultId)
         formData.append("file", options.file)
-        messageApi.open({
+        messageApi?.open({
             type: "loading",
             content: "Идет загрузка документа...",
             duration: 0
         })
         try {
-            const result = await $api.post<VaultSchema>("/vault/upload_document", formData, {
+            const result = await $api.post<VaultSchema>("/vault/document", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
-            messageApi.destroy()
+            messageApi?.destroy()
             if (result?.data) {
                 console.log(result)
-                messageApi.open({
+                messageApi?.open({
                     type: "success",
                     content: "Документ добавлен",
                     duration: 2
                 })
-                options.onSuccess(result)
+                options.onSuccess?.(result)
                 dispatch(vaultsActions.addDocument({ vaultId, documents: result.data.documents }))
             } else {
                 throw new Error()
             }
         } catch (e) {
-            messageApi.open({
+            messageApi?.open({
                 type: "error",
                 content: "Произошла ошибка при добавлении документа",
                 duration: 2
             })
-            options.onError(e)
+            options?.onError?.(e as Error)
         }
     }
     return (
@@ -86,15 +89,15 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
                     <Button size="large" icon={<UploadOutlined />}>Добавить новый документ</Button>
                 </Upload>
             </div>
-            {items?.length > 0
+            { (items?.length ?? 0) > 0
                 ? <Acordion
                     items=
-                        {items.map((doc: IDocument) => {
+                        {items?.map((doc: IDocument) => {
                             return {
                                 key: doc.id,
                                 label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
-                                children: <Markdown>{doc.text}</Markdown>,
-                                extra: <Button type="text" shape="circle" style={{ color: "red", fontSize: "20px" }} icon={<DeleteOutlined />} onClick={(e) => { e.stopPropagation(); deleteDocument(doc.id) }} />
+                                children: <TypeAnimation cursor={false} sequence={[doc.text]} wrapper="span" />,
+                                extra: <VaultDocumentsExtra deleteDocument={deleteDocument} doc={doc}/>
                             }
                         })} />
                 : <Skeleton active paragraph={{ rows: 5 }} />}

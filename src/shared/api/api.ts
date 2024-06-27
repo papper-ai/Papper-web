@@ -2,9 +2,10 @@ import axios from "axios"
 import type { TokenSchema } from "entities/Token"
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../const/localStorage"
 
-const baseUrl = "https://api.papper.tech/api/"
+export const baseUrl = "https://api.papper.tech/api/"
 
 export const $api = axios.create({
+    timeout: 10000,
     baseURL: baseUrl
 })
 
@@ -20,7 +21,7 @@ $api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config
         if (error.response.status === 401 && error.response.data.detail === "Token expired") {
-            const response = await axios.post<TokenSchema>(`${baseUrl}auth/refresh_access_token`, { refresh_token: localStorage.getItem(REFRESH_TOKEN_KEY) })
+            const response = await axios.post<TokenSchema>(`${baseUrl}auth/token/refresh/access`, { refresh_token: localStorage.getItem(REFRESH_TOKEN_KEY) })
             localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access_token.token)
             return $api.request(originalRequest)
         }

@@ -11,7 +11,7 @@ interface AvatarProps {
 export const Avatar = ({ className, theme }: AvatarProps) => {
     const avatarStyle = { fontSize: 30, color: "white" }
     return (
-        <div className={classNames(cls.Avatar, {}, [className, cls[theme]])}>
+        <div className={classNames(cls.Avatar, {}, [className, cls[theme || "user"]])}>
             {theme === "user"
                 ? <UserOutlined style={avatarStyle} />
                 : <RobotOutlined style={avatarStyle} />}

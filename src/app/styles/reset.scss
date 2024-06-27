@@ -1,5 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
+@font-face {
+    font-family: 'Panagram';
+    src: url('/src/shared/assets/fonts/Panagram_medium.otf') format('truetype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Panagram';
+    src: url('/src/shared/assets/fonts/Panagram_bold.ttf') format('truetype');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'Panagram';
+    src: url('/src/shared/assets/fonts/Panagram_semi.ttf') format('truetype');
+    font-weight: 500;
+}
 
 * {
     margin: 0;
@@ -7,6 +20,7 @@
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--bg-color) ;
+    // outline: 2px solid green !important;
 }
 
 /* для Chrome/Edge/Safari */
@@ -26,8 +40,10 @@
 }
 
 body {
+    // overflow-x: hidden;
     background-color: var(--bg-color);
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Panagram', sans-serif;
+    // overflow: hidden;
 }
 
 input,

@@ -1,19 +1,14 @@
-import { Input, RadioChangeEvent, theme, Button, Empty } from "antd"
+import { RadioChangeEvent, Button, Empty } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
-import { memo, useCallback, useEffect, useMemo, useState } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { getCurrentChat } from "features/CreateNewChat/model/selectors/getCurrentChat"
-import { getCurrentChatError } from "features/CreateNewChat/model/selectors/getCurrentChatError"
-import { getCurrentChatIsLoading } from "features/CreateNewChat/model/selectors/getCurrentChatIsLoading"
+import { chatsApi } from "entities/Chat"
 import { getVaults } from "entities/Vault"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import { FormInput } from "shared/ui/Input/Input"
 import { Modal } from "shared/ui/Modal/Modal"
 import { RadioButton, RadioItem } from "shared/ui/RadioButton/RadioButton"
 import { Text, TextTheme } from "shared/ui/Text/Text"
-import { createNewChat } from "../../model/services/createNewChat"
 import * as cls from "./NewChatModal.module.scss"
 
 interface NewChatModalProps {
@@ -30,39 +25,49 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
         onClose,
         messageApi
     } = props
-    const newChatError = useSelector(getCurrentChatError)
-    const isLoading = useSelector(getCurrentChatIsLoading)
+    const [createNewChat, { isLoading, error: newChatError }] = chatsApi.useCreateNewChatMutation()
     const [newChatName, setNewChatName] = useState("")
     const vaults = useSelector(getVaults)
-    const [selectItem, setSelectItem] = useState()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const radioButtonVaults: RadioItem[] = useMemo(() => vaults.map((item) => ({ value: item.id, label: item.name })), [vaults])
+
+    const [selectItem, setSelectItem] = useState(radioButtonVaults[0]?.value)
     const handleChangeSelectItem = useCallback((e: RadioChangeEvent) => {
         setSelectItem(e.target.value)
     }, [setSelectItem])
+    // useEffect(() => {
+    //     if (newChatError) {
+    //         messageApi.open({
+    //             type: "error",
+    //             content: "Не удалось создать чат",
+    //             duration: 3
+    //         })
+    //     }
+    //     if (!isLoading && !newChatError && chat) {
+    //         messageApi.open({
+    //             type: "success",
+    //             content: "Чат создан",
+    //             duration: 3
+    //         })
+    //     }
+    // }, [isLoading, messageApi, newChatError])
     const handleCreateNewChat = useCallback(async () => {
-        await dispatch(createNewChat({ name: newChatName, vaultId: selectItem as string, navigate }))
-        if (!newChatError) {
-            messageApi.open({
-                type: "success",
-                content: "Чат создан",
-                duration: 2
-            })
-            setSelectItem(null)
-            setNewChatName("")
-            onClose()
-        } else {
+        console.log(selectItem, newChatName)
+        if (!selectItem) return
+        if (!newChatName) return
+        try {
+            const result = await createNewChat({ name: newChatName, vault_id: selectItem })
+            console.log(result)
+        } catch (e) {
             messageApi.open({
                 type: "error",
-                content: "Ошибка при создании чата",
-                duration: 2
+                content: "Не удалось создать чат",
+                duration: 3
             })
         }
-    }, [dispatch, newChatName, selectItem])
+    }, [createNewChat, messageApi, newChatName, selectItem])
     const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setNewChatName(e.target.value)
     }, [setNewChatName])
-    const radioButtonVaults: RadioItem[] = useMemo(() => vaults.map((item) => ({ value: item.id, label: item.name })), [vaults])
     return (
         <Modal onClose={onClose} isOpen={isOpen} >
             <div className={classNames(cls.NewChatModal, {}, [className])}>

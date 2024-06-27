@@ -18,7 +18,7 @@ export const RadioButton = memo((props: RadioButtonProps) => {
     const { items, onChange, value } = props
 
     return (
-        <Radio.Group buttonStyle="solid" defaultValue={items[0]?.value} className={cls.radio} onChange={onChange} value={value}>
+        <Radio.Group buttonStyle="solid" className={cls.radio} onChange={onChange} value={value}>
             <Space className={cls.space} direction="vertical">
                 {items.map((item) => (
                     <Radio.Button className={cls.item} key={item.value} value={item.value}>

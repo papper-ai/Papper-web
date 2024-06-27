@@ -1,23 +1,37 @@
 import classNames from "classnames"
-import { useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
+import { Header } from "widgets/Header"
 import { Sidebar } from "widgets/Sidebar"
-import { fetchChatsPreview, getChatsPreview } from "entities/Chat"
-import { getVaults, getVaultsPreview } from "entities/Vault"
+import { fetchUserData } from "entities/User"
+import { getVaultsPreview } from "entities/Vault"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
 import * as cls from "./LayoutPage.module.scss"
 
 const LayoutPage = () => {
     const dispatch = useAppDispatch()
+    const [width, setWidth] = useState(window.innerWidth)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth)
+        }
+        window.addEventListener("resize", handleResize)
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
+    })
     useEffect(() => {
         dispatch(getVaultsPreview({}))
-        dispatch(fetchChatsPreview({}))
+        dispatch(fetchUserData())
     }, [])
     return (
         <div className={classNames(cls.LayoutPage)}>
-            <Sidebar/>
-            <Outlet/>
+            <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+            <div className={cls.Layout}>
+                <Sidebar setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} width={width} />
+                <Outlet />
+            </div>
         </div>
     )
 }

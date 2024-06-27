@@ -1,3 +1,8 @@
 export interface User {
-    isAuth: boolean
+    login?: string
+}
+export interface UserSchema {
+    data?: User;
+    error?: string
+    isLoading?: boolean
 }

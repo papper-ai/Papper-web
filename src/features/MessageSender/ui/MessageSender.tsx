@@ -2,12 +2,9 @@ import { SendOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import classNames from "classnames"
 import { memo, useCallback, useState } from "react"
-import { useSelector } from "react-redux"
-import { getCurrentChat } from "features/CreateNewChat"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { useParams } from "react-router-dom"
+import { chatsApi } from "entities/Chat"
 import { TextField } from "shared/ui/TextField/TextField"
-import { getSendMessageIsLoading } from "../model/selectors/getSendMessageIsLoading"
-import { sendMessage } from "../model/services/sendMessage"
 import * as cls from "./MessageSender.module.scss"
 
 interface MessageSenderProps {
@@ -15,12 +12,18 @@ interface MessageSenderProps {
 }
 
 export const MessageSender = memo(({ className }: MessageSenderProps) => {
-    const dispatch = useAppDispatch()
-    const currentChat = useSelector(getCurrentChat)
+    const { id } = useParams()
+    const [sendMessage, { isLoading }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
+
+    const { currentChat } = chatsApi.useGetChatsPreviewQuery(undefined, {
+        selectFromResult: ({ data }) => ({
+            currentChat: data?.find(chat => chat?.id === id)
+        })
+    })
     const [message, setMessage] = useState("")
-    const isLoading = useSelector(getSendMessageIsLoading)
     const sendMessageHandle = async () => {
-        const result = await dispatch(sendMessage({ chatId: currentChat.id, vaultId: currentChat.vault_id, query: message }))
+        const result = await sendMessage({ chat_id: id, vault_id: currentChat?.vault_id, query: message })
+        console.log(result)
         if (result) {
             setMessage("")
         }
@@ -31,7 +34,7 @@ export const MessageSender = memo(({ className }: MessageSenderProps) => {
     return (
         <div className={classNames(cls.MessageSender, {}, [className])}>
             <TextField disabled={isLoading} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { sendMessageHandle() } }} value={message} onChange={handleChangeTextField} className={cls.textField} />
-            <Button size="large" disabled={isLoading} className={cls.button} type="text" onClick={sendMessageHandle} icon={<SendOutlined style={{ color: "var(--primary-color)", fontSize: "var(--font-size-l)" }} />} />
+            <Button loading={isLoading} size="large" disabled={isLoading} className={cls.button} type="text" onClick={sendMessageHandle} icon={<SendOutlined style={{ color: "var(--primary-color)", fontSize: "var(--font-size-l)" }} />} />
         </div>
     )
 })

@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { getVaultsPreview } from "../services/getVaultsPreview/getVaultsPreview"
-import { IDocument, VaultSchema, VaultsSchema } from "../types/VaultSchema"
+import { IDocument, VaultsSchema } from "../types/VaultSchema"
 
 const initialState: VaultsSchema = {
     isLoading: false,
@@ -18,9 +18,10 @@ const vaultsSlice = createSlice({
         pushVaults: (state, action) => {
             state.vaults.push(action.payload)
         },
-        addVaultDocument: (state, action) => {
+        addVaultDocument: (state, action: PayloadAction<IDocument[]>) => {
             for (let i = 0; i < state.vaults.length; i++) {
                 if (state.vaults[i].id === action.payload[0].vault_id) {
+                    console.log(action.payload)
                     state.vaults[i].documents = action.payload
                 }
             }
@@ -33,14 +34,15 @@ const vaultsSlice = createSlice({
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.id)
             state.vaults[vaultIndex].name = action.payload.name
         },
-        deleteDocument: (state, action: { payload: { vaultId: string; id: string } }) => {
+        deleteDocument: (state, action: { payload: { vaultId: string | undefined; id: string } }) => {
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.vaultId)
-            const documentIndex = state.vaults[vaultIndex].documents.findIndex(
+            const documentIndex = state.vaults[vaultIndex]?.documents?.findIndex(
                 (document) => document.id === action.payload.id
             )
+            if (!documentIndex) return
             state.vaults[vaultIndex]?.documents?.splice(documentIndex, 1)
         },
-        addDocument: (state, action: { payload: { documents: IDocument[]; vaultId: string } }) => {
+        addDocument: (state, action: { payload: { documents: IDocument[] | undefined; vaultId: string } }) => {
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.vaultId)
             state.vaults[vaultIndex].documents = action.payload.documents
         }
