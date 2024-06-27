@@ -40,7 +40,7 @@
 .traceback {
     position: relative;
     padding-top: 25px;
-
+    animation: fadeIn 1.5s;
     .title {
         position: absolute;
         top: -10px;
@@ -57,5 +57,13 @@
     .text {
         text-align: left;
         font-weight: var(--font-medium);
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }
