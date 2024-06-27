@@ -79,7 +79,7 @@ export const VaultDocumentsExtra = ({ className, deleteDocument, doc }: VaultDoc
     return (
         <div className={classNames(cls.VaultDocumentsExtra, {}, [className])}>
             <Button type="text" shape="circle" style={{ color: "red", fontSize: "20px" }} icon={<DeleteOutlined />} onClick={(e) => { e.stopPropagation(); deleteDocument(doc.id) }} />
-            <Button type="text" shape="circle" style={{ color: "var(--tertiary-color)", fontSize: "20px" }} icon={<DownloadOutlined />} onClick={(e) => { e.stopPropagation(); downloadDocument() }} />
+            <Button type="text" shape="circle" style={{ color: "var(--primary-color)", fontSize: "20px" }} icon={<DownloadOutlined />} onClick={(e) => { e.stopPropagation(); downloadDocument() }} />
         </div>
     )
 }

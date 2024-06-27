@@ -1,12 +1,10 @@
-/* eslint-disable import/order */
-import classNames from "classnames"
 import * as cls from "./NewVaultModal.module.scss"
 import { Modal } from "shared/ui/Modal/Modal"
-import { Button, Form, Input, Select, Upload } from "antd"
+import { Button, Form, Select, Upload } from "antd"
 
 import { Text } from "shared/ui/Text/Text"
 import { FormInput } from "shared/ui/Input/Input"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useState } from "react"
 import { $api } from "shared/api/api"
 import { message, UploadFile, type UploadProps } from "antd"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
@@ -28,25 +26,25 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         onClose,
         isOpen
     } = props
-    const [newVaultName, setNewVaultName] = useState("")
     const dispatch = useAppDispatch()
-    const [newVaultType, setNewVaultType] = useState("vector")
     const [files, setFiles] = useState<UploadFile[]>([])
     const [messageApi, contextHolder] = message.useMessage()
     const [uploading, setUploading] = useState(false)
-    const handleChangeNewVaultName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewVaultName(e.target.value)
-    }
-    const handleChangeSelect = (value: string) => {
-        setNewVaultType(value)
-    }
+    const [form] = Form.useForm()
+
     const closeModal = () => {
-        setNewVaultName("")
-        setNewVaultType("graph")
+        
+        form.setFieldsValue({
+            name: "",
+            type: "",
+            files: undefined
+        })
+
         setFiles([])
         onClose?.()
     }
-    const handleSubmitNewVault = async () => {
+    const handleSubmitNewVault = async (values: any) => {
+        console.log(values)
         messageApi.open({
             type: "loading",
             content: "Идет создание хранилища...",
@@ -55,8 +53,8 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
         setUploading(true)
         try {
             const vaultConfig = {
-                vault_name: newVaultName,
-                vault_type: newVaultType
+                vault_name: values.name,
+                vault_type: values.type
             }
             const formData = new FormData()
             formData.append("create_vault_credentials", JSON.stringify(vaultConfig))
@@ -73,8 +71,6 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                     content: "Хранилище создано",
                     duration: 0
                 })
-                setFiles([])
-                setNewVaultName("")
                 dispatch(vaultsActions.pushVaults(result.data))
                 closeModal()
             } else {
@@ -129,6 +125,8 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                 <div className={cls.modalContainer}>
                     <Text className={cls.title} title="Добавление нового хранилища" />
                     <Form
+                        form={form}
+                        disabled={uploading}
                         layout="vertical"
                         style={{ width: "100%" }}
                         autoComplete="off"
@@ -142,7 +140,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                             rules={[{ required: true, message: "Название хранилища обязательно", whitespace: true }]}
                             hasFeedback
                         >
-                            <FormInput style={{ marginTop: "0" }} autoComplete="off" disabled={uploading} value={newVaultName} onChange={handleChangeNewVaultName} placeholder="Название" />
+                            <FormInput style={{ marginTop: "0" }} autoComplete="off" disabled={uploading} placeholder="Название" />
                         </Form.Item>
                         <Form.Item
                             name="type"
@@ -152,9 +150,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                             hasFeedback
                         >
                             <Select
-                                value={newVaultType}
                                 style={{ width: "100%", height: "50px" }}
-                                onChange={handleChangeSelect}
                                 options={[
                                     { value: "graph", label: "Граф знаний" },
                                     { value: "vector", label: "Векторная база данных" }
@@ -165,7 +161,17 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                         <Form.Item
                             name="files"
                             style={{ width: "100%" }}
-                            rules={[{ required: true, message: "Файлы обязательны" }]}
+                            rules={[
+                                {
+                                    validator: (rule, value) => {
+                                        console.log(files, value)
+                                        if (files?.length === 0 && value === undefined) {
+                                            return Promise.reject("Файлы обязательны")
+                                        }
+                                        return Promise.resolve()
+                                    }
+                                }
+                            ]}
                         >
                             <div style={{ height: "200px", width: "100%", marginTop: "20px" }}>
                                 <Dragger
@@ -174,8 +180,17 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                                     fileList={files}
                                     onChange={handleChangeUploader}
                                     customRequest={dummyRequest}
+                                    onDrop={(e) => {
+                                        console.log("drop")
+                                        form.setFieldValue("files", "New File")
+                                        form.validateFields()
+ 
+                                    }}
+
                                     accept={".pdf, .md, .docx, .txt"}
                                     onRemove={(e) => {
+                                        form.resetFields(["files"])
+                                        form.validateFields()
                                         setFiles(files.filter((item) => item.uid !== e.uid))
                                     }}
                                 >

@@ -52,7 +52,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
             duration: 0
         })
         try {
-            const result = await $api.post<VaultSchema>("/vault/document", formData, {
+            const result = await $api.patch<VaultSchema>("/vault/document", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
             messageApi?.destroy()
@@ -96,7 +96,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
                             return {
                                 key: doc.id,
                                 label: <Text key={doc.id} title={doc.name} textTheme={TextTheme.INLINE} />,
-                                children: <TypeAnimation cursor={false} sequence={[doc.text]} wrapper="span" />,
+                                children: <Markdown className={cls.markdown} key={doc.id} >{doc.text}</Markdown>,
                                 extra: <VaultDocumentsExtra deleteDocument={deleteDocument} doc={doc}/>
                             }
                         })} />

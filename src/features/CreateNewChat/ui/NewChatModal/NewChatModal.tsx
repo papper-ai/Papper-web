@@ -1,4 +1,4 @@
-import { RadioChangeEvent, Button, Empty } from "antd"
+import { RadioChangeEvent, Button, Empty, Form } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
 import { memo, useCallback, useMemo, useState } from "react"
@@ -74,10 +74,40 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
                 {radioButtonVaults.length > 0
                     ? <>
                         <Text textTheme={TextTheme.VAULT} title="Создание нового чата" />
-                        <FormInput value={newChatName} onChange={handleChangeInput} placeholder="Название чата" />
+                        <Form
+                            onFinish={handleCreateNewChat}
+                            style={{ width: "100%" }}
+                            autoComplete="off"
+                            requiredMark={false}
+                            layout="vertical"
+                        >
+                            <Form.Item
+                                name="name"
+                                label="Название чата"
+                                hasFeedback
+                                style={{ width: "100%" }}
+                                rules={[{ required: true, message: "Обязательное поле" }]}
+                            >
+                                <FormInput value={newChatName} onChange={handleChangeInput} placeholder="Название чата" />
+                            </Form.Item>
+                            <Form.Item
+                                name="vault"
+                                hasFeedback
+                                label="Выберите хранилище"
+                                style={{ width: "100%" }}
+                                rules={[{ required: true, message: "Обязательное поле" }]}
+                            >
+                                <RadioButton value={selectItem} onChange={handleChangeSelectItem} items={radioButtonVaults} />
+                            </Form.Item>
+                            <Form.Item
+
+                            >
+
+                                <Button disabled={isLoading} className={cls.btn} htmlType="submit">Создать</Button>
+
+                            </Form.Item>
+                        </Form>
                         <Text textTheme={TextTheme.INLINE} text="Выберите хранилище" />
-                        <RadioButton value={selectItem} onChange={handleChangeSelectItem} items={radioButtonVaults} />
-                        <Button disabled={isLoading} className={cls.btn} onClick={handleCreateNewChat}>Создать</Button>
 
                     </>
                     : <Empty description="Нет доступных хранилищ для создания чата" />

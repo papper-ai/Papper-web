@@ -77,7 +77,7 @@ export const Sidebar = ({ width, isMenuOpen, setIsMenuOpen }: SidebarProps) => {
         {
             key: "5",
             label: <MenuProfile />,
-            style: { position: "absolute", bottom: 10, left: 0, cursor: "auto", height: "auto" },
+            style: { position: "absolute", padding: "0 10 0 10", margin: "0 auto", bottom: 10, cursor: "auto", width: "100%", height: "auto" },
             disabled: true
         }
     ]

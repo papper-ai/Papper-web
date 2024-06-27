@@ -1,6 +1,7 @@
 export type VaultType = "graph" | "vector"
 
 export interface IDocument{
+    content: string
     id: string
     name: string
     text: string
