@@ -20,7 +20,7 @@ export const VaultExtra = memo(({ id, messageApi }: VaultExtraProps) => {
     const { refetch } = chatsApi.useGetChatsPreviewQuery()
     const deleteVault = useCallback(async (id: string) => {
         try {
-            const result = await $api.delete(`/vault/delete_vault/${id}`)
+            const result = await $api.delete(`/vault/${id}`)
             if (result) {
                 messageApi?.open({
                     type: "success",

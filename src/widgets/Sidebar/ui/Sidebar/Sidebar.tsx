@@ -12,7 +12,6 @@ import { Logo } from "shared/ui/Logo/Logo"
 import { ChatsItem } from "../ChatsItem/ChatsItem"
 import { MenuProfile } from "../MenuProfile/MenuProfile"
 import * as cls from "./Sidebar.module.scss"
-import { AddPhoto } from "../AddPhotoModal/AddPhotoModal"
 
 type MenuItem = Required<MenuProps>["items"][number]
 

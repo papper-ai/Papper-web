@@ -42,7 +42,6 @@ export const VaultDocumentsExtra = ({ className, deleteDocument, doc }: VaultDoc
                 hasher: CryptoJS.algo.SHA256
             })
 
-            // Decrypt using AES-CBC mode
             const decryptedBytes = CryptoJS.AES.decrypt(
                 // @ts-expect-error
                 { ciphertext: CryptoJS.lib.WordArray.create(ciphertext) },
@@ -50,7 +49,6 @@ export const VaultDocumentsExtra = ({ className, deleteDocument, doc }: VaultDoc
                 { iv: CryptoJS.lib.WordArray.create(iv), mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
             )
 
-            // Convert decrypted data to Uint8Array or ArrayBuffer as needed
             const decryptedData = decryptedBytes.toString(CryptoJS.enc.Base64)
             const binaryString = atob(decryptedData)
             const uint8Array = new Uint8Array(binaryString.length)
