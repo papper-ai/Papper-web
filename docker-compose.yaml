@@ -3,7 +3,7 @@ version: "3.9"
 services:
   nginx:
     image: nginx:latest
-    container_name: nginx_papper
+    container_name: papper-nginx
     ports:
       - "80:80"
       - "443:443"

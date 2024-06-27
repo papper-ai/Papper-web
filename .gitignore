@@ -4,3 +4,4 @@
 .firebaserc
 firebase.json
 /.idea/**
+/build
