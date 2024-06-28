@@ -34,6 +34,6 @@ module.exports = {
         "@conarti/feature-sliced/layers-slices": "warn",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/ban-ts-comment": "off",
-        "prefer-promise-reject-errors": "off",    
-}
+        "prefer-promise-reject-errors": "off"
+    }
 }

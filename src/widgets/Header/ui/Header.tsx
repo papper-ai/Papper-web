@@ -13,7 +13,7 @@ export const Header = ({ setIsMenuOpen, isMenuOpen }: HeaderProps) => {
     return (
         <div className={cls.Header}>
 
-            <Logo location={LogoLocation.LEFT} />
+            <Logo location={LogoLocation.LEFT} onClick={() => setIsMenuOpen(false)} />
             <div onClick={() => setIsMenuOpen((prev) => !prev)} className={classNames(cls.burger, burgerMods)}>
                 <span></span>
                 <span></span>
