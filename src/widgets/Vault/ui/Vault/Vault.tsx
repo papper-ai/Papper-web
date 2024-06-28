@@ -63,7 +63,7 @@ export const Vault = ({ className }: VaultProps) => {
                     {width > 600 && (
                         <>
                             <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Вектора" value={vaults.reduce((acc, cur) => acc + (cur.type === "vector" ? 1 : 0), 0)} formatter={statsFormatter} />
-                            <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Графы" value={vaults.reduce((acc, cur) => acc + (cur.type === "vector" ? 1 : 0), 0)} formatter={statsFormatter} />
+                            <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Графы" value={vaults.reduce((acc, cur) => acc + (cur.type === "graph" ? 1 : 0), 0)} formatter={statsFormatter} />
                         </>
                     )}
                 </div>

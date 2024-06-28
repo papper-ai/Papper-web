@@ -44,6 +44,9 @@ export const Modal = (props: ModalProps) => {
             <div className={classNames(cls.Modal, mods, [className])}>
                 <div onClick={handleClick} className={cls.overlay}>
                     <div onClick={(e) => e.stopPropagation()} className={cls.content}>
+                        <div onClick={handleClick} className={cls.close}>
+                            &#10006;
+                        </div>
                         {children}
                     </div>
                 </div>
