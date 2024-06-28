@@ -6,11 +6,11 @@ import { useCallback, useState } from "react"
 import { vaultsActions, VaultSchema } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 import { FormInput } from "shared/ui/Input/Input"
 import { Modal } from "shared/ui/Modal/Modal"
 import { Text } from "shared/ui/Text/Text"
 import * as cls from "./NewVaultModal.module.scss"
-import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 
 const { Dragger } = Upload
 interface NewVaultCreaterProps {

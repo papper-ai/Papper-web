@@ -1,5 +1,5 @@
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons"
-import { Button, Skeleton, Upload, UploadProps } from "antd"
+import { Button, Empty, Skeleton, Upload, UploadProps } from "antd"
 import { MessageInstance } from "antd/es/message/interface"
 import { memo } from "react"
 import Markdown from "react-markdown"
@@ -19,6 +19,7 @@ interface VaultDocumentsProps {
 type UploadFunction = UploadProps["customRequest"]
 export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumentsProps) => {
     const dispatch = useAppDispatch()
+    console.log(items)
     const deleteDocument = async (id: string) => {
         try {
             const result = await $api.delete(`/vault/${vaultId}/document/${id}`)
@@ -100,7 +101,7 @@ export const VaultDocuments = memo(({ items, vaultId, messageApi }: VaultDocumen
                                 extra: <VaultDocumentsExtra deleteDocument={deleteDocument} doc={doc}/>
                             }
                         })} />
-                : <Skeleton active paragraph={{ rows: 5 }} />}
+                : items === undefined ? <Skeleton active paragraph={{ rows: 5 }} /> : <Empty description="Документы отсутствуют" />}
         </>
 
     )

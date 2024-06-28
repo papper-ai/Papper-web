@@ -1,7 +1,6 @@
 import axios from "axios"
 import type { TokenSchema } from "entities/Token"
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../const/localStorage"
-
 export const baseUrl = "https://api.papper.tech/api/"
 
 export const $api = axios.create({
@@ -9,6 +8,7 @@ export const $api = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
+    if (localStorage.getItem(ACCESS_TOKEN_KEY) === null) return config
     config.headers.Authorization = `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
     return config
 })

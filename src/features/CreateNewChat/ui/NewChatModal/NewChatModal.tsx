@@ -3,6 +3,7 @@ import { MessageInstance } from "antd/es/message/interface"
 import classNames from "classnames"
 import { memo, useCallback, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { chatsApi } from "entities/Chat"
 import { getVaults } from "entities/Vault"
 import { FormInput } from "shared/ui/Input/Input"
@@ -10,7 +11,6 @@ import { Modal } from "shared/ui/Modal/Modal"
 import { RadioButton, RadioItem } from "shared/ui/RadioButton/RadioButton"
 import { Text, TextTheme } from "shared/ui/Text/Text"
 import * as cls from "./NewChatModal.module.scss"
-import { useNavigate } from "react-router-dom"
 
 interface NewChatModalProps {
     className?: string
@@ -57,7 +57,7 @@ export const NewChatModal = memo((props: NewChatModalProps) => {
         if (!newChatName) return
         try {
             const result = await createNewChat({ name: newChatName, vault_id: selectItem })
-            if("data" in result){
+            if ("data" in result) {
                 onClose?.()
                 navigate("main/" + result.data.id)
             }

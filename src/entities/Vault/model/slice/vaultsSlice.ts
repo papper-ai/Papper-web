@@ -18,13 +18,10 @@ const vaultsSlice = createSlice({
         pushVaults: (state, action) => {
             state.vaults.push(action.payload)
         },
-        addVaultDocument: (state, action: PayloadAction<IDocument[]>) => {
-            for (let i = 0; i < state.vaults.length; i++) {
-                if (state.vaults[i].id === action.payload[0].vault_id) {
-                    console.log(action.payload)
-                    state.vaults[i].documents = action.payload
-                }
-            }
+        addVaultDocument: (state, action: PayloadAction<{docs: IDocument[]; id: string}>) => {
+            const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload.id)
+            console.log(vaultIndex)
+            state.vaults[vaultIndex].documents = action.payload.docs || []
         },
         deleteVault: (state, action) => {
             const vaultIndex = state.vaults.findIndex((vault) => vault.id === action.payload)

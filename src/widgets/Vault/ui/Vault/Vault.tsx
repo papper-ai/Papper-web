@@ -1,9 +1,8 @@
 import { FolderAddOutlined } from "@ant-design/icons"
-import { Button, Empty, List, Skeleton, Statistic, message } from "antd"
+import { Button, Empty, Skeleton, Statistic, message } from "antd"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { getUserUsername } from "entities/User"
 import { getVaults, getVaultsIsLoading, IDocument, vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
@@ -46,8 +45,9 @@ export const Vault = ({ className }: VaultProps) => {
     const handleAccordionChange = (key: string | string[]) => {
         try {
             if (key.length > 0) {
+                console.log(key)
                 $api.get<IDocument[]>(`/vault/${key}/documents`).then((res) => {
-                    dispatch(vaultsActions.addVaultDocument(res.data))
+                    dispatch(vaultsActions.addVaultDocument({ docs: res.data, id: key[0] }))
                 })
             }
         } catch (e) {

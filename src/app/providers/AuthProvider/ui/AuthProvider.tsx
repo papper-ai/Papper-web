@@ -18,6 +18,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const login = () => setIsAuth(true)
     // Скорее всего не рабочий вариант переделать надо в будущем
     const checkAuth = async () => {
+        if (!localStorage.getItem(ACCESS_TOKEN_KEY)) {
+            setIsAuth(false)
+        }
         const res = await dispatch(fetchUserData())
         if (res.meta.requestStatus === "rejected") {
             setIsAuth(false)
