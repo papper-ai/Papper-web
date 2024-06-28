@@ -31,7 +31,8 @@
     flex-direction: row-reverse;
 
     .content {
-        background-color: var(--primary-color);
+        background: linear-gradient(214deg, var(--primary-color) 0%, var(--tertiary-color) 100%);
+
         @media screen and (max-width: 768px) {
             border-radius: var(--border-radius) 0 0 var(--border-radius);
         }

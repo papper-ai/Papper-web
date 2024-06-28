@@ -13,7 +13,7 @@ interface MessageSenderProps {
 
 export const MessageSender = memo(({ className }: MessageSenderProps) => {
     const { id } = useParams()
-    const [sendMessage, { isLoading }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
+    const [sendMessage, { isLoading }] = chatsApi.useSendMessageMutation({ fixedCacheKey: id })
 
     const { currentChat } = chatsApi.useGetChatsPreviewQuery(undefined, {
         selectFromResult: ({ data }) => ({

@@ -12,6 +12,9 @@
 
     --width-sidebar: 250px;
     --height-sidebar: 100vh;
+    @media screen and (max-width: 576px) {
+        --height-sidebar: 100%;
+    }
 
     --width-header: 100%;
     --height-header: 80px;

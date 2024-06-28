@@ -21,7 +21,7 @@ interface MessageWidgetProps {
 export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps) => {
     const { id } = useParams()
     const chatRef = useRef<HTMLDivElement>(null)
-    const [, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation({ fixedCacheKey: "sendMessage" })
+    const [, { isLoading: messageIsLoading, error: messageError }] = chatsApi.useSendMessageMutation({ fixedCacheKey: id })
     console.log(messageIsLoading, messageError)
     const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
     const navigate = useNavigate()

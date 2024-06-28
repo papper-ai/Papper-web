@@ -25,7 +25,7 @@ export const Modal = (props: ModalProps) => {
         timerRef.current = setTimeout(() => {
             setClosing(false)
             onClose()
-        }, 300)
+        }, 260)
     }
     useEffect(() => {
         return () => {

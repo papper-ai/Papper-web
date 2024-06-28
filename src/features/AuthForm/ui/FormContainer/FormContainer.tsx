@@ -92,8 +92,7 @@ export const FormContainer = memo((props: FormContainerProps) => {
         dispatch(registerActions.setSecret(e.target.value))
     }, [dispatch])
 
-    const onLoginClick = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
+    const onLoginClick = useCallback(async () => {
         let result
         if (formType === "sign-up") {
             result = await dispatch(registerBySecret({ secret, login: registerLogin, password: registerPassword }))
@@ -110,7 +109,9 @@ export const FormContainer = memo((props: FormContainerProps) => {
         <>
             {contextHolder}
             <div className={"form-container " + formType}>
-                <Form>
+                <Form
+                    onFinish={onLoginClick}
+                >
                     <h1>{title}</h1>
                     <span>{description}</span>
                     {isSignUp && (
@@ -127,7 +128,7 @@ export const FormContainer = memo((props: FormContainerProps) => {
                     >
                         <FormInput value={isSignUp ? registerLogin : login} onChange={onChangeLogin} type="text" placeholder="Логин" />
                     </Form.Item>
-                    <Form.Item className="formItem" name="password"
+                    <Form.Item className="formItem passwordItem" name="password"
                         rules={[{ required: true, message: "Поле обязательно для заполнения" },
                             { min: 3, message: "Минимальная длина 3 символа" },
                             { max: 32, message: "Максимальная длина 32 символа" },
@@ -138,7 +139,11 @@ export const FormContainer = memo((props: FormContainerProps) => {
                         ]}>
                         <FormInput value={isSignUp ? registerPassword : password} onChange={onChangePassword} isPassword placeholder="Пароль" />
                     </Form.Item>
-                    <Button onClick={onLoginClick}>{buttonName}</Button>
+                    <Form.Item
+                        htmlFor="submit"
+                    >
+                        <Button>{buttonName}</Button>
+                    </Form.Item>
                 </Form>
             </div>
 

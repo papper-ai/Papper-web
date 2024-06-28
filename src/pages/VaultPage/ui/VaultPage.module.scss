@@ -1,4 +1,7 @@
 .VaultPage{
     display: flex;
     height: 100vh;
+    @media screen and (max-width: 576px) {
+        height: 100%;
+    }
 }

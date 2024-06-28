@@ -1,6 +1,9 @@
 .LayoutPage{
     width: 100%;
     height: 100vh;  
+    @media screen and (max-width: 576px) {
+        height: 100%;
+    }
     padding: 10px;
     display: flex;
     flex-direction: column;
