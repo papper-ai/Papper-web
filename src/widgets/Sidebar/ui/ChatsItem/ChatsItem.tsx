@@ -65,7 +65,7 @@ export const ChatsItem = ({ label, id, messageApi }: ChatsItemProps) => {
     }
     return (
         <div className={classNames(cls.ChatsItem, {}, [])}>
-            {isEdit ? <Input onKeyDown={(e) => { if (e.key === "Enter") { renameChat(e) } }} onClick={(е) => { е.stopPropagation() }} defaultValue={label} onBlur={() => setIsEdit(false)} /> : <div className={cls.label}>{label}</div>}
+            {isEdit ? <Input onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") { renameChat(e) } }} onClick={(е) => { е.stopPropagation() }} defaultValue={label} onBlur={() => setIsEdit(false)} /> : <div className={cls.label}>{label}</div>}
             <div className={cls.actions}>
                 <Button size="small" type="text" onClick={(е) => { е.stopPropagation(); deleteChat() }} icon={<DeleteOutlined style={{ color: "red" }} />} />
                 <Button size="small" type="text" onClick={(e) => { e.stopPropagation(); setIsEdit(!isEdit) }} icon={<EditOutlined />} />

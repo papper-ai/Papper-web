@@ -11,8 +11,11 @@
     overflow: hidden;
     transition: 0.5s all;
     ul {
-        max-height: 300px;
+        max-height: calc(100% - (95px + 120px + 140px) );
         overflow-y: auto;
+        @media screen and (max-width: 992px) {
+            max-height: calc(100% - (120px + 140px));
+        }
     }
 }
 

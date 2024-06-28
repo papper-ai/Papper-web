@@ -57,7 +57,7 @@ export const VaultDocumentsExtra = ({ className, deleteDocument, doc }: VaultDoc
             }
             return uint8Array
         }
-        const response = await fetch(`https://1c12c9e2-f2d7-4091-bd4a-6a4b2859bd58.selstorage.ru/${doc.id}`)
+        const response = await fetch(` https://1c12c9e2-f2d7-4091-bd4a-6a4b2859bd58.selstorage.ru/${doc.id}`)
         const arrayBuffer = await response.arrayBuffer()
         try {
             const data = decryptAES(arrayBuffer, "kz6aNcWaSevCS3EkNSQUSsa8GGe6YeVZ")

@@ -8,6 +8,7 @@ import { memo, useEffect, useMemo, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { chatsApi } from "entities/Chat"
 import { AppRoutes, RoutePath } from "shared/config/routeConfig/routeCofig"
+import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 import { Message } from "shared/ui/Message/Message"
 import { EmptyChat } from "../EmptyChat/EmptyChat"
 import * as cls from "./MessageWidget.module.scss"
@@ -24,7 +25,9 @@ export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps
     console.log(messageIsLoading, messageError)
     const { data: currentChat, error: chatError, isLoading } = chatsApi.useGetChatHistoryQuery(id)
     const navigate = useNavigate()
+    const width = useDeviceWidth()
     useGSAP(() => {
+        if (width < 992) return
         const sections = gsap.utils.toArray<HTMLElement>(".message")
         sections.forEach((section) => {
             gsap.to(section, {
@@ -32,7 +35,7 @@ export const MessageWidget = memo(({ className, messageApi }: MessageWidgetProps
                 scrollTrigger: {
                     scroller: "." + cls.MessageWidget,
                     trigger: section,
-                    start: "top +=50px center",
+                    start: "top +=40px center",
                     scrub: true
                     // markers: true
                 }

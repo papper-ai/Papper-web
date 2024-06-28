@@ -10,6 +10,7 @@ import { FormInput } from "shared/ui/Input/Input"
 import { Modal } from "shared/ui/Modal/Modal"
 import { Text } from "shared/ui/Text/Text"
 import * as cls from "./NewVaultModal.module.scss"
+import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 
 const { Dragger } = Upload
 interface NewVaultCreaterProps {
@@ -30,7 +31,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     const [messageApi, contextHolder] = message.useMessage()
     const [uploading, setUploading] = useState(false)
     const [form] = Form.useForm()
-
+    const width = useDeviceWidth()
     const closeModal = () => {
         form.setFieldsValue({
             name: "",
@@ -194,7 +195,7 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                                     <p className="ant-upload-drag-icon">
                                         <InboxOutlined />
                                     </p>
-                                    <p className="ant-upload-text">Кликните или перетащите для загрузки ваш файл</p>
+                                   {width > 767 && <p className="ant-upload-text">Кликните или перетащите для загрузки ваш файл</p>}
                                     <p className="ant-upload-hint">
                                         Поддерживаемые форматы: .pdf, .md, .docx, .txt
                                     </p>

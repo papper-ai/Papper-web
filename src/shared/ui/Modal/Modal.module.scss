@@ -24,10 +24,9 @@
     border-radius: 12px;
     background-color: var(--bg-color);
     color: var(--font-color);
-    max-width: 60%;
+    width: 60%;
     @media screen and (max-width: 1200px) {
-        max-width: 70%;
-        width: 100%;
+        width: 80%;
     }
     transform: scale(0.5);
     transition: transform 0.3s;

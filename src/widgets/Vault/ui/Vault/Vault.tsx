@@ -27,7 +27,6 @@ enum VaultTypes {
 }
 
 export const Vault = ({ className }: VaultProps) => {
-    const login = useSelector(getUserUsername)
     const [modalOpen, setModalOpen] = useState(false)
     const vaultsIsLoading = useSelector(getVaultsIsLoading)
     const [accordionVaults, setaccordionVaults] = useState<AccordionItem>([])
@@ -38,7 +37,7 @@ export const Vault = ({ className }: VaultProps) => {
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({
             key: item.id,
-            label: <Text title={item.name} text={width > 1100 ? "Тип хранилища: " + VaultTypes[item.type] : VaultTypes[item.type]} textTheme={TextTheme.INLINE} />,
+            label: <Text title={item.name} text={width > 1204 ? "Тип хранилища: " + VaultTypes[item.type] : VaultTypes[item.type]} textTheme={TextTheme.INLINE} />,
             children: <VaultDocuments messageApi={messageApi} vaultId={item.id} items={item.documents} />,
             extra: <VaultExtra id={item.id} messageApi={messageApi} />
         })))

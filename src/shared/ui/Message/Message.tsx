@@ -42,7 +42,7 @@ export const Message = (props: MessageProps) => {
         <div className={classNames(cls.Message, {}, [className, cls[sender || "user"]])}>
             <Avatar theme={sender} />
             <div className={classNames(cls.content, { [cls.isExample]: isExample })}>
-                {isExample ? <TypeAnimation cursor={false} sequence={[content as string]} /> : <Markdown>{content}</Markdown>}
+                {isExample ? <TypeAnimation cursor={false} sequence={[content as string]} /> : <Markdown className={cls.markdown}>{content}</Markdown>}
                 {(sender === "ai" && traceback?.length > 0) &&
                     <>
                         <Button style={{ marginLeft: "auto", marginTop: "10px", display: "block" }} size="large" type="text" icon={<QuestionCircleOutlined style={{ color: "var(--font-color)", fontSize: "30px" }} />} onClick={openDrawer} />
