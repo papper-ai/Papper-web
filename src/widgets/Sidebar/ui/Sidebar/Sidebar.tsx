@@ -42,6 +42,7 @@ export const Sidebar = ({ width, isMenuOpen, setIsMenuOpen }: SidebarProps) => {
     const chatsItems = useMemo(() => chats?.map((item) => ({ key: item.id, label: <ChatsItem messageApi={messageApi} label={item.name} id={item.id} />, onClick: () => chatSelect(item.id) })), [chatSelect, chats, messageApi])
 
     const handleNewChat = useCallback(() => {
+        setIsMenuOpen?.(false)
         setNewChatModal(true)
     }, [])
     const handleVault = useCallback(() => {

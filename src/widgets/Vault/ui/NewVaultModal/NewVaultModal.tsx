@@ -179,12 +179,12 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                                     fileList={files}
                                     onChange={handleChangeUploader}
                                     customRequest={dummyRequest}
+                                    showUploadList={(width > 576)}
                                     onDrop={(e) => {
                                         console.log("drop")
                                         form.setFieldValue("files", "New File")
                                         form.validateFields()
                                     }}
-
                                     accept={".pdf, .md, .docx, .txt"}
                                     onRemove={(e) => {
                                         form.resetFields(["files"])
@@ -195,11 +195,13 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                                     <p className="ant-upload-drag-icon">
                                         <InboxOutlined />
                                     </p>
-                                   {width > 767 && <p className="ant-upload-text">Кликните или перетащите для загрузки ваш файл</p>}
+                                    {width > 767 && <p className="ant-upload-text">Кликните или перетащите для загрузки ваш файл</p>}
                                     <p className="ant-upload-hint">
                                         Поддерживаемые форматы: .pdf, .md, .docx, .txt
                                     </p>
                                 </Dragger>
+                                {width < 576 && <div>{"Файлов загружено: " + files?.length + ""}</div>}
+
                             </div>
                         </Form.Item>
                         <Form.Item>
