@@ -7,6 +7,7 @@ import { getUserUsername } from "entities/User"
 import { getVaults, getVaultsIsLoading, IDocument, vaultsActions } from "entities/Vault"
 import { $api } from "shared/api/api"
 import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 import { statsFormatter } from "shared/lib/statsFormatter"
 import { Acordion } from "shared/ui/Collapse/Collapse"
 import type { AccordionItem } from "shared/ui/Collapse/Collapse"
@@ -15,7 +16,6 @@ import { NewVaultModal } from "../NewVaultModal/NewVaultModal"
 import { VaultDocuments } from "../VaultDocuments/VaultDocuments"
 import { VaultExtra } from "../VaultExtra/VaultExtra"
 import * as cls from "./Vault.module.scss"
-import { useDeviceWidth } from "shared/hooks/useDeviceWidth"
 
 interface VaultProps {
     className?: string
@@ -35,7 +35,6 @@ export const Vault = ({ className }: VaultProps) => {
     const [messageApi, contextHolder] = message.useMessage()
     const dispatch = useAppDispatch()
     const width = useDeviceWidth()
-    console.log(width)
     useEffect(() => {
         setaccordionVaults(vaults.map((item) => ({
             key: item.id,
@@ -61,10 +60,16 @@ export const Vault = ({ className }: VaultProps) => {
             {contextHolder}
             <div className={classNames(cls.Vault, {}, [className])}>
                 <div className={cls.header}>
-                    <Text title={"Управление хранилищами"} />
-                    <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Количество доступных хранилищ" value={vaults.length} formatter={statsFormatter} />
-                    <Button onClick={() => setModalOpen(true)} size="large" icon={<FolderAddOutlined />}>Создать хранилище</Button>
+                    <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Всего хранилищ" value={vaults.length} formatter={statsFormatter} />
+                    {width > 600 && (
+                        <>
+                            <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Вектора" value={vaults.reduce((acc, cur) => acc + (cur.type === "vector" ? 1 : 0), 0)} formatter={statsFormatter} />
+                            <Statistic style={{ display: "flex", flexDirection: "column", alignItems: "center" }} title="Графы" value={vaults.reduce((acc, cur) => acc + (cur.type === "vector" ? 1 : 0), 0)} formatter={statsFormatter} />
+                        </>
+                    )}
                 </div>
+                <Button style={{ width: "210px", margin: "0 auto", marginTop: "20px" }} onClick={() => setModalOpen(true)} size="large" icon={<FolderAddOutlined />}>Создать хранилище</Button>
+
                 <div className={cls.vaultContainer}>
                     {vaultsIsLoading
                         ? (<Skeleton paragraph={{ rows: 10, width: "100%" }} >

@@ -45,7 +45,7 @@ export const Message = (props: MessageProps) => {
                 {isExample ? <TypeAnimation cursor={false} sequence={[content as string]} /> : <Markdown>{content}</Markdown>}
                 {(sender === "ai" && traceback?.length > 0) &&
                     <>
-                        <Button style={{ marginLeft: "auto", display: "block" }} size="large" type="text" icon={<QuestionCircleOutlined style={{ color: "var(--font-color)", fontSize: "30px" }} />} onClick={openDrawer} />
+                        <Button style={{ marginLeft: "auto", marginTop: "10px", display: "block" }} size="large" type="text" icon={<QuestionCircleOutlined style={{ color: "var(--font-color)", fontSize: "30px" }} />} onClick={openDrawer} />
                         <Drawer title="Используемые документы в ответе" placement="right" onClose={closeDrawer} size="large" open={drawerIsOpen}>
                             <Timeline
                                 mode="left"

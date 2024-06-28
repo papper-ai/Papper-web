@@ -1,16 +1,15 @@
-import * as cls from "./NewVaultModal.module.scss"
-import { Modal } from "shared/ui/Modal/Modal"
-import { Button, Form, Select, Upload } from "antd"
-
-import { Text } from "shared/ui/Text/Text"
-import { FormInput } from "shared/ui/Input/Input"
-import { useCallback, useState } from "react"
-import { $api } from "shared/api/api"
-import { message, UploadFile, type UploadProps } from "antd"
-import { useAppDispatch } from "shared/hooks/useAppDispatch"
-import { vaultsActions, VaultSchema } from "entities/Vault"
-import { UploadChangeParam } from "antd/es/upload"
 import { InboxOutlined } from "@ant-design/icons"
+import { Button, Form, Select, Upload } from "antd"
+import { message, UploadFile, type UploadProps } from "antd"
+import { UploadChangeParam } from "antd/es/upload"
+import { useCallback, useState } from "react"
+import { vaultsActions, VaultSchema } from "entities/Vault"
+import { $api } from "shared/api/api"
+import { useAppDispatch } from "shared/hooks/useAppDispatch"
+import { FormInput } from "shared/ui/Input/Input"
+import { Modal } from "shared/ui/Modal/Modal"
+import { Text } from "shared/ui/Text/Text"
+import * as cls from "./NewVaultModal.module.scss"
 
 const { Dragger } = Upload
 interface NewVaultCreaterProps {
@@ -33,7 +32,6 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
     const [form] = Form.useForm()
 
     const closeModal = () => {
-        
         form.setFieldsValue({
             name: "",
             type: "",
@@ -184,7 +182,6 @@ export const NewVaultModal = (props: NewVaultCreaterProps) => {
                                         console.log("drop")
                                         form.setFieldValue("files", "New File")
                                         form.validateFields()
- 
                                     }}
 
                                     accept={".pdf, .md, .docx, .txt"}

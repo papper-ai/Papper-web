@@ -1,3 +1,4 @@
+import { message } from "antd"
 import classNames from "classnames"
 import { memo } from "react"
 import { useParams } from "react-router-dom"
@@ -6,7 +7,6 @@ import { MainWindow } from "../../../MainWindow"
 import { ChatInfo } from "../ChatInfo/ChatInfo"
 import { MessageWidget } from "../MessageWidget/MessageWidget"
 import * as cls from "./ChatWindow.module.scss"
-import { message } from "antd"
 
 interface ChatWindowProps {
     className?: string

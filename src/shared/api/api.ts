@@ -5,7 +5,6 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../const/localStorage"
 export const baseUrl = "https://api.papper.tech/api/"
 
 export const $api = axios.create({
-    timeout: 10000,
     baseURL: baseUrl
 })
 
