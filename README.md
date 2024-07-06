@@ -8,7 +8,9 @@
 *Используемый стек*: React Typescript Redux Toolkit RTK Query Webpack AntDesign. Для авторизации используются JWT токены. Имеется интеграция с S3 для скачивания зашифрованных файлов с последующей расшифровкой на стороне клиента с помощью библиотеки CryptoJS.
 
 **Создания хранилища документов**
+
 ![Vault (1)](https://github.com/papper-ai/Papper-web/assets/47980718/8962138d-ff4d-49ab-b898-9b6e8679f892)
 
 **Пример чата** 
+
 ![ezgif-5-2d5325c896](https://github.com/papper-ai/Papper-web/assets/47980718/d15fd287-ec10-4a86-a13e-fb7ae97a7bba)
